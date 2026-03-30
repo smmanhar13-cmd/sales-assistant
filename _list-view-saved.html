@@ -1,0 +1,314 @@
+<!-- List View — saved for future use -->
+
+<!-- ═══════════════════════════════════════════════════════════════
+     CSS — List-view styles (extracted from index.html <style> block)
+═══════════════════════════════════════════════════════════════ -->
+<style>
+  /* ─── LIST PAGE ──────────────────────────────────────────── */
+  #list-page {
+    flex: 1;
+    overflow-y: auto;
+    min-width: 0;
+    display: none;
+    flex-direction: column;
+  }
+  #list-page.active { display: flex; }
+  #record-page.active { display: block; }
+
+  .lv-header {
+    background: white;
+    border-bottom: 1px solid var(--ai-border);
+    padding: 14px 20px 0;
+  }
+  .lv-title-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 10px;
+  }
+  .lv-title { font-size: 18px; font-weight: 700; color: var(--ai-text); }
+  .lv-count { font-size: 13px; color: var(--ai-text-m); margin-left: 8px; }
+  .lv-actions { display: flex; gap: 8px; }
+
+  .lv-filter-bar {
+    display: flex; gap: 6px; padding: 10px 0 0;
+    overflow-x: auto; flex-wrap: nowrap;
+  }
+  .lv-filter-bar::-webkit-scrollbar { height: 0; }
+  .lv-filter-btn {
+    white-space: nowrap; flex-shrink: 0;
+    padding: 5px 12px; border-radius: 20px;
+    border: 1px solid var(--ai-border); background: white;
+    font-size: 12px; color: var(--ai-text-2); cursor: pointer;
+    transition: all 0.15s;
+  }
+  .lv-filter-btn:hover { border-color: var(--ai-blue); color: var(--ai-blue); }
+  .lv-filter-btn.active { background: var(--ai-blue); color: white; border-color: var(--ai-blue); }
+  .lv-filter-btn.danger { border-color: #fca5a5; color: var(--ai-red); }
+  .lv-filter-btn.danger:hover, .lv-filter-btn.danger.active { background: var(--ai-red); color: white; border-color: var(--ai-red); }
+  .lv-filter-btn.amber { border-color: #fcd34d; color: var(--ai-amber); }
+  .lv-filter-btn.amber:hover, .lv-filter-btn.amber.active { background: var(--ai-amber); color: white; border-color: var(--ai-amber); }
+
+  .lv-body { padding: 16px 20px; }
+
+  .lv-table-wrap {
+    background: white; border-radius: 8px;
+    border: 1px solid var(--ai-border);
+    overflow: hidden;
+    box-shadow: var(--ai-shadow-s);
+  }
+  .lv-table { width: 100%; border-collapse: collapse; }
+  .lv-table th {
+    background: #f8f9fb; font-size: 11px; font-weight: 600;
+    color: var(--ai-text-m); text-transform: uppercase; letter-spacing: 0.5px;
+    padding: 10px 14px; text-align: left;
+    border-bottom: 1px solid var(--ai-border);
+    white-space: nowrap;
+  }
+  .lv-table td {
+    padding: 11px 14px; font-size: 12.5px; color: var(--ai-text);
+    border-bottom: 1px solid var(--ai-border);
+    vertical-align: middle;
+  }
+  .lv-table tr:last-child td { border-bottom: none; }
+  .lv-table tr.lv-row:hover { background: var(--ai-blue-l); cursor: pointer; }
+  .lv-opp-link { color: var(--ai-blue); font-weight: 500; text-decoration: none; }
+  .lv-opp-link:hover { text-decoration: underline; }
+
+  .exp-badge {
+    display: inline-block; padding: 2px 8px; border-radius: 12px;
+    font-size: 11px; font-weight: 600; white-space: nowrap;
+  }
+  .exp-critical { background: #fee2e2; color: var(--ai-red); }
+  .exp-warning  { background: #fff3cd; color: #92400e; }
+  .exp-normal   { background: #d1fae5; color: #065f46; }
+  .exp-late     { background: #f3f4f6; color: var(--ai-text-m); }
+  .exp-overdue  { background: #fee2e2; color: var(--ai-red); border: 1px solid #fca5a5; }
+  .exp-inprog   { background: #dbeafe; color: #1d4ed8; }
+
+  .stage-pill {
+    display: inline-block; padding: 2px 8px; border-radius: 12px;
+    font-size: 11px; background: #f3f4f6; color: var(--ai-text-2);
+  }
+</style>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     HTML — Page 1: Opportunities List View
+═══════════════════════════════════════════════════════════════ -->
+
+<!-- ── PAGE 1: OPPORTUNITIES LIST VIEW ───────────────────── -->
+<div id="list-page" class="active">
+  <div class="sf-nav">
+    <div class="sf-logo">☁</div>
+    <span class="sf-app">Sales Unified</span>
+    <div class="sf-tabs">
+      <div class="sf-tab active">Opportunities ✕</div>
+      <div class="sf-tab">Home</div>
+    </div>
+  </div>
+
+  <div class="lv-header">
+    <div class="lv-title-row">
+      <div style="display:flex;align-items:center;gap:0;">
+        <span class="lv-title">Opportunities</span>
+        <span class="lv-count">(8)</span>
+      </div>
+      <div class="lv-actions">
+        <button class="btn">Import</button>
+        <button class="btn btn-primary">+ New Opportunity</button>
+      </div>
+    </div>
+    <div class="lv-filter-bar">
+      <button class="lv-filter-btn active" onclick="filterOppList('all',this)">All</button>
+      <button class="lv-filter-btn danger" onclick="filterOppList('exp30',this)">≤ 30 Days</button>
+      <button class="lv-filter-btn danger" onclick="filterOppList('exp45',this)">≤ 45 Days</button>
+      <button class="lv-filter-btn amber" onclick="filterOppList('exp90',this)">≤ 90 Days</button>
+      <button class="lv-filter-btn" onclick="filterOppList('gt90',this)">&gt; 90 Days</button>
+      <button class="lv-filter-btn" onclick="filterOppList('inprog',this)">Order in Progress</button>
+      <button class="lv-filter-btn danger" onclick="filterOppList('pexp30',this)">Post Expiry ≤ 30</button>
+      <button class="lv-filter-btn danger" onclick="filterOppList('pexp45',this)">Post Expiry ≤ 45</button>
+    </div>
+  </div>
+
+  <div class="lv-body">
+    <div class="lv-table-wrap">
+      <table class="lv-table" id="opp-list-table">
+        <thead>
+          <tr>
+            <th>Opportunity Name</th>
+            <th>Account</th>
+            <th>Stage</th>
+            <th>Owner</th>
+            <th>Close Date</th>
+            <th>Expiry</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody id="opp-list-body">
+          <!-- rows injected by JS -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- List page quick actions (expiry buckets) -->
+<div id="qa-list-mode" style="display:none;">
+  <div class="prompts-label">Expiry Buckets</div>
+  <div class="qa-grid">
+    <button class="prompt-chip" style="border-color:#fca5a5;color:#dc2626;" data-flow="list_exp30"><span class="chip-icon">🔴</span>≤ 30 Days</button>
+    <button class="prompt-chip" style="border-color:#fca5a5;color:#dc2626;" data-flow="list_exp45"><span class="chip-icon">🟠</span>≤ 45 Days</button>
+    <button class="prompt-chip" style="border-color:#fcd34d;color:#92400e;" data-flow="list_exp90"><span class="chip-icon">🟡</span>≤ 90 Days</button>
+    <button class="prompt-chip" data-flow="list_gt90"><span class="chip-icon">🟢</span>&gt; 90 Days</button>
+  </div>
+  <button id="more-expiry-btn" onclick="toggleMoreExpiry()">
+    <span id="more-expiry-label">+ More filters</span>
+  </button>
+  <div id="more-expiry-panel">
+    <div class="qa-grid" style="margin-top:8px;">
+      <button class="prompt-chip" data-flow="list_inprog"><span class="chip-icon">📦</span>Order in Progress</button>
+      <button class="prompt-chip" style="border-color:#fca5a5;color:#dc2626;" data-flow="list_pexp30"><span class="chip-icon">⚠️</span>Post Expiry ≤30</button>
+      <button class="prompt-chip" style="border-color:#fca5a5;color:#dc2626;" data-flow="list_pexp45"><span class="chip-icon">⚠️</span>Post Expiry ≤45</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     JS — List-view functions (extracted from index.html <script>)
+═══════════════════════════════════════════════════════════════ -->
+<script>
+// ─── MOCK OPPORTUNITY LIST DATA ───────────────────────────────────────────────
+// Today: 2026-03-24 — expiry dates set relative to this
+const MOCK_OPPS = [
+  { id:'op-1', name:'Autodesk Inc – AEC Collection Renewal',   account:'Autodesk Inc',       stage:'Propose',   owner:'Shubham',       closeDate:'2026-04-10', amount:38500, status:'active'    },
+  { id:'op-2', name:'Adobe Systems – Creative Cloud Enterprise',account:'Adobe Systems',      stage:'Negotiate', owner:'Priya Sharma',   closeDate:'2026-04-20', amount:22400, status:'active'    },
+  { id:'op-3', name:'Salesforce – Platform Subscription',       account:'Salesforce Inc',     stage:'Qualify',   owner:'James Wilson',   closeDate:'2026-05-05', amount:56750, status:'active'    },
+  { id:'op-4', name:'Microsoft – Office 365 Business Suite',    account:'Microsoft Corp',     stage:'Develop',   owner:'Rachel Kim',     closeDate:'2026-06-15', amount:91200, status:'active'    },
+  { id:'op-5', name:'Oracle – Database License Renewal',        account:'Oracle Corp',        stage:'Propose',   owner:'Tom Nguyen',     closeDate:'2026-09-15', amount:145000,status:'active'    },
+  { id:'op-6', name:'SAP SE – ERP Suite Annual Renewal',        account:'SAP SE',             stage:'Won',       owner:'David Lee',      closeDate:'2026-03-30', amount:78300, status:'inprog'    },
+  { id:'op-7', name:'IBM – Watson AI Platform Renewal',         account:'IBM Corporation',    stage:'Post Sale', owner:'Amy Park',       closeDate:'2026-02-28', amount:33600, status:'expired'   },
+  { id:'op-8', name:'HP Inc – Device Management Suite',         account:'HP Inc',             stage:'Post Sale', owner:'Mike Torres',    closeDate:'2026-02-10', amount:18900, status:'expired'   },
+];
+
+function getExpiryDays(closeDate) {
+  const today = new Date('2026-03-24');
+  const close = new Date(closeDate);
+  return Math.round((close - today) / 86400000);
+}
+
+function getExpBucket(opp) {
+  if (opp.status === 'inprog') return 'inprog';
+  const d = getExpiryDays(opp.closeDate);
+  if (d < 0 && d >= -45) return d >= -30 ? 'pexp30' : 'pexp45';
+  if (d >= 0 && d <= 30) return 'exp30';
+  if (d > 30 && d <= 45) return 'exp45';
+  if (d > 45 && d <= 90) return 'exp90';
+  return 'gt90';
+}
+
+function expBadge(opp) {
+  const d = getExpiryDays(opp.closeDate);
+  if (opp.status === 'inprog') return `<span class="exp-badge exp-inprog">Order in Progress</span>`;
+  if (d < 0) return `<span class="exp-badge exp-overdue">Expired ${Math.abs(d)}d ago</span>`;
+  if (d <= 30) return `<span class="exp-badge exp-critical">${d} days</span>`;
+  if (d <= 45) return `<span class="exp-badge exp-warning">${d} days</span>`;
+  if (d <= 90) return `<span class="exp-badge exp-normal">${d} days</span>`;
+  return `<span class="exp-badge exp-late">${d} days</span>`;
+}
+
+function renderOppList(filter) {
+  const tbody = document.getElementById('opp-list-body');
+  if (!tbody) return;
+  let opps = MOCK_OPPS;
+  if (filter && filter !== 'all') {
+    opps = MOCK_OPPS.filter(o => getExpBucket(o) === filter);
+  }
+  tbody.innerHTML = opps.map(o => `
+    <tr class="lv-row" onclick="openOpp('${o.id}')">
+      <td><a class="lv-opp-link">${o.name}</a></td>
+      <td>${o.account}</td>
+      <td><span class="stage-pill">${o.stage}</span></td>
+      <td>${o.owner}</td>
+      <td>${o.closeDate}</td>
+      <td>${expBadge(o)}</td>
+      <td>USD ${o.amount.toLocaleString()}</td>
+    </tr>
+  `).join('');
+}
+
+function filterOppList(filter, btn) {
+  document.querySelectorAll('.lv-filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderOppList(filter);
+}
+
+function openOpp(id) {
+  navigateTo('detail');
+}
+
+function toggleMoreExpiry() {
+  const panel = document.getElementById('more-expiry-panel');
+  const label = document.getElementById('more-expiry-label');
+  const open  = panel.classList.toggle('open');
+  label.textContent = open ? '− Less' : '+ More filters';
+}
+
+window.openOpp = openOpp;
+window.filterOppList = filterOppList;
+window.toggleMoreExpiry = toggleMoreExpiry;
+
+// ── List-view expiry bucket flows (else-if block from startFlow()) ────────────
+// Paste this block inside startFlow(), after the existing else-if chains:
+//
+//   else if (flow.startsWith('list_')) {
+//     const bucketMap = {
+//       list_exp30:  { label: '≤ 30 Days',          filter: 'exp30',  desc: 'expiring within 30 days', icon: '🔴' },
+//       list_exp45:  { label: '≤ 45 Days',          filter: 'exp45',  desc: 'expiring in 31–45 days',  icon: '🟠' },
+//       list_exp90:  { label: '≤ 90 Days',          filter: 'exp90',  desc: 'expiring in 46–90 days',  icon: '🟡' },
+//       list_gt90:   { label: '> 90 Days',          filter: 'gt90',   desc: 'expiring in 90+ days',    icon: '🟢' },
+//       list_inprog: { label: 'Order in Progress',  filter: 'inprog', desc: 'currently in progress',   icon: '📦' },
+//       list_pexp30: { label: 'Post Expiry ≤ 30',   filter: 'pexp30', desc: 'expired within last 30 days', icon: '⚠️' },
+//       list_pexp45: { label: 'Post Expiry ≤ 45',   filter: 'pexp45', desc: 'expired in last 31–45 days',  icon: '⚠️' },
+//     };
+//     const b = bucketMap[flow];
+//     addUser(b.label);
+//     const matches = MOCK_OPPS.filter(o => getExpBucket(o) === b.filter);
+//     await botAfterDelay(
+//       `${b.icon} Showing <b>${matches.length} opportunit${matches.length !== 1 ? 'ies' : 'y'}</b> ${b.desc}:`
+//     );
+//     if (matches.length === 0) {
+//       await botAfterDelay(`No opportunities found in this bucket right now.`);
+//     } else {
+//       const rows = matches.map(o => {
+//         const d = getExpiryDays(o.closeDate);
+//         const dLabel = o.status === 'inprog' ? 'In Progress' : (d < 0 ? `Expired ${Math.abs(d)}d ago` : `${d} days`);
+//         return `<div style="display:flex;align-items:center;justify-content:space-between;padding:7px 10px;border-radius:6px;background:#f8f9fb;border:1px solid var(--ai-border);margin-bottom:5px;cursor:pointer;" onclick="openOpp('${o.id}')">
+//           <div>
+//             <div style="font-weight:600;font-size:12px;color:var(--ai-blue);">${o.name}</div>
+//             <div style="font-size:11px;color:var(--ai-text-m);margin-top:2px;">${o.account} · ${o.stage} · ${o.owner}</div>
+//           </div>
+//           <div style="text-align:right;flex-shrink:0;margin-left:8px;">
+//             <div style="font-size:11px;font-weight:700;color:${d <= 30 && d >= 0 ? '#dc2626' : d < 0 ? '#dc2626' : '#374151'};">${dLabel}</div>
+//             <div style="font-size:11px;color:var(--ai-text-m);">USD ${o.amount.toLocaleString()}</div>
+//           </div>
+//         </div>`;
+//       }).join('');
+//       const html = `<div style="padding:4px 0;">${rows}
+//         <div style="font-size:11px;color:var(--ai-text-m);margin-top:6px;text-align:center;">Click any opportunity to open it</div>
+//       </div>`;
+//       await widgetAfterDelay(html);
+//     }
+//     // Also filter the list view table
+//     filterOppList(b.filter, document.querySelector(`.lv-filter-btn[onclick*="${b.filter}"]`) || document.querySelector('.lv-filter-btn'));
+//     resetState(); setPromptsEnabled(true); stepEl.classList.remove('visible');
+//   }
+
+// ── STEP_CONFIG list_ entries (add these into the STEP_CONFIG object) ─────────
+// list_exp30:  [],
+// list_exp45:  [],
+// list_exp90:  [],
+// list_gt90:   [],
+// list_inprog: [],
+// list_pexp30: [],
+// list_pexp45: [],
+</script>
