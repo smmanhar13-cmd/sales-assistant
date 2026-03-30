@@ -1,0 +1,3750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Renewal Rep Assistant — STM Test US account GF-1004514012</title>
+<style>
+  :root {
+    --ai-navy:       #0f1f2e;
+    --ai-navy2:      #1a3550;
+    --ai-blue:       #0176d3;
+    --ai-blue-d:     #014a8d;
+    --ai-blue-l:     #eaf4ff;
+    --ai-indigo:     #3b5bdb;
+    --ai-green:      #16a34a;
+    --ai-green-l:    #f0faf3;
+    --ai-green-b:    #bbf7d0;
+    --ai-amber:      #d97706;
+    --ai-amber-l:    #fffbeb;
+    --ai-red:        #dc2626;
+    --ai-bg:         #f4f5f7;
+    --ai-white:      #ffffff;
+    --ai-border:     #e2e5ea;
+    --ai-border-s:   #d0d5de;
+    --ai-text:       #111827;
+    --ai-text-2:     #374151;
+    --ai-text-m:     #6b7280;
+    --ai-text-w:     #9ca3af;
+    --ai-shadow-s:   0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+    --ai-shadow-m:   0 4px 12px rgba(0,0,0,0.08);
+    --sf-nav:        #0b2240;
+    --chat-w:        50vw;
+    --r:             10px;
+    --r-s:           6px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
+    font-size: 13px;
+    color: var(--ai-text);
+    background: var(--ai-bg);
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  /* ─── LEFT: SF RECORD PAGE ─────────────────────────────── */
+  #record-page {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 0;
+    min-width: 0;
+    display: none;
+  }
+
+  .sf-nav {
+    background: var(--sf-nav);
+    height: 40px;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    gap: 10px;
+  }
+  .sf-logo {
+    width: 22px; height: 22px;
+    background: #00a1e0;
+    border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-weight: 900; font-size: 13px;
+  }
+  .sf-app { color: white; font-weight: 600; font-size: 13px; }
+  .sf-tabs { display: flex; margin-left: 20px; }
+  .sf-tab {
+    color: rgba(255,255,255,0.65);
+    padding: 0 14px;
+    height: 40px;
+    display: flex; align-items: center;
+    font-size: 12px; cursor: pointer;
+    border-bottom: 3px solid transparent;
+  }
+  .sf-tab.active { color: white; border-bottom-color: white; background: rgba(255,255,255,0.08); }
+
+  .opp-header {
+    background: white;
+    border-bottom: 1px solid var(--ai-border);
+    padding: 12px 20px 0;
+  }
+  .breadcrumb { font-size: 11px; color: var(--ai-text-m); margin-bottom: 8px; }
+  .breadcrumb a { color: var(--ai-blue); text-decoration: none; }
+  .opp-title-row {
+    display: flex; align-items: flex-start;
+    justify-content: space-between; gap: 12px;
+    flex-wrap: wrap; padding-bottom: 12px;
+  }
+  .opp-title-left { display: flex; align-items: center; gap: 10px; }
+  .opp-icon {
+    width: 34px; height: 34px;
+    background: linear-gradient(135deg, #f97316, #fb923c);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-size: 16px; flex-shrink: 0;
+  }
+  .opp-name { font-size: 17px; font-weight: 700; line-height: 1.3; color: var(--ai-text); }
+  .opp-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+  .btn {
+    padding: 5px 12px; border-radius: 5px;
+    font-size: 12px; cursor: pointer;
+    border: 1px solid var(--ai-border);
+    background: white; color: var(--ai-text-2); font-weight: 500;
+    white-space: nowrap;
+  }
+  .btn-primary { background: var(--ai-blue); color: white; border-color: var(--ai-blue); }
+  .btn:hover { background: #f9fafb; }
+  .btn-primary:hover { background: var(--ai-blue-d); }
+
+  .opp-fields {
+    display: flex; gap: 0;
+    border-top: 1px solid var(--ai-border);
+    overflow-x: auto;
+  }
+  .opp-field { padding: 10px 18px; border-right: 1px solid var(--ai-border); min-width: 130px; }
+  .opp-field-l { font-size: 10px; color: var(--ai-text-m); margin-bottom: 2px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.04em; }
+  .opp-field-v { font-size: 13px; font-weight: 600; }
+  .opp-field-v.link { color: var(--ai-blue); cursor: pointer; }
+
+  .stage-bar { background: white; border-bottom: 1px solid var(--ai-border); padding: 10px 20px; }
+  .stage-steps { display: flex; align-items: center; flex: 1; }
+  .stage-step {
+    flex: 1; height: 28px;
+    background: #d1fae5;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 500; color: #065f46;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 50%, calc(100% - 10px) 100%, 0 100%, 10px 50%);
+    margin-left: -1px;
+  }
+  .stage-step:first-child { clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 50%, calc(100% - 10px) 100%, 0 100%); margin-left: 0; }
+  .stage-step.current { background: var(--ai-blue); color: white; }
+  .stage-step.inactive { background: #e5e7eb; color: #9ca3af; }
+
+  .record-tabs {
+    background: white;
+    border-bottom: 2px solid var(--ai-border);
+    display: flex; padding: 0 20px;
+  }
+  .record-tab {
+    padding: 10px 14px; font-size: 13px; cursor: pointer;
+    border-bottom: 2px solid transparent; margin-bottom: -2px;
+    color: var(--ai-text-m);
+  }
+  .record-tab.active { color: var(--ai-blue); border-bottom-color: var(--ai-blue); font-weight: 600; }
+
+  .record-body { padding: 14px 18px; }
+
+  .section-card {
+    background: white;
+    border: 1px solid var(--ai-border);
+    border-radius: var(--r);
+    margin-bottom: 14px;
+    overflow: hidden;
+    box-shadow: var(--ai-shadow-s);
+  }
+  .section-header {
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--ai-border);
+    font-weight: 700; font-size: 13px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: #fafbfc;
+  }
+  .section-count { color: var(--ai-text-m); font-weight: 400; font-size: 12px; margin-left: 4px; }
+
+  /* ── SLDS-style data table (Products) ─────────────────── */
+  .li-table { width: 100%; border-collapse: collapse; }
+  .li-table thead tr { border-bottom: 1px solid var(--ai-border); }
+  .li-table th {
+    text-align: left; padding: 8px 12px;
+    font-size: 11px; font-weight: 600; color: var(--ai-text-m);
+    text-transform: uppercase; letter-spacing: 0.05em;
+    background: #f8f9fb; white-space: nowrap;
+    border-bottom: 2px solid var(--ai-border);
+  }
+  .li-table td { padding: 9px 12px; border-bottom: 1px solid #f0f2f5; font-size: 13px; vertical-align: middle; }
+  .li-table tbody tr:hover td { background: #f8faff; }
+  .li-table tr:last-child td { border-bottom: none; }
+  .li-table td.product-name { color: var(--ai-blue); font-weight: 500; }
+  .li-total-row td { border-top: 2px solid var(--ai-border); font-weight: 700; padding: 9px 12px; background: #f8f9fb; font-size: 13px; }
+  .li-table .col-num { text-align: right; }
+
+  /* Type badge in product column */
+  .type-badge {
+    display: inline-flex; align-items: center; gap: 3px;
+    font-size: 10px; font-weight: 700; padding: 2px 8px;
+    border-radius: 20px; text-transform: uppercase; letter-spacing: 0.04em;
+    vertical-align: middle; margin-left: 6px;
+  }
+  .type-existing { background: #e0f5e9; color: #15803d; border: 1px solid #bbf7d0; }
+  .type-new      { background: #eef2ff; color: var(--ai-indigo); border: 1px solid #c7d2fe; }
+
+  .new-badge {
+    background: var(--ai-indigo); color: white;
+    font-size: 9px; padding: 2px 7px; border-radius: 20px;
+    font-weight: 700; margin-left: 6px; vertical-align: middle;
+    letter-spacing: 0.03em; text-transform: uppercase;
+  }
+  .new-li-row td { background: #f5f3ff; }
+  .new-li-row .product-name { color: var(--ai-indigo); }
+
+  /* ── SLDS-style field cells (Figma layout) ─────────────── */
+  .fields-body { display: grid; grid-template-columns: 1fr 1fr; }
+  .field-cell {
+    display: flex; align-items: flex-start; gap: 6px;
+    padding: 10px 14px 10px 16px;
+    border-bottom: 1px solid #f0f2f5;
+    border-right: 1px solid #f0f2f5;
+    min-height: 50px;
+  }
+  .field-cell:nth-child(even) { border-right: none; }
+  .field-cell-body { flex: 1; min-width: 0; }
+  .field-cell-lbl {
+    font-size: 11px; color: var(--ai-text-m);
+    margin-bottom: 3px; display: flex; align-items: center; gap: 4px;
+  }
+  .field-cell-val { font-size: 13px; color: var(--ai-text); word-break: break-word; }
+  .field-cell-val.link { color: var(--ai-blue); cursor: pointer; }
+  .field-cell-val.empty { color: var(--ai-text-w); }
+  .field-cell-val.bold { font-weight: 700; }
+  .field-cell-edit {
+    flex-shrink: 0; margin-top: 16px;
+    background: none; border: none; cursor: pointer;
+    color: var(--ai-text-w); font-size: 12px; padding: 2px 3px;
+    border-radius: 3px; line-height: 1;
+  }
+  .field-cell-edit:hover { color: var(--ai-blue); background: var(--ai-blue-l); }
+  .fi { /* info icon */
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 14px; height: 14px; border-radius: 50%;
+    background: var(--ai-blue); color: white;
+    font-size: 9px; font-weight: 700; cursor: pointer; flex-shrink: 0;
+  }
+  .field-cell-val .slds-checkbox {
+    display: inline-block; width: 14px; height: 14px;
+    border: 2px solid var(--ai-border); border-radius: 3px;
+    background: #f3f4f6; vertical-align: middle;
+  }
+
+  /* Renewal Health badges */
+  .rh-badge {
+    display: inline-flex; align-items: center; gap: 3px;
+    font-size: 11px; font-weight: 600; padding: 2px 8px;
+    border-radius: 20px; white-space: nowrap;
+  }
+  .rh-green { background: #dcfce7; color: #15803d; }
+  .rh-amber { background: #fef9c3; color: #a16207; }
+  .rh-red   { background: #fee2e2; color: #b91c1c; }
+  .rh-grey  { background: #f3f4f6; color: #6b7280; }
+
+  /* OLI Status badges */
+  .oli-badge {
+    display: inline-flex; align-items: center;
+    font-size: 11px; font-weight: 600; padding: 2px 8px;
+    border-radius: 4px; white-space: nowrap;
+  }
+  .oli-active { background: #dbeafe; color: #1d4ed8; }
+  .oli-draft  { background: #f3f4f6; color: #6b7280; }
+  .oli-closed { background: #fce7f3; color: #9d174d; }
+
+  .sub-id { font-size: 11px; color: var(--ai-text-m); font-family: monospace; }
+  .additional-info { font-size: 12px; color: var(--ai-text-w); }
+
+  /* Section header — matches Figma's collapsible section style */
+  .section-hdr-slds {
+    padding: 8px 16px;
+    background: #f4f6f8;
+    border-bottom: 1px solid var(--ai-border);
+    font-size: 13px; font-weight: 700; color: var(--ai-text);
+    display: flex; align-items: center; gap: 6px;
+    cursor: pointer; user-select: none;
+  }
+  .section-hdr-slds .slds-chevron { font-size: 10px; color: var(--ai-text-m); margin-right: 2px; }
+  .section-hdr-slds .section-count { color: var(--ai-text-m); font-weight: 400; font-size: 12px; margin-left: 4px; }
+
+  /* ─── RIGHT: RENEWAL REP ASSISTANT PANEL ──────────────── */
+  #chat-panel {
+    position: fixed;
+    bottom: 88px; right: 24px;
+    width: 420px;
+    height: 620px;
+    display: flex; flex-direction: column;
+    background: var(--ai-white);
+    border: 1px solid var(--ai-border);
+    border-radius: 16px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.18), 0 2px 8px rgba(0,0,0,0.08);
+    z-index: 100;
+    transform: scale(0.92) translateY(16px);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.28s cubic-bezier(0.34,1.56,0.64,1), opacity 0.22s ease;
+    overflow: hidden;
+  }
+  #chat-panel.open {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* Header */
+  #chat-header {
+    background: linear-gradient(135deg, var(--ai-navy) 0%, var(--ai-navy2) 100%);
+    padding: 14px 16px 12px;
+    flex-shrink: 0;
+  }
+  .ch-top {
+    display: flex; align-items: center; gap: 10px; margin-bottom: 10px;
+  }
+  .ch-icon {
+    width: 36px; height: 36px;
+    background: linear-gradient(135deg, #3b82f6, #6366f1);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; flex-shrink: 0;
+  }
+  .ch-title-wrap { flex: 1; }
+  .ch-title { color: white; font-weight: 700; font-size: 14px; letter-spacing: -0.01em; }
+  .ch-status { display: flex; align-items: center; gap: 5px; margin-top: 2px; }
+  .ch-dot {
+    width: 6px; height: 6px;
+    background: #4ade80; border-radius: 50%;
+    animation: pulse-dot 2s ease-in-out infinite;
+  }
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(0.85); }
+  }
+  .ch-status-text { color: rgba(255,255,255,0.65); font-size: 11px; }
+  #new-convo-btn {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.85);
+    border-radius: 6px; padding: 5px 10px;
+    font-size: 11px; cursor: pointer; flex-shrink: 0;
+    transition: all 0.15s;
+  }
+  #new-convo-btn:hover { background: rgba(255,255,255,0.2); }
+
+  /* Context chips in header */
+  .ch-context {
+    display: flex; gap: 6px; flex-wrap: wrap;
+  }
+  .ch-chip {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 20px;
+    padding: 3px 10px;
+    font-size: 11px; color: rgba(255,255,255,0.8);
+    display: flex; align-items: center; gap: 4px;
+  }
+  .ch-chip span { color: rgba(255,255,255,0.5); }
+
+  /* Step progress */
+  #step-indicator {
+    display: none;
+    background: #f0f4ff;
+    border-bottom: 1px solid #dde5ff;
+    padding: 7px 16px;
+    flex-shrink: 0;
+  }
+  #step-indicator.visible { display: block; }
+  .step-inner {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 12px; color: var(--ai-indigo); font-weight: 600;
+  }
+  .step-dots { display: flex; gap: 4px; }
+  .step-dot {
+    width: 20px; height: 4px; border-radius: 2px;
+    background: #c7d2fe;
+    transition: background 0.2s;
+  }
+  .step-dot.done { background: var(--ai-indigo); }
+  .step-dot.active { background: var(--ai-blue); }
+  .step-label { color: var(--ai-text-m); font-weight: 400; }
+
+  /* Messages */
+  #chat-messages {
+    flex: 1; overflow-y: auto;
+    padding: 16px 14px; display: flex;
+    flex-direction: column; gap: 10px;
+    background: #f9fafb;
+  }
+  #chat-messages::-webkit-scrollbar { width: 3px; }
+  #chat-messages::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 2px; }
+
+  .msg { display: flex; gap: 8px; }
+  .msg-bot { align-items: flex-start; }
+  .bot-av {
+    width: 26px; height: 26px; flex-shrink: 0; margin-top: 1px;
+    background: linear-gradient(135deg, #3b82f6, #6366f1);
+    border-radius: 7px;
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-size: 10px; font-weight: 700;
+  }
+  .bubble {
+    max-width: 88%; padding: 9px 13px;
+    border-radius: 14px; font-size: 13px; line-height: 1.55;
+  }
+  .msg-bot .bubble {
+    background: white;
+    border: 1px solid var(--ai-border);
+    border-top-left-radius: 4px;
+    box-shadow: var(--ai-shadow-s);
+    color: var(--ai-text-2);
+  }
+  .msg-user { justify-content: flex-end; }
+  .msg-user .bubble {
+    background: linear-gradient(135deg, var(--ai-navy), var(--ai-navy2));
+    color: white; border-top-right-radius: 4px;
+    font-weight: 500;
+  }
+  .msg-widget { flex-direction: column; }
+  .widget-inner { width: 100%; }
+
+  /* Typing indicator */
+  .typing-wrap { display: flex; align-items: center; gap: 8px; }
+  .typing-dots { display: flex; gap: 4px; padding: 4px 2px; }
+  .typing-dot {
+    width: 6px; height: 6px; background: #9ca3af; border-radius: 50%;
+    animation: tdot 1.2s ease-in-out infinite;
+  }
+  .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+  .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes tdot {
+    0%, 80%, 100% { transform: translateY(0); opacity: 0.35; }
+    40% { transform: translateY(-5px); opacity: 1; }
+  }
+
+  /* ─── WIDGET CARDS ──────────────────────────────────────── */
+
+  /* Line item picker */
+  .picker-grid { display: flex; flex-direction: column; gap: 7px; }
+  .picker-card {
+    display: flex; align-items: center; gap: 12px;
+    padding: 11px 14px;
+    border: 1.5px solid var(--ai-border);
+    border-radius: var(--r); background: white;
+    cursor: pointer; text-align: left;
+    transition: all 0.15s;
+    box-shadow: var(--ai-shadow-s);
+  }
+  .picker-card:hover { border-color: var(--ai-blue); box-shadow: 0 0 0 3px #dbeafe; }
+  .picker-card-icon {
+    width: 34px; height: 34px; border-radius: 8px;
+    background: linear-gradient(135deg, #dbeafe, #ede9fe);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; flex-shrink: 0;
+  }
+  .picker-card-icon.new-icon { background: linear-gradient(135deg, #e0e7ff, #c7d2fe); }
+  .picker-card-body { flex: 1; }
+  .picker-card-name { font-weight: 700; font-size: 13px; color: var(--ai-text); display: flex; align-items: center; gap: 6px; }
+  .picker-card-detail { font-size: 11px; color: var(--ai-text-m); margin-top: 2px; }
+  .picker-card-price { font-size: 13px; font-weight: 700; color: var(--ai-blue); flex-shrink: 0; }
+  .picker-card-arrow { color: var(--ai-text-w); font-size: 16px; flex-shrink: 0; }
+
+  /* Date picker */
+  .date-widget {
+    background: white; border: 1px solid var(--ai-border);
+    border-radius: var(--r); padding: 14px;
+    box-shadow: var(--ai-shadow-s);
+  }
+  .date-widget label { font-size: 11px; font-weight: 600; color: var(--ai-text-m); text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 8px; }
+  .date-widget input[type="date"] {
+    width: 100%; border: 1.5px solid var(--ai-border);
+    border-radius: var(--r-s); padding: 8px 12px;
+    font-size: 13px; color: var(--ai-text); margin-bottom: 10px;
+    outline: none;
+  }
+  .date-widget input[type="date"]:focus { border-color: var(--ai-blue); box-shadow: 0 0 0 3px #dbeafe; }
+
+  /* Multi-select */
+  .multiselect-widget {
+    background: white; border: 1px solid var(--ai-border);
+    border-radius: var(--r); overflow: hidden;
+    box-shadow: var(--ai-shadow-s);
+  }
+  .ms-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 11px 14px;
+    border-bottom: 1px solid #f3f4f6;
+    cursor: pointer; transition: all 0.12s;
+  }
+  .ms-item:last-of-type { border-bottom: none; }
+  .ms-item:hover { background: #f9fafb; }
+  .ms-item.selected { background: #eff6ff; }
+  .ms-checkbox {
+    width: 18px; height: 18px; flex-shrink: 0;
+    border: 2px solid var(--ai-border); border-radius: 5px;
+    background: white; display: flex; align-items: center; justify-content: center;
+    transition: all 0.12s; font-size: 11px;
+  }
+  .ms-item.selected .ms-checkbox { background: var(--ai-blue); border-color: var(--ai-blue); color: white; }
+  .ms-body { flex: 1; }
+  .ms-name { font-weight: 600; font-size: 13px; }
+  .ms-detail { font-size: 11px; color: var(--ai-text-m); margin-top: 1px; }
+  .ms-price { font-size: 12px; font-weight: 600; color: var(--ai-text-2); flex-shrink: 0; }
+  .ms-footer { padding: 10px 14px; border-top: 1px solid var(--ai-border); background: #fafbfc; }
+
+  /* Coterm options */
+  .coterm-options { display: flex; flex-direction: column; gap: 7px; }
+  .coterm-opt {
+    display: flex; align-items: center; gap: 12px;
+    padding: 11px 14px;
+    border: 1.5px solid var(--ai-border);
+    border-radius: var(--r); background: white;
+    cursor: pointer; text-align: left;
+    transition: all 0.15s; box-shadow: var(--ai-shadow-s);
+  }
+  .coterm-opt:hover { border-color: var(--ai-blue); box-shadow: 0 0 0 3px #dbeafe; }
+  .coterm-opt-icon {
+    width: 30px; height: 30px; border-radius: 7px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; flex-shrink: 0;
+  }
+  .coterm-opt-body { flex: 1; }
+  .coterm-opt-title { font-weight: 600; font-size: 13px; }
+  .coterm-opt-sub { font-size: 11px; color: var(--ai-text-m); margin-top: 1px; }
+
+  /* Review card */
+  .review-card {
+    background: white; border: 1px solid var(--ai-border);
+    border-radius: var(--r); overflow: hidden;
+    box-shadow: var(--ai-shadow-s);
+  }
+  .review-header {
+    padding: 10px 14px;
+    background: #f8fafc;
+    border-bottom: 1px solid var(--ai-border);
+    font-size: 11px; font-weight: 700; color: var(--ai-text-m);
+    text-transform: uppercase; letter-spacing: 0.06em;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .review-section { padding: 10px 14px; border-bottom: 1px solid #f3f4f6; }
+  .review-section:last-child { border-bottom: none; }
+  .review-section-label {
+    font-size: 10px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.06em; margin-bottom: 7px;
+    display: flex; align-items: center; gap: 5px;
+  }
+  .label-from { color: #ef4444; }
+  .label-to   { color: var(--ai-green); }
+  .review-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 5px 0; font-size: 12px;
+    border-bottom: 1px solid #f9fafb;
+  }
+  .review-row:last-child { border-bottom: none; }
+  .review-row-name { font-weight: 600; display: flex; align-items: center; gap: 6px; }
+  .review-row-detail { color: var(--ai-text-m); font-size: 11px; margin-top: 1px; }
+  .review-row-right { text-align: right; flex-shrink: 0; }
+  .review-row-price { font-weight: 700; }
+  .price-new { color: var(--ai-green); }
+  .price-old { color: var(--ai-text-m); font-size: 11px; text-decoration: line-through; }
+
+  /* Proration */
+  .proration-card {
+    background: white; border: 1px solid var(--ai-border);
+    border-radius: var(--r); overflow: hidden;
+    box-shadow: var(--ai-shadow-s);
+  }
+  .pror-header {
+    padding: 9px 14px; background: #f8fafc;
+    border-bottom: 1px solid var(--ai-border);
+    font-size: 11px; font-weight: 700; color: var(--ai-text-m);
+    text-transform: uppercase; letter-spacing: 0.06em;
+  }
+  .pror-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 8px 14px; border-bottom: 1px solid #f3f4f6;
+    font-size: 12px;
+  }
+  .pror-row:last-child { border-bottom: none; background: #f8fafc; font-weight: 700; font-size: 13px; }
+  .pror-credit { color: var(--ai-green); font-weight: 600; }
+  .pror-charge { color: #ef4444; font-weight: 600; }
+  .pror-net-pos { color: #ef4444; font-weight: 700; }
+  .pror-net-neg { color: var(--ai-green); font-weight: 700; }
+
+  /* Compare table */
+  .compare-tbl { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .compare-tbl th {
+    background: #f8fafc; padding: 7px 12px; text-align: left;
+    font-weight: 600; border: 1px solid var(--ai-border); font-size: 11px;
+    text-transform: uppercase; letter-spacing: 0.04em; color: var(--ai-text-m);
+  }
+  .compare-tbl td { padding: 7px 12px; border: 1px solid var(--ai-border); }
+  .compare-tbl .old-v { color: var(--ai-text-m); text-decoration: line-through; }
+  .compare-tbl .new-v { color: var(--ai-green); font-weight: 700; }
+
+  /* Success card */
+  .success-card {
+    background: var(--ai-green-l);
+    border: 1.5px solid var(--ai-green-b);
+    border-radius: var(--r); padding: 14px 16px;
+  }
+  .sc-head { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+  .sc-icon {
+    width: 28px; height: 28px;
+    background: var(--ai-green); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-size: 14px; font-weight: 700; flex-shrink: 0;
+  }
+  .sc-title { font-weight: 700; color: var(--ai-green); font-size: 13px; }
+  .sc-item {
+    display: flex; align-items: flex-start; gap: 8px;
+    font-size: 12px; color: #166534; margin-bottom: 5px;
+  }
+  .sc-item:last-child { margin-bottom: 0; }
+  .sc-bullet { color: var(--ai-green); font-weight: 700; flex-shrink: 0; }
+
+  /* Action buttons */
+  .action-row { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+  .abtn {
+    padding: 9px 18px; border-radius: var(--r-s);
+    font-size: 13px; font-weight: 600; cursor: pointer;
+    border: 1.5px solid; transition: all 0.15s;
+    display: inline-flex; align-items: center; gap: 5px;
+  }
+  .abtn-primary { background: var(--ai-blue); color: white; border-color: var(--ai-blue); }
+  .abtn-primary:hover { background: var(--ai-blue-d); }
+  .abtn-ghost { background: white; color: var(--ai-text-2); border-color: var(--ai-border); }
+  .abtn-ghost:hover { background: #f9fafb; border-color: var(--ai-border-s); }
+  .abtn-danger { background: white; color: var(--ai-red); border-color: #fca5a5; }
+  .abtn-danger:hover { background: #fef2f2; }
+  .abtn:disabled { opacity: 0.4; cursor: not-allowed; pointer-events: none; }
+  .abtn-full { width: 100%; justify-content: center; }
+  .abtn-sm { padding: 6px 12px; font-size: 12px; }
+
+  /* ─── BOTTOM SECTION ────────────────────────────────────── */
+  #panel-bottom {
+    flex-shrink: 0;
+    background: white;
+    border-top: 1px solid var(--ai-border);
+  }
+
+  /* Suggested prompts */
+  #suggested-prompts {
+    padding: 10px 12px 8px;
+    border-bottom: 1px solid var(--ai-border);
+  }
+  #suggested-prompts.disabled .prompt-chip {
+    opacity: 0.35; pointer-events: none;
+  }
+  .prompts-label {
+    font-size: 10px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.06em; color: var(--ai-text-w);
+    margin-bottom: 8px; display: flex; align-items: center; gap: 6px;
+  }
+  .prompts-label::after { content: ''; flex: 1; height: 1px; background: var(--ai-border); }
+
+  .qa-group { margin-bottom: 8px; }
+  .qa-group:last-child { margin-bottom: 0; }
+  .qa-group-label {
+    font-size: 9px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.07em; color: var(--ai-text-w); margin-bottom: 5px;
+  }
+  .qa-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 5px;
+  }
+  #more-actions-btn {
+    margin-top: 7px; width: 100%; background: none; border: none;
+    font-size: 11px; font-weight: 600; color: var(--ai-blue);
+    cursor: pointer; text-align: left; padding: 2px 0;
+  }
+  #more-actions-btn:hover { color: var(--ai-blue-d); }
+  #more-actions-panel {
+    display: none; margin-top: 8px;
+    padding-top: 8px; border-top: 1px solid var(--ai-border);
+  }
+  #more-actions-panel.open { display: block; }
+  #more-expiry-btn {
+    margin-top: 7px; width: 100%; background: none; border: none;
+    font-size: 11px; font-weight: 600; color: var(--ai-blue);
+    cursor: pointer; text-align: left; padding: 2px 0;
+  }
+  #more-expiry-btn:hover { color: var(--ai-blue-d); }
+  #more-expiry-panel {
+    display: none; margin-top: 2px;
+    padding-top: 4px; border-top: 1px solid var(--ai-border);
+  }
+  #more-expiry-panel.open { display: block; }
+  .prompt-chip {
+    padding: 7px 10px; border-radius: var(--r-s);
+    border: 1.5px solid var(--ai-border);
+    background: white; color: var(--ai-text-2);
+    font-size: 11px; font-weight: 600; cursor: pointer;
+    transition: all 0.15s; display: flex; align-items: center;
+    justify-content: center; gap: 5px; text-align: center;
+  }
+  .prompt-chip:hover { border-color: var(--ai-blue); color: var(--ai-blue); background: var(--ai-blue-l); }
+  .prompt-chip .chip-icon { font-size: 13px; }
+
+  /* Input bar */
+  #chat-input-bar {
+    padding: 10px 12px 12px;
+    display: flex; gap: 8px; align-items: center;
+  }
+  #chat-input {
+    flex: 1; border: 1.5px solid var(--ai-border);
+    border-radius: 22px; padding: 9px 16px;
+    font-size: 13px; color: var(--ai-text);
+    outline: none; background: #f9fafb;
+    transition: all 0.15s;
+  }
+  #chat-input:focus { border-color: var(--ai-blue); background: white; box-shadow: 0 0 0 3px #dbeafe; }
+  #send-btn {
+    width: 36px; height: 36px;
+    background: var(--ai-blue); color: white;
+    border: none; border-radius: 50%;
+    cursor: pointer; font-size: 14px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; transition: all 0.15s;
+  }
+  #send-btn:hover { background: var(--ai-blue-d); transform: scale(1.05); }
+  .input-footer { text-align: center; font-size: 10px; color: var(--ai-text-w); padding: 0 12px 8px; }
+
+  /* ─── LIST PAGE ──────────────────────────────────────────── */
+  #list-page {
+    flex: 1;
+    overflow-y: auto;
+    min-width: 0;
+    display: none;
+    flex-direction: column;
+  }
+  #list-page.active { display: flex; }
+  #record-page.active { display: block; }
+
+  .lv-header {
+    background: white;
+    border-bottom: 1px solid var(--ai-border);
+    padding: 14px 20px 0;
+  }
+  .lv-title-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 10px;
+  }
+  .lv-title { font-size: 18px; font-weight: 700; color: var(--ai-text); }
+  .lv-count { font-size: 13px; color: var(--ai-text-m); margin-left: 8px; }
+  .lv-actions { display: flex; gap: 8px; }
+
+  .lv-filter-bar {
+    display: flex; gap: 6px; padding: 10px 0 0;
+    overflow-x: auto; flex-wrap: nowrap;
+  }
+  .lv-filter-bar::-webkit-scrollbar { height: 0; }
+  .lv-filter-btn {
+    white-space: nowrap; flex-shrink: 0;
+    padding: 5px 12px; border-radius: 20px;
+    border: 1px solid var(--ai-border); background: white;
+    font-size: 12px; color: var(--ai-text-2); cursor: pointer;
+    transition: all 0.15s;
+  }
+  .lv-filter-btn:hover { border-color: var(--ai-blue); color: var(--ai-blue); }
+  .lv-filter-btn.active { background: var(--ai-blue); color: white; border-color: var(--ai-blue); }
+  .lv-filter-btn.danger { border-color: #fca5a5; color: var(--ai-red); }
+  .lv-filter-btn.danger:hover, .lv-filter-btn.danger.active { background: var(--ai-red); color: white; border-color: var(--ai-red); }
+  .lv-filter-btn.amber { border-color: #fcd34d; color: var(--ai-amber); }
+  .lv-filter-btn.amber:hover, .lv-filter-btn.amber.active { background: var(--ai-amber); color: white; border-color: var(--ai-amber); }
+
+  .lv-body { padding: 16px 20px; }
+
+  .lv-table-wrap {
+    background: white; border-radius: 8px;
+    border: 1px solid var(--ai-border);
+    overflow: hidden;
+    box-shadow: var(--ai-shadow-s);
+  }
+  .lv-table { width: 100%; border-collapse: collapse; }
+  .lv-table th {
+    background: #f8f9fb; font-size: 11px; font-weight: 600;
+    color: var(--ai-text-m); text-transform: uppercase; letter-spacing: 0.5px;
+    padding: 10px 14px; text-align: left;
+    border-bottom: 1px solid var(--ai-border);
+    white-space: nowrap;
+  }
+  .lv-table td {
+    padding: 11px 14px; font-size: 12.5px; color: var(--ai-text);
+    border-bottom: 1px solid var(--ai-border);
+    vertical-align: middle;
+  }
+  .lv-table tr:last-child td { border-bottom: none; }
+  .lv-table tr.lv-row:hover { background: var(--ai-blue-l); cursor: pointer; }
+  .lv-opp-link { color: var(--ai-blue); font-weight: 500; text-decoration: none; }
+  .lv-opp-link:hover { text-decoration: underline; }
+
+  .exp-badge {
+    display: inline-block; padding: 2px 8px; border-radius: 12px;
+    font-size: 11px; font-weight: 600; white-space: nowrap;
+  }
+  .exp-critical { background: #fee2e2; color: var(--ai-red); }
+  .exp-warning  { background: #fff3cd; color: #92400e; }
+  .exp-normal   { background: #d1fae5; color: #065f46; }
+  .exp-late     { background: #f3f4f6; color: var(--ai-text-m); }
+  .exp-overdue  { background: #fee2e2; color: var(--ai-red); border: 1px solid #fca5a5; }
+  .exp-inprog   { background: #dbeafe; color: #1d4ed8; }
+
+  .stage-pill {
+    display: inline-block; padding: 2px 8px; border-radius: 12px;
+    font-size: 11px; background: #f3f4f6; color: var(--ai-text-2);
+  }
+
+  /* ─── ASK ASSISTANT FAB ──────────────────────────────────── */
+  #ask-assistant-fab {
+    position: fixed; bottom: 28px; right: 28px;
+    background: linear-gradient(135deg, var(--ai-navy) 0%, var(--ai-navy2) 100%);
+    color: white; border: none; border-radius: 28px;
+    padding: 13px 22px; font-size: 14px; font-weight: 600;
+    cursor: pointer; z-index: 200;
+    display: flex; align-items: center; gap: 9px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.22);
+    transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.25s ease;
+  }
+  #ask-assistant-fab:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,0,0,0.28); }
+  #ask-assistant-fab.hidden { opacity: 0; pointer-events: none; transform: translateY(8px); }
+  .fab-dot {
+    width: 8px; height: 8px; background: #4ade80;
+    border-radius: 50%; flex-shrink: 0;
+    animation: pulse-dot 2s ease-in-out infinite;
+  }
+
+  /* ─── CLOSE PANEL BUTTON ─────────────────────────────────── */
+  #close-panel-btn {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.85);
+    border-radius: 6px; padding: 5px 10px;
+    font-size: 12px; cursor: pointer; flex-shrink: 0;
+    transition: all 0.15s; line-height: 1;
+  }
+  #close-panel-btn:hover { background: rgba(255,255,255,0.22); }
+
+  /* ─── LANDING SCREEN ─────────────────────────────────────── */
+  #landing-screen {
+    flex: 1; overflow-y: auto;
+    padding: 20px 16px 16px;
+    display: flex; flex-direction: column; gap: 16px;
+    background: #f9fafb;
+  }
+  #landing-screen.hidden { display: none; }
+  #chat-messages.hidden { display: none; }
+
+  .landing-greeting-wrap {
+    text-align: center;
+    padding: 16px 8px 8px;
+  }
+  .landing-avatar {
+    width: 52px; height: 52px; border-radius: 14px;
+    background: linear-gradient(135deg, #3b82f6, #6366f1);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px; margin: 0 auto 12px;
+  }
+  .landing-greeting {
+    font-size: 17px; font-weight: 700; color: var(--ai-text); line-height: 1.35;
+  }
+  .landing-greeting span { color: var(--ai-blue); }
+  .landing-sub {
+    font-size: 12px; color: var(--ai-text-m); margin-top: 5px; line-height: 1.5;
+  }
+
+  .landing-cards { display: flex; flex-direction: column; gap: 8px; }
+  .landing-cap-card {
+    display: flex; align-items: center; gap: 13px;
+    padding: 12px 14px;
+    background: white; border: 1.5px solid var(--ai-border);
+    border-radius: var(--r); box-shadow: var(--ai-shadow-s);
+    cursor: pointer; transition: all 0.15s; text-align: left;
+    width: 100%;
+  }
+  .landing-cap-card:hover { border-color: var(--ai-blue); box-shadow: 0 0 0 3px #dbeafe; }
+  .landing-cap-icon {
+    width: 38px; height: 38px; border-radius: 10px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center; font-size: 18px;
+  }
+  .landing-cap-body { flex: 1; min-width: 0; }
+  .landing-cap-title { font-weight: 700; font-size: 13px; color: var(--ai-text); margin-bottom: 2px; }
+  .landing-cap-desc { font-size: 11px; color: var(--ai-text-m); line-height: 1.4; }
+  .landing-cap-arrow { color: var(--ai-text-w); font-size: 17px; flex-shrink: 0; }
+
+  /* ─── ELIGIBILITY WIDGETS ───────────────────────────────── */
+  .elig-form {
+    background: white; border: 1px solid var(--ai-border);
+    border-radius: var(--r); overflow: hidden;
+    box-shadow: var(--ai-shadow-s);
+  }
+  .elig-form-header {
+    padding: 9px 14px; background: #f8fafc;
+    border-bottom: 1px solid var(--ai-border);
+    font-size: 11px; font-weight: 700; color: var(--ai-text-m);
+    text-transform: uppercase; letter-spacing: 0.06em;
+  }
+  .elig-form-body { padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+  .elig-label { font-size: 11px; font-weight: 600; color: var(--ai-text-m); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.04em; }
+  .elig-textarea {
+    width: 100%; border: 1.5px solid var(--ai-border);
+    border-radius: var(--r-s); padding: 8px 10px;
+    font-size: 12px; color: var(--ai-text); resize: none;
+    font-family: inherit; outline: none; min-height: 64px;
+  }
+  .elig-textarea:focus { border-color: var(--ai-blue); box-shadow: 0 0 0 3px #dbeafe; }
+  .elig-input {
+    width: 100%; border: 1.5px solid var(--ai-border);
+    border-radius: var(--r-s); padding: 8px 10px;
+    font-size: 12px; color: var(--ai-text);
+    font-family: inherit; outline: none;
+  }
+  .elig-input:focus { border-color: var(--ai-blue); box-shadow: 0 0 0 3px #dbeafe; }
+  .elig-hint { font-size: 11px; color: var(--ai-text-w); }
+  .elig-checkboxes { display: flex; flex-direction: column; gap: 7px; }
+  .elig-check-row {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 12px; color: var(--ai-text-2); cursor: pointer;
+  }
+  .elig-check-row input[type="checkbox"] { width: 14px; height: 14px; accent-color: var(--ai-blue); cursor: pointer; }
+  .elig-check-row label { cursor: pointer; }
+  .elig-inline-row { display: flex; align-items: center; gap: 10px; }
+  .elig-inline-row .elig-input { flex: 1; }
+
+  /* Eligibility result card */
+  .elig-result {
+    background: white; border: 1px solid var(--ai-border);
+    border-radius: var(--r); overflow: hidden;
+    box-shadow: var(--ai-shadow-s);
+  }
+  .elig-result-header {
+    padding: 10px 14px;
+    font-size: 11px; font-weight: 700; color: var(--ai-text-m);
+    text-transform: uppercase; letter-spacing: 0.06em;
+    background: #f8fafc; border-bottom: 1px solid var(--ai-border);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .elig-row {
+    display: flex; align-items: flex-start; justify-content: space-between;
+    padding: 9px 14px; border-bottom: 1px solid #f3f4f6; font-size: 12px; gap: 10px;
+  }
+  .elig-row:last-child { border-bottom: none; }
+  .elig-row-label { color: var(--ai-text-m); flex-shrink: 0; }
+  .elig-row-val { font-weight: 600; text-align: right; }
+  .elig-badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 3px 9px; border-radius: 20px; font-size: 11px; font-weight: 700;
+  }
+  .elig-yes  { background: #dcfce7; color: #15803d; }
+  .elig-no   { background: #fee2e2; color: #b91c1c; }
+  .elig-warn { background: #fef9c3; color: #a16207; }
+  .elig-info { background: #dbeafe; color: #1d4ed8; }
+  .elig-section-title {
+    padding: 7px 14px 4px; font-size: 10px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--ai-text-w); background: #fafbfc;
+    border-bottom: 1px solid #f3f4f6;
+  }
+
+  /* ─── DDA STYLES ────────────────────────────────────────── */
+  .prompt-chip-dda {
+    background: linear-gradient(135deg, #14532d, #166534);
+    color: white !important; border-color: #166534 !important;
+  }
+  .prompt-chip-dda:hover { background: linear-gradient(135deg,#166534,#15803d) !important; color:white !important; border-color:#15803d !important; }
+
+  .dda-form {
+    background: white; border: 1px solid var(--ai-border);
+    border-radius: var(--r); overflow: hidden; box-shadow: var(--ai-shadow-s);
+  }
+  .dda-form-header {
+    padding: 9px 14px; background: linear-gradient(90deg, #0f1f2e, #1a3550);
+    color: white; font-size: 12px; font-weight: 700; letter-spacing: 0.01em;
+  }
+  .dda-form-body { padding: 12px 14px; display: flex; flex-direction: column; gap: 11px; }
+  .dda-item-row { border: 1px solid #f0f2f5; border-radius: var(--r-s); overflow: hidden; }
+  .dda-item-info {
+    padding: 8px 11px 6px; background: #fafbfc; border-bottom: 1px solid #f0f2f5;
+    display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  }
+  .dda-item-name { font-weight: 700; font-size: 12px; }
+  .dda-item-meta { font-size: 11px; color: var(--ai-text-m); }
+  .dda-item-controls { padding: 8px 11px; display: flex; align-items: center; gap: 10px; }
+  .dda-pct-wrap {
+    display: flex; align-items: center; gap: 4px;
+    background: #f9fafb; border: 1.5px solid var(--ai-border);
+    border-radius: var(--r-s); padding: 5px 8px; min-width: 80px;
+  }
+  .dda-pct-wrap:focus-within { border-color: var(--ai-blue); box-shadow: 0 0 0 3px #dbeafe; background: white; }
+  .dda-pct-input {
+    width: 44px; border: none; outline: none; background: transparent;
+    font-size: 13px; font-weight: 700; color: var(--ai-text); text-align: right;
+    -moz-appearance: textfield; appearance: textfield;
+  }
+  .dda-pct-input::-webkit-outer-spin-button,
+  .dda-pct-input::-webkit-inner-spin-button { -webkit-appearance: none; appearance: none; }
+  .dda-pct-symbol { font-size: 13px; font-weight: 700; color: var(--ai-text-m); }
+  .dda-net-wrap { flex: 1; display: flex; align-items: center; justify-content: space-between; }
+  .dda-net-label { font-size: 11px; color: var(--ai-text-w); }
+  .dda-net-val { font-size: 12px; font-weight: 700; color: var(--ai-green); }
+  .dda-totals-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 8px 11px; background: #f8fafc; border: 1px solid var(--ai-border);
+    border-radius: var(--r-s); font-size: 12px; color: var(--ai-text-m);
+  }
+  .dda-totals-row strong { color: var(--ai-text); font-size: 13px; }
+  .dda-select {
+    width: 100%; border: 1.5px solid var(--ai-border); border-radius: var(--r-s);
+    padding: 7px 10px; font-size: 12px; color: var(--ai-text);
+    font-family: inherit; outline: none; background: white;
+  }
+  .dda-select:focus { border-color: var(--ai-blue); box-shadow: 0 0 0 3px #dbeafe; }
+  .dda-textarea {
+    width: 100%; border: 1.5px solid var(--ai-border); border-radius: var(--r-s);
+    padding: 8px 10px; font-size: 12px; color: var(--ai-text);
+    font-family: inherit; resize: none; min-height: 72px; outline: none;
+  }
+  .dda-textarea:focus { border-color: var(--ai-blue); box-shadow: 0 0 0 3px #dbeafe; }
+  .dda-field-label { font-size: 11px; font-weight: 700; color: var(--ai-text-m); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 5px; }
+  .dda-review-tbl { width: 100%; border-collapse: collapse; }
+  .dda-review-tbl th {
+    background: #f8fafc; padding: 5px 10px; text-align: left;
+    font-weight: 700; color: var(--ai-text-m); border-bottom: 1px solid var(--ai-border);
+    font-size: 10px; text-transform: uppercase; letter-spacing: 0.04em;
+  }
+  .dda-review-tbl td { padding: 7px 10px; border-bottom: 1px solid #f3f4f6; font-size: 11px; }
+  .dda-review-tbl tr:last-child td { border-bottom: none; }
+  .dda-review-tbl tfoot td { background: #f8fafc; font-weight: 700; font-size: 12px; border-top: 2px solid var(--ai-border); border-bottom: none; }
+  .dda-review-tbl .col-discount { color: #ef4444; font-weight: 700; }
+  .dda-review-tbl .col-net { color: var(--ai-green); font-weight: 700; }
+  .dda-reason-box {
+    background: #fffbeb; border: 1px solid #fde68a; border-radius: var(--r-s);
+    padding: 9px 12px; font-size: 11px; color: #92400e; line-height: 1.5;
+  }
+  .approver-chain { padding: 4px 0; }
+  .approver-step { display: flex; gap: 12px; align-items: flex-start; padding: 8px 14px; position: relative; }
+  .approver-step::before { content: ''; position: absolute; left: 25px; top: 32px; width: 2px; height: calc(100% - 8px); background: #e5e7eb; }
+  .approver-step:last-child::before { display: none; }
+  .approver-node { width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; margin-top: 1px; z-index: 1; }
+  .anode-approved { background: var(--ai-green); color: white; }
+  .anode-pending  { background: var(--ai-blue);  color: white; }
+  .anode-waiting  { background: #e5e7eb; color: #9ca3af; }
+  .anode-rejected { background: #ef4444; color: white; }
+  .approver-info { flex: 1; }
+  .approver-name  { font-weight: 700; font-size: 12px; }
+  .approver-role  { font-size: 11px; color: var(--ai-text-m); }
+  .approver-date  { font-size: 10px; color: var(--ai-text-w); margin-top: 1px; }
+  .approver-comment { font-size: 11px; color: #ef4444; margin-top: 3px; font-style: italic; }
+  .approver-badge { font-size: 10px; font-weight: 800; padding: 2px 8px; border-radius: 20px; flex-shrink: 0; align-self: center; text-transform: uppercase; letter-spacing: 0.04em; }
+  .ab-approved { background: #dcfce7; color: #14532d; }
+  .ab-pending  { background: #dbeafe; color: #1d4ed8; }
+  .ab-waiting  { background: #f3f4f6; color: #9ca3af; }
+  .ab-rejected { background: #fee2e2; color: #b91c1c; }
+  .dda-status-card { background: white; border: 1px solid var(--ai-border); border-radius: var(--r); overflow: hidden; box-shadow: var(--ai-shadow-s); border-left: 4px solid transparent; margin-bottom: 8px; }
+  .dda-status-card.dda-pending  { border-left-color: var(--ai-blue); }
+  .dda-status-card.dda-approved { border-left-color: var(--ai-green); }
+  .dda-status-card.dda-rejected { border-left-color: #ef4444; }
+  .dda-sc-top { padding: 10px 12px 6px; display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+  .dda-sc-id   { font-size: 10px; font-family: monospace; color: var(--ai-text-m); }
+  .dda-sc-acct { font-weight: 700; font-size: 12px; }
+  .dda-status-pill { font-size: 10px; font-weight: 800; padding: 3px 9px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.04em; flex-shrink: 0; }
+  .pill-pending  { background: #dbeafe; color: #1d4ed8; }
+  .pill-approved { background: #dcfce7; color: #14532d; }
+  .pill-rejected { background: #fee2e2; color: #b91c1c; }
+  .dda-sc-meta { padding: 0 12px 8px; display: flex; gap: 12px; flex-wrap: wrap; font-size: 11px; color: var(--ai-text-m); }
+  .dda-sc-progress { padding: 0 12px 10px; display: flex; align-items: center; gap: 4px; }
+  .dda-prog-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .dda-prog-dot.approved { background: var(--ai-green); }
+  .dda-prog-dot.pending  { background: var(--ai-blue); }
+  .dda-prog-dot.waiting  { background: #d1d5db; }
+  .dda-prog-dot.rejected { background: #ef4444; }
+  .dda-prog-line { flex: 1; height: 2px; background: #e5e7eb; }
+  .dda-prog-label { font-size: 10px; color: var(--ai-text-w); margin-left: 4px; }
+
+  /* ─── RENEWAL INTELLIGENCE ──────────────────────────────── */
+  /* ─── RESIZE HANDLE ─────────────────────────────────────── */
+  #resize-handle {
+    position: absolute; top: 0; left: 0;
+    width: 22px; height: 22px;
+    cursor: nw-resize; z-index: 200;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 0 0 6px 0;
+  }
+  #resize-handle::after {
+    content: '';
+    display: block;
+    width: 10px; height: 10px;
+    border-top: 2px solid rgba(255,255,255,0.35);
+    border-left: 2px solid rgba(255,255,255,0.35);
+    border-radius: 2px 0 0 0;
+    margin: 2px 0 0 2px;
+  }
+  #resize-handle:hover::after {
+    border-color: rgba(255,255,255,0.75);
+  }
+  body.resizing { user-select: none; cursor: nw-resize !important; }
+  body.resizing * { cursor: nw-resize !important; }
+
+  /* Size preset buttons */
+  .size-btns { display: flex; gap: 3px; flex-shrink: 0; }
+  .size-btn {
+    background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.18);
+    color: rgba(255,255,255,0.7); border-radius: 5px;
+    padding: 3px 7px; font-size: 11px; cursor: pointer; transition: all 0.12s;
+    line-height: 1.4;
+  }
+  .size-btn:hover, .size-btn.active { background: rgba(255,255,255,0.22); color: white; }
+
+  .prompt-chip-intelligence {
+    background: linear-gradient(135deg, #0f1f2e, #1a3550);
+    color: white !important; border-color: #1a3550 !important;
+  }
+  .prompt-chip-intelligence:hover { background: linear-gradient(135deg,#1a3550,#274a6e) !important; border-color:#274a6e !important; color:white !important; }
+
+  .ri-hub { display: flex; flex-direction: column; gap: 7px; }
+  .ri-hub-btn {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 14px; background: white;
+    border: 1.5px solid var(--ai-border); border-radius: var(--r);
+    cursor: pointer; text-align: left; transition: all 0.15s;
+    box-shadow: var(--ai-shadow-s); width: 100%;
+  }
+  .ri-hub-btn:hover { border-color: var(--ai-blue); box-shadow: 0 0 0 3px #dbeafe; }
+  .ri-hub-icon {
+    width: 36px; height: 36px; border-radius: 9px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center; font-size: 17px;
+  }
+  .ri-hub-body { flex: 1; }
+  .ri-hub-title { font-weight: 700; font-size: 13px; color: var(--ai-text); }
+  .ri-hub-desc  { font-size: 11px; color: var(--ai-text-m); margin-top: 2px; }
+  .ri-hub-count {
+    font-size: 18px; font-weight: 800; flex-shrink: 0;
+    min-width: 28px; text-align: right;
+  }
+
+  .ri-filter-row { display: flex; gap: 7px; flex-wrap: wrap; }
+  .ri-filter-btn {
+    padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 600;
+    border: 1.5px solid var(--ai-border); background: white; cursor: pointer;
+    color: var(--ai-text-2); transition: all 0.15s;
+  }
+  .ri-filter-btn:hover, .ri-filter-btn.active { background: var(--ai-blue); color: white; border-color: var(--ai-blue); }
+
+  .ri-list { display: flex; flex-direction: column; gap: 8px; }
+  .ri-card {
+    background: white; border: 1px solid var(--ai-border);
+    border-radius: var(--r); overflow: hidden;
+    box-shadow: var(--ai-shadow-s);
+    border-left: 4px solid transparent;
+  }
+  .ri-card.risk-HIGH   { border-left-color: #ef4444; }
+  .ri-card.risk-MEDIUM { border-left-color: #f59e0b; }
+  .ri-card.risk-LOW    { border-left-color: #22c55e; }
+
+  .ri-card-top {
+    padding: 10px 12px 7px; display: flex; align-items: flex-start;
+    justify-content: space-between; gap: 8px;
+  }
+  .ri-card-name { font-weight: 700; font-size: 13px; color: var(--ai-text); }
+  .ri-card-csn  { font-size: 10px; color: var(--ai-text-w); font-family: monospace; margin-top: 1px; }
+  .ri-card-amount { font-size: 13px; font-weight: 700; color: var(--ai-text); flex-shrink: 0; }
+
+  .ri-risk-badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 2px 8px; border-radius: 20px; font-size: 10px; font-weight: 800;
+    text-transform: uppercase; letter-spacing: 0.05em; flex-shrink: 0;
+  }
+  .ri-risk-badge.risk-HIGH   { background: #fee2e2; color: #b91c1c; }
+  .ri-risk-badge.risk-MEDIUM { background: #fef3c7; color: #92400e; }
+  .ri-risk-badge.risk-LOW    { background: #dcfce7; color: #14532d; }
+
+  .ri-signals {
+    padding: 0 12px 8px; display: flex; gap: 6px; flex-wrap: wrap;
+  }
+  .ri-signal {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 11px; padding: 2px 8px; border-radius: 20px;
+    font-weight: 500; white-space: nowrap;
+  }
+  .sig-renewal { background: #eff6ff; color: #1d4ed8; }
+  .sig-activity { background: #fef9c3; color: #92400e; }
+  .sig-usage-down { background: #fee2e2; color: #b91c1c; }
+  .sig-usage-up   { background: #dcfce7; color: #14532d; }
+  .sig-stalled    { background: #f3e8ff; color: #6b21a8; }
+
+  .ri-card-footer {
+    padding: 7px 12px 9px; border-top: 1px solid #f3f4f6;
+    display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  }
+  .ri-products { font-size: 11px; color: var(--ai-text-m); flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ri-actions { display: flex; gap: 5px; flex-shrink: 0; }
+  .ri-action-btn {
+    padding: 4px 10px; border-radius: 5px; font-size: 11px; font-weight: 600;
+    border: 1px solid var(--ai-border); background: white; color: var(--ai-text-2);
+    cursor: pointer; transition: all 0.12s; white-space: nowrap;
+  }
+  .ri-action-btn:hover { background: var(--ai-blue-l); border-color: var(--ai-blue); color: var(--ai-blue); }
+  .ri-action-btn.primary { background: var(--ai-blue); color: white; border-color: var(--ai-blue); }
+  .ri-action-btn.primary:hover { background: var(--ai-blue-d); }
+
+  .ri-summary-bar {
+    background: linear-gradient(135deg, #0f1f2e, #1a3550);
+    border-radius: var(--r); padding: 11px 14px;
+    display: flex; gap: 0; margin-bottom: 2px; overflow: hidden;
+  }
+  .ri-summary-stat { flex: 1; text-align: center; border-right: 1px solid rgba(255,255,255,0.1); padding: 0 8px; }
+  .ri-summary-stat:last-child { border-right: none; }
+  .ri-stat-val { font-size: 20px; font-weight: 800; color: white; line-height: 1.1; }
+  .ri-stat-lbl { font-size: 10px; color: rgba(255,255,255,0.55); margin-top: 2px; text-transform: uppercase; letter-spacing: 0.04em; }
+  .ri-stat-val.danger { color: #f87171; }
+  .ri-stat-val.warn   { color: #fbbf24; }
+  .ri-stat-val.good   { color: #4ade80; }
+
+  .ri-empty {
+    text-align: center; padding: 24px 16px;
+    background: white; border: 1px solid var(--ai-border);
+    border-radius: var(--r); color: var(--ai-text-m); font-size: 13px;
+  }
+
+  /* ─── ACCOUNT EXPLORER TILES ─────────────────────────────── */
+  .ae-tile {
+    display: flex; align-items: center; gap: 8px;
+    padding: 8px 10px; border-radius: 8px;
+    border: 1.5px solid transparent;
+    cursor: pointer; text-align: left; width: 100%;
+    transition: all 0.15s;
+  }
+  .ae-tile:hover { border-color: var(--ai-blue); box-shadow: 0 0 0 3px #dbeafe; filter: brightness(0.96); }
+  .ae-tile:active { transform: scale(0.97); }
+  .ae-tile-icon { font-size: 16px; flex-shrink: 0; }
+  .ae-tile-label { font-size: 10px; font-weight: 600; color: var(--ai-text-m); text-transform: uppercase; letter-spacing: 0.04em; }
+  .ae-tile-count { font-size: 15px; font-weight: 800; color: var(--ai-text); }
+</style>
+</head>
+<body>
+
+<!-- ── ASK ASSISTANT FAB ──────────────────────────────────── -->
+<button id="ask-assistant-fab" onclick="openAssistant()">
+  <div class="fab-dot"></div>
+  Ask Assistant
+</button>
+
+<!-- ── PAGE 1: OPPORTUNITIES LIST VIEW ───────────────────── -->
+<div id="list-page" class="active">
+  <div class="sf-nav">
+    <div class="sf-logo">☁</div>
+    <span class="sf-app">Sales Unified</span>
+    <div class="sf-tabs">
+      <div class="sf-tab active">Opportunities ✕</div>
+      <div class="sf-tab">Home</div>
+    </div>
+  </div>
+
+  <div class="lv-header">
+    <div class="lv-title-row">
+      <div style="display:flex;align-items:center;gap:0;">
+        <span class="lv-title">Opportunities</span>
+        <span class="lv-count">(8)</span>
+      </div>
+      <div class="lv-actions">
+        <button class="btn">Import</button>
+        <button class="btn btn-primary">+ New Opportunity</button>
+      </div>
+    </div>
+    <div class="lv-filter-bar">
+      <button class="lv-filter-btn active" onclick="filterOppList('all',this)">All</button>
+      <button class="lv-filter-btn danger" onclick="filterOppList('exp30',this)">≤ 30 Days</button>
+      <button class="lv-filter-btn danger" onclick="filterOppList('exp45',this)">≤ 45 Days</button>
+      <button class="lv-filter-btn amber" onclick="filterOppList('exp90',this)">≤ 90 Days</button>
+      <button class="lv-filter-btn" onclick="filterOppList('gt90',this)">&gt; 90 Days</button>
+      <button class="lv-filter-btn" onclick="filterOppList('inprog',this)">Order in Progress</button>
+      <button class="lv-filter-btn danger" onclick="filterOppList('pexp30',this)">Post Expiry ≤ 30</button>
+      <button class="lv-filter-btn danger" onclick="filterOppList('pexp45',this)">Post Expiry ≤ 45</button>
+    </div>
+  </div>
+
+  <div class="lv-body">
+    <div class="lv-table-wrap">
+      <table class="lv-table" id="opp-list-table">
+        <thead>
+          <tr>
+            <th>Opportunity Name</th>
+            <th>Account</th>
+            <th>Stage</th>
+            <th>Owner</th>
+            <th>Close Date</th>
+            <th>Expiry</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody id="opp-list-body">
+          <!-- rows injected by JS -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ── PAGE 2: SALESFORCE OPPORTUNITY RECORD PAGE ─────────── -->
+<div id="record-page">
+  <div class="sf-nav">
+    <div class="sf-logo">☁</div>
+    <span class="sf-app">Sales Unified</span>
+    <div class="sf-tabs">
+      <div class="sf-tab">Home</div>
+      <div class="sf-tab active">STM Test US acco… ✕</div>
+    </div>
+  </div>
+
+  <div class="opp-header">
+    <div class="breadcrumb"><a href="#" onclick="navigateTo('list');return false;">Opportunities</a> / STM Test US account GF-1004514012-E-Store New Order</div>
+    <div class="opp-title-row">
+      <div class="opp-title-left">
+        <div class="opp-icon">⬡</div>
+        <div class="opp-name">STM Test US account GF‑1004514012‑ E‑Store New Order</div>
+      </div>
+      <div class="opp-actions">
+        <button class="btn">+ Follow</button>
+        <button class="btn">Discount Approval</button>
+        <button class="btn">Manage Quote</button>
+        <button class="btn">Merge</button>
+        <button class="btn">Split</button>
+        <button class="btn btn-primary">Clone</button>
+      </div>
+    </div>
+    <div class="opp-fields">
+      <div class="opp-field"><div class="opp-field-l">Account Name</div><div class="opp-field-v link">STM Test US account GF</div></div>
+      <div class="opp-field"><div class="opp-field-l">Total Net Amount</div><div class="opp-field-v" id="header-total">USD 11,275.00</div></div>
+      <div class="opp-field"><div class="opp-field-l">Primary Contact</div><div class="opp-field-v link">Stgorderone contact</div></div>
+      <div class="opp-field"><div class="opp-field-l">Estimated Units</div><div class="opp-field-v">20.00</div></div>
+      <div class="opp-field"><div class="opp-field-l">Opportunity Owner</div><div class="opp-field-v link">AMER_USER</div></div>
+    </div>
+  </div>
+
+  <div class="stage-bar">
+    <div style="display:flex;align-items:center;gap:8px;">
+      <div class="stage-steps" style="flex:1;">
+        <div class="stage-step">✓ Prospect</div>
+        <div class="stage-step">✓ Qualify</div>
+        <div class="stage-step">✓ Develop</div>
+        <div class="stage-step current">Propose</div>
+        <div class="stage-step inactive">Negotiate</div>
+        <div class="stage-step inactive">Won</div>
+      </div>
+      <button class="btn btn-primary">Move to Next Stage</button>
+    </div>
+  </div>
+
+  <div class="record-tabs">
+    <div class="record-tab active">Overview</div>
+    <div class="record-tab">Qualification</div>
+    <div class="record-tab">Related</div>
+    <div class="record-tab">Details</div>
+    <div class="record-tab">Tools</div>
+  </div>
+
+  <div class="record-body">
+
+    <!-- ── General ────────────────────────────────────────── -->
+    <div class="section-card">
+      <div class="section-hdr-slds"><span class="slds-chevron">▾</span> General</div>
+      <div class="fields-body">
+        <div class="field-cell"><div class="field-cell-body"><div class="field-cell-lbl">Opportunity Number</div><div class="field-cell-val">A-42765355</div></div><button class="field-cell-edit">✎</button></div>
+        <div class="field-cell"><div class="field-cell-body"><div class="field-cell-lbl">Primary Seller Role <span class="fi">i</span></div><div class="field-cell-val">Account Owner</div></div><button class="field-cell-edit">✎</button></div>
+
+        <div class="field-cell"><div class="field-cell-body"><div class="field-cell-lbl">Opportunity Name</div><div class="field-cell-val">STM Test US account GF-1004514012-E-Store New Order</div></div><button class="field-cell-edit">✎</button></div>
+        <div class="field-cell"><div class="field-cell-body"><div class="field-cell-lbl">Projected Close Date <span class="fi">i</span></div><div class="field-cell-val">9/23/2025</div></div><button class="field-cell-edit">✎</button></div>
+
+        <div class="field-cell"><div class="field-cell-body"><div class="field-cell-lbl">Account Name <span class="fi">i</span></div><div class="field-cell-val link">STM Test US account GF</div></div><button class="field-cell-edit">✎</button></div>
+        <div class="field-cell"><div class="field-cell-body"><div class="field-cell-lbl">Fulfillment Category <span class="fi">i</span></div><div class="field-cell-val">Direct</div></div><button class="field-cell-edit">✎</button></div>
+
+        <div class="field-cell"><div class="field-cell-body"><div class="field-cell-lbl">Partner Account</div><div class="field-cell-val empty">—</div></div><button class="field-cell-edit">✎</button></div>
+        <div class="field-cell"><div class="field-cell-body"><div class="field-cell-lbl">Forecast Category <span class="fi">i</span></div><div class="field-cell-val">Closed Won</div></div><button class="field-cell-edit">✎</button></div>
+
+        <div class="field-cell"><div class="field-cell-body"><div class="field-cell-lbl">Merchant</div><div class="field-cell-val empty">—</div></div><button class="field-cell-edit">✎</button></div>
+        <div class="field-cell"><div class="field-cell-body"><div class="field-cell-lbl">Total Net Amount <span class="fi">i</span></div><div class="field-cell-val bold" id="general-total">USD 11,275.00</div></div><button class="field-cell-edit">✎</button></div>
+
+        <div class="field-cell"><div class="field-cell-body"><div class="field-cell-lbl">Close Reason <span class="fi">i</span></div><div class="field-cell-val">Auto-Close</div></div><button class="field-cell-edit">✎</button></div>
+        <div class="field-cell"><div class="field-cell-body"><div class="field-cell-lbl">Discount Approval Status <span class="fi">i</span></div><div class="field-cell-val empty">—</div></div><button class="field-cell-edit">✎</button></div>
+
+        <div class="field-cell"><div class="field-cell-body"><div class="field-cell-lbl">Close Sub Reason</div><div class="field-cell-val empty">—</div></div><button class="field-cell-edit">✎</button></div>
+        <div class="field-cell"><div class="field-cell-body"><div class="field-cell-lbl">Primary Sales Motion</div><div class="field-cell-val">New/Expand</div></div><button class="field-cell-edit">✎</button></div>
+
+        <div class="field-cell"><div class="field-cell-body"><div class="field-cell-lbl">Days Since Last Activity</div><div class="field-cell-val">2</div></div><button class="field-cell-edit">✎</button></div>
+        <div class="field-cell"><div class="field-cell-body"><div class="field-cell-lbl">Opportunity Tags</div><div class="field-cell-val empty">—</div></div><button class="field-cell-edit">✎</button></div>
+
+        <div class="field-cell"><div class="field-cell-body"><div class="field-cell-lbl">Total Seats</div><div class="field-cell-val empty">—</div></div><button class="field-cell-edit">✎</button></div>
+        <div class="field-cell"><div class="field-cell-body"><div class="field-cell-lbl">Procurement Risk</div><div class="field-cell-val empty">—</div></div><button class="field-cell-edit">✎</button></div>
+
+        <div class="field-cell"><div class="field-cell-body"><div class="field-cell-lbl">Next Step</div><div class="field-cell-val empty">—</div></div><button class="field-cell-edit">✎</button></div>
+        <div class="field-cell"><div class="field-cell-body"><div class="field-cell-lbl">Customer Procurement Readiness</div><div class="field-cell-val empty">—</div></div><button class="field-cell-edit">✎</button></div>
+
+        <div class="field-cell"><div class="field-cell-body"><div class="field-cell-lbl">Description</div><div class="field-cell-val empty">—</div></div><button class="field-cell-edit">✎</button></div>
+        <div class="field-cell"><div class="field-cell-body"><div class="field-cell-lbl">Actions for Approval</div><div class="field-cell-val empty">—</div></div><button class="field-cell-edit">✎</button></div>
+      </div>
+    </div>
+
+    <!-- ── Renewal ────────────────────────────────────────── -->
+    <div class="section-card">
+      <div class="section-hdr-slds"><span class="slds-chevron">▾</span> Renewal</div>
+      <div class="fields-body">
+        <div class="field-cell"><div class="field-cell-body"><div class="field-cell-lbl">Renewal Type</div><div class="field-cell-val empty">—</div></div><button class="field-cell-edit">✎</button></div>
+        <div class="field-cell"><div class="field-cell-body"><div class="field-cell-lbl">Projected Renewal Status</div><div class="field-cell-val empty">—</div></div><button class="field-cell-edit">✎</button></div>
+
+        <div class="field-cell"><div class="field-cell-body"><div class="field-cell-lbl">Term</div><div class="field-cell-val empty">—</div></div><button class="field-cell-edit">✎</button></div>
+        <div class="field-cell"><div class="field-cell-body"><div class="field-cell-lbl">Projected Renewal Reason</div><div class="field-cell-val empty">—</div></div><button class="field-cell-edit">✎</button></div>
+
+        <div class="field-cell"><div class="field-cell-body"><div class="field-cell-lbl">CS Stage</div><div class="field-cell-val empty">—</div></div><button class="field-cell-edit">✎</button></div>
+        <div class="field-cell"><div class="field-cell-body"><div class="field-cell-lbl">Projected Renewal Sub Reason</div><div class="field-cell-val empty">—</div></div><button class="field-cell-edit">✎</button></div>
+
+        <div class="field-cell"><div class="field-cell-body"><div class="field-cell-lbl">Partial Renewal</div><div class="field-cell-val"><span class="slds-checkbox"></span></div></div><button class="field-cell-edit">✎</button></div>
+        <div class="field-cell"><div class="field-cell-body"><div class="field-cell-lbl">Opportunity Risk</div><div class="field-cell-val empty">—</div></div><button class="field-cell-edit">✎</button></div>
+
+        <div class="field-cell"><div class="field-cell-body"><div class="field-cell-lbl">Remaining Renewal</div><div class="field-cell-val"><span class="slds-checkbox"></span></div></div><button class="field-cell-edit">✎</button></div>
+        <div class="field-cell"><div class="field-cell-body"><div class="field-cell-lbl">Opportunity Risk Reason</div><div class="field-cell-val empty">—</div></div><button class="field-cell-edit">✎</button></div>
+
+        <div class="field-cell"><div class="field-cell-body"><div class="field-cell-lbl">Total Renewed Seats</div><div class="field-cell-val empty">—</div></div><button class="field-cell-edit">✎</button></div>
+        <div class="field-cell"><div class="field-cell-body"><div class="field-cell-lbl">Opportunity Risk Override Date</div><div class="field-cell-val empty">—</div></div><button class="field-cell-edit">✎</button></div>
+
+        <div class="field-cell"><div class="field-cell-body"><div class="field-cell-lbl">Total Unrenewed Seats</div><div class="field-cell-val empty">—</div></div><button class="field-cell-edit">✎</button></div>
+        <div class="field-cell"><div class="field-cell-body"><div class="field-cell-lbl">Renewal Health</div><div class="field-cell-val empty">—</div></div><button class="field-cell-edit">✎</button></div>
+
+        <div class="field-cell"><div class="field-cell-body"><div class="field-cell-lbl">Unrenewed Amount</div><div class="field-cell-val empty">—</div></div><button class="field-cell-edit">✎</button></div>
+        <div class="field-cell"></div>
+
+        <div class="field-cell"><div class="field-cell-body"><div class="field-cell-lbl">Days Due</div><div class="field-cell-val empty">—</div></div><button class="field-cell-edit">✎</button></div>
+        <div class="field-cell"></div>
+      </div>
+    </div>
+
+    <!-- ── ACV ────────────────────────────────────────────── -->
+    <div class="section-card">
+      <div class="section-hdr-slds"><span class="slds-chevron">▾</span> ACV</div>
+      <div class="fields-body">
+        <div class="field-cell"><div class="field-cell-body"><div class="field-cell-lbl">ACV <span class="fi">i</span></div><div class="field-cell-val empty">—</div></div><button class="field-cell-edit">✎</button></div>
+        <div class="field-cell"><div class="field-cell-body"><div class="field-cell-lbl">ACV at Risk (USD) <span class="fi">i</span></div><div class="field-cell-val empty">—</div></div><button class="field-cell-edit">✎</button></div>
+      </div>
+    </div>
+
+    <!-- ── Order ──────────────────────────────────────────── -->
+    <div class="section-card">
+      <div class="section-hdr-slds"><span class="slds-chevron">▾</span> Order</div>
+      <div class="fields-body">
+        <div class="field-cell"><div class="field-cell-body"><div class="field-cell-lbl">Pelican Order Number</div><div class="field-cell-val empty">—</div></div><button class="field-cell-edit">✎</button></div>
+        <div class="field-cell"><div class="field-cell-body"><div class="field-cell-lbl">Pelican Order Charged Date</div><div class="field-cell-val empty">—</div></div><button class="field-cell-edit">✎</button></div>
+
+        <div class="field-cell"><div class="field-cell-body"><div class="field-cell-lbl">Pelican Order Amount</div><div class="field-cell-val empty">—</div></div><button class="field-cell-edit">✎</button></div>
+        <div class="field-cell"><div class="field-cell-body"><div class="field-cell-lbl">ECC Order Amount</div><div class="field-cell-val empty">—</div></div><button class="field-cell-edit">✎</button></div>
+
+        <div class="field-cell"><div class="field-cell-body"><div class="field-cell-lbl">ECC Sales Order Number</div><div class="field-cell-val empty">—</div></div><button class="field-cell-edit">✎</button></div>
+        <div class="field-cell"><div class="field-cell-body"><div class="field-cell-lbl">PO#</div><div class="field-cell-val empty">—</div></div><button class="field-cell-edit">✎</button></div>
+      </div>
+    </div>
+
+    <!-- ── Products ──────────────────────────────────────── -->
+    <div class="section-card" id="line-items-section" style="overflow-x:auto;">
+      <div class="section-hdr-slds">
+        <span class="slds-chevron">▾</span>
+        Products
+        <span class="section-count" id="li-count">(5)</span>
+      </div>
+      <div style="overflow-x:auto;">
+        <table class="li-table" style="min-width:900px;">
+          <thead>
+            <tr>
+              <th>Products</th>
+              <th>Renewal Health</th>
+              <th>Line Item Action</th>
+              <th>Product Type</th>
+              <th>Term</th>
+              <th class="col-num">Estimated Units</th>
+              <th>Subscription ID</th>
+              <th>OLI Status</th>
+              <th class="col-num">Total Price</th>
+              <th>Additional Info</th>
+            </tr>
+          </thead>
+          <tbody id="line-items-tbody">
+            <tr>
+              <td class="product-name">📐 AutoCAD Subscription</td>
+              <td><span class="rh-badge rh-green">● Healthy</span></td>
+              <td><span class="type-badge type-existing">Renew</span></td>
+              <td>Subscription</td>
+              <td>1 Year</td>
+              <td class="col-num">2</td>
+              <td class="sub-id">SUB-001234</td>
+              <td><span class="oli-badge oli-active">Active</span></td>
+              <td class="col-num">$4,000.00</td>
+              <td class="additional-info">—</td>
+            </tr>
+            <tr>
+              <td class="product-name">🏗️ Revit Add-on</td>
+              <td><span class="rh-badge rh-amber">⚠ At Risk</span></td>
+              <td><span class="type-badge type-existing">Renew</span></td>
+              <td>Subscription</td>
+              <td>1 Year</td>
+              <td class="col-num">5</td>
+              <td class="sub-id">SUB-001235</td>
+              <td><span class="oli-badge oli-active">Active</span></td>
+              <td class="col-num">$5,025.00</td>
+              <td class="additional-info">—</td>
+            </tr>
+            <tr>
+              <td class="product-name">🔧 Build500</td>
+              <td><span class="rh-badge rh-green">● Healthy</span></td>
+              <td><span class="type-badge type-existing">Renew</span></td>
+              <td>Subscription</td>
+              <td>1 Year</td>
+              <td class="col-num">3</td>
+              <td class="sub-id">SUB-001236</td>
+              <td><span class="oli-badge oli-active">Active</span></td>
+              <td class="col-num">$2,250.00</td>
+              <td class="additional-info">—</td>
+            </tr>
+            <tr class="new-li-row">
+              <td class="product-name">🎨 Maya</td>
+              <td><span class="rh-badge rh-grey">— N/A</span></td>
+              <td><span class="type-badge type-new">Switch To</span></td>
+              <td>Subscription</td>
+              <td>1 Year</td>
+              <td class="col-num">10</td>
+              <td class="sub-id">—</td>
+              <td><span class="oli-badge oli-draft">Draft</span></td>
+              <td class="col-num">$18,000.00</td>
+              <td class="additional-info">—</td>
+            </tr>
+            <tr class="new-li-row">
+              <td class="product-name">🖥️ 3ds Max</td>
+              <td><span class="rh-badge rh-grey">— N/A</span></td>
+              <td><span class="type-badge type-new">Switch To</span></td>
+              <td>Subscription</td>
+              <td>1 Year</td>
+              <td class="col-num">8</td>
+              <td class="sub-id">—</td>
+              <td><span class="oli-badge oli-draft">Draft</span></td>
+              <td class="col-num">$12,800.00</td>
+              <td class="additional-info">—</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr class="li-total-row">
+              <td colspan="8" style="text-align:right;">Total Net Amount</td>
+              <td class="col-num" id="total-amount">USD 11,275.00</td>
+              <td></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ── RIGHT: RENEWAL REP ASSISTANT ─────────────────────── -->
+<div id="chat-panel">
+  <div id="resize-handle" title="Drag to resize"></div>
+
+  <!-- Header -->
+  <div id="chat-header">
+    <div class="ch-top">
+      <div class="ch-icon">🔄</div>
+      <div class="ch-title-wrap">
+        <div class="ch-title">Renewal Rep Assistant</div>
+        <div class="ch-status">
+          <div class="ch-dot"></div>
+          <div class="ch-status-text">Active &nbsp;·&nbsp; Context loaded</div>
+        </div>
+      </div>
+      <button id="new-convo-btn">↺ Reset</button>
+<button id="close-panel-btn" onclick="closeAssistant()">✕</button>
+    </div>
+    <div class="ch-context">
+      <div class="ch-chip">📋 <span>Opp:</span> A-42765355</div>
+      <div class="ch-chip">🏢 <span>Acct:</span> STM Test US GF</div>
+      <div class="ch-chip">✅ <span>Stage:</span> Propose</div>
+    </div>
+  </div>
+
+  <!-- Step progress indicator -->
+  <div id="step-indicator">
+    <div class="step-inner">
+      <div class="step-dots">
+        <div class="step-dot" id="sd1"></div>
+        <div class="step-dot" id="sd2"></div>
+        <div class="step-dot" id="sd3"></div>
+      </div>
+      <span id="step-label" class="step-label">Step 1 of 3</span>
+    </div>
+  </div>
+
+  <!-- Landing screen (shown when panel first opens, before any flow) -->
+  <div id="landing-screen">
+    <div class="landing-greeting-wrap">
+      <div class="landing-avatar">🔄</div>
+      <div class="landing-greeting">How can I help you, <span>Shubham</span>? 👋</div>
+      <div class="landing-sub">I'm your Renewal Rep Assistant. Use the quick actions below to get started.</div>
+    </div>
+  </div>
+
+  <!-- Messages -->
+  <div id="chat-messages" class="hidden"></div>
+
+  <!-- Bottom section: prompts + input -->
+  <div id="panel-bottom">
+
+    <div id="suggested-prompts">
+      <!-- Detail page quick actions -->
+      <div id="qa-detail-mode">
+        <div class="prompts-label">Quick Actions</div>
+        <div class="qa-grid">
+          <button class="prompt-chip" data-flow="coterm"><span class="chip-icon">🔗</span>Co-term</button>
+          <button class="prompt-chip" data-flow="switch"><span class="chip-icon">🔄</span>Switch</button>
+          <button class="prompt-chip" data-flow="midterm"><span class="chip-icon">⚡</span>Mid-term Switch</button>
+          <button class="prompt-chip" data-flow="extend"><span class="chip-icon">📅</span>Extend Renewal</button>
+        </div>
+        <button id="more-actions-btn" onclick="toggleMoreActions()">
+          <span id="more-actions-label">+ More actions</span>
+        </button>
+        <div id="more-actions-panel">
+          <div class="qa-group">
+            <div class="qa-group-label">Eligibility</div>
+            <div class="qa-grid">
+              <button class="prompt-chip" data-flow="biz_eligibility"><span class="chip-icon">🏢</span>Business Plan</button>
+              <button class="prompt-chip" data-flow="coterm_eligibility"><span class="chip-icon">✅</span>Co-term Elig.</button>
+            </div>
+          </div>
+          <div class="qa-group">
+            <div class="qa-group-label">Intelligence & Approvals</div>
+            <div class="qa-grid">
+              <button class="prompt-chip prompt-chip-intelligence" data-flow="renewal_intelligence"><span class="chip-icon">🧠</span>Renewal Intel</button>
+              <button class="prompt-chip prompt-chip-dda" data-flow="dda"><span class="chip-icon">💰</span>DDA</button>
+            </div>
+          </div>
+          <div class="qa-group">
+            <div class="qa-group-label">Account Insights</div>
+            <div class="qa-grid">
+              <button class="prompt-chip" data-flow="account_summary"><span class="chip-icon">🏢</span>Account Summary</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- List page quick actions (expiry buckets) -->
+      <div id="qa-list-mode" style="display:none;">
+        <div class="prompts-label">Expiry Buckets</div>
+        <div class="qa-grid">
+          <button class="prompt-chip" style="border-color:#fca5a5;color:#dc2626;" data-flow="list_exp30"><span class="chip-icon">🔴</span>≤ 30 Days</button>
+          <button class="prompt-chip" style="border-color:#fca5a5;color:#dc2626;" data-flow="list_exp45"><span class="chip-icon">🟠</span>≤ 45 Days</button>
+          <button class="prompt-chip" style="border-color:#fcd34d;color:#92400e;" data-flow="list_exp90"><span class="chip-icon">🟡</span>≤ 90 Days</button>
+          <button class="prompt-chip" data-flow="list_gt90"><span class="chip-icon">🟢</span>&gt; 90 Days</button>
+        </div>
+        <button id="more-expiry-btn" onclick="toggleMoreExpiry()">
+          <span id="more-expiry-label">+ More filters</span>
+        </button>
+        <div id="more-expiry-panel">
+          <div class="qa-grid" style="margin-top:8px;">
+            <button class="prompt-chip" data-flow="list_inprog"><span class="chip-icon">📦</span>Order in Progress</button>
+            <button class="prompt-chip" style="border-color:#fca5a5;color:#dc2626;" data-flow="list_pexp30"><span class="chip-icon">⚠️</span>Post Expiry ≤30</button>
+            <button class="prompt-chip" style="border-color:#fca5a5;color:#dc2626;" data-flow="list_pexp45"><span class="chip-icon">⚠️</span>Post Expiry ≤45</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="chat-input-bar">
+      <input type="text" id="chat-input" placeholder="Describe what you want to do…" />
+      <button id="send-btn">➤</button>
+    </div>
+    <div class="input-footer">Renewal Rep Assistant · Actions are simulated</div>
+  </div>
+</div>
+
+
+<script>
+// ─── MOCK DATA ────────────────────────────────────────────────────────────────
+const OPP = {
+  name: 'STM Test US account GF-1004514012-E-Store New Order',
+  account: 'STM Test US account GF',
+  stage: 'Propose',
+  lineItems: [
+    { id: 'li-1', product: 'AutoCAD Subscription', qty: 2,  unitPrice: 2000.00, annualPrice: 2000.00, endDate: '2026-12-31', inRenewal: true, icon: '📐' },
+    { id: 'li-2', product: 'Revit Add-on',          qty: 5,  unitPrice: 1005.00, annualPrice: 1005.00, endDate: '2026-12-31', inRenewal: true, icon: '🏗️' },
+    { id: 'li-3', product: 'Build500',              qty: 3,  unitPrice:  750.00, annualPrice:  750.00, endDate: '2026-12-31', inRenewal: true, icon: '🔧' }
+  ],
+  newLineItems: [
+    { id: 'nl-1', product: 'Maya',    qty: 10, unitPrice: 1800.00, annualPrice: 1800.00, isNew: true, icon: '🎨' },
+    { id: 'nl-2', product: '3ds Max', qty: 8,  unitPrice: 1600.00, annualPrice: 1600.00, isNew: true, icon: '🖥️' }
+  ]
+};
+
+const RENEWAL_ACCOUNTS = [
+  { id:'ra-1', csn:'5103452987', name:'TechCorp Inc',         renewalDays:45,  activityDays:10, usageChange:-30, risk:'HIGH',   amount:45000,  stage:'Propose',  products:['AutoCAD Subscription','Revit Add-on'],     contact:'James Wilson',  stalled:false },
+  { id:'ra-2', csn:'5108734521', name:'BuildRight LLC',       renewalDays:18,  activityDays:2,  usageChange:+5,  risk:'LOW',    amount:28500,  stage:'Qualify',  products:['AutoCAD LT'],                              contact:'Sarah Chen',    stalled:false },
+  { id:'ra-3', csn:'5112093847', name:'Construct & Co',       renewalDays:67,  activityDays:21, usageChange:-15, risk:'MEDIUM', amount:67200,  stage:'Develop',  products:['Architecture Collection','BIM 360'],       contact:'Mike Torres',   stalled:true  },
+  { id:'ra-4', csn:'5119283746', name:'DesignHub Studios',    renewalDays:12,  activityDays:0,  usageChange:+10, risk:'LOW',    amount:18900,  stage:'Propose',  products:['Maya','3ds Max'],                          contact:'Amy Park',      stalled:false },
+  { id:'ra-5', csn:'5127364819', name:'MegaBuild Corp',       renewalDays:88,  activityDays:35, usageChange:-45, risk:'HIGH',   amount:124000, stage:'Qualify',  products:['AEC Collection','AutoCAD Subscription'],   contact:'David Lee',     stalled:true  },
+  { id:'ra-6', csn:'5134872910', name:'Planit Architecture',  renewalDays:55,  activityDays:14, usageChange:-8,  risk:'MEDIUM', amount:34100,  stage:'Develop',  products:['Revit Add-on','Build500'],                 contact:'Rachel Kim',    stalled:true  },
+  { id:'ra-7', csn:'5141920384', name:'Summit Engineering',   renewalDays:29,  activityDays:5,  usageChange:-2,  risk:'LOW',    amount:21600,  stage:'Propose',  products:['AutoCAD Subscription'],                    contact:'Tom Nguyen',    stalled:false },
+  { id:'ra-8', csn:'5159283012', name:'Apex Structures',      renewalDays:73,  activityDays:28, usageChange:-22, risk:'HIGH',   amount:89400,  stage:'Qualify',  products:['AEC Collection','Revit Add-on'],            contact:'Lisa Patel',    stalled:true  }
+];
+
+// ─── MOCK OPPORTUNITY LIST DATA ───────────────────────────────────────────────
+// Today: 2026-03-24 — expiry dates set relative to this
+const MOCK_OPPS = [
+  { id:'op-1', name:'Autodesk Inc – AEC Collection Renewal',   account:'Autodesk Inc',       stage:'Propose',   owner:'Shubham',       closeDate:'2026-04-10', amount:38500, status:'active'    },
+  { id:'op-2', name:'Adobe Systems – Creative Cloud Enterprise',account:'Adobe Systems',      stage:'Negotiate', owner:'Priya Sharma',   closeDate:'2026-04-20', amount:22400, status:'active'    },
+  { id:'op-3', name:'Salesforce – Platform Subscription',       account:'Salesforce Inc',     stage:'Qualify',   owner:'James Wilson',   closeDate:'2026-05-05', amount:56750, status:'active'    },
+  { id:'op-4', name:'Microsoft – Office 365 Business Suite',    account:'Microsoft Corp',     stage:'Develop',   owner:'Rachel Kim',     closeDate:'2026-06-15', amount:91200, status:'active'    },
+  { id:'op-5', name:'Oracle – Database License Renewal',        account:'Oracle Corp',        stage:'Propose',   owner:'Tom Nguyen',     closeDate:'2026-09-15', amount:145000,status:'active'    },
+  { id:'op-6', name:'SAP SE – ERP Suite Annual Renewal',        account:'SAP SE',             stage:'Won',       owner:'David Lee',      closeDate:'2026-03-30', amount:78300, status:'inprog'    },
+  { id:'op-7', name:'IBM – Watson AI Platform Renewal',         account:'IBM Corporation',    stage:'Post Sale', owner:'Amy Park',       closeDate:'2026-02-28', amount:33600, status:'expired'   },
+  { id:'op-8', name:'HP Inc – Device Management Suite',         account:'HP Inc',             stage:'Post Sale', owner:'Mike Torres',    closeDate:'2026-02-10', amount:18900, status:'expired'   },
+];
+
+function getExpiryDays(closeDate) {
+  const today = new Date('2026-03-24');
+  const close = new Date(closeDate);
+  return Math.round((close - today) / 86400000);
+}
+
+function getExpBucket(opp) {
+  if (opp.status === 'inprog') return 'inprog';
+  const d = getExpiryDays(opp.closeDate);
+  if (d < 0 && d >= -45) return d >= -30 ? 'pexp30' : 'pexp45';
+  if (d >= 0 && d <= 30) return 'exp30';
+  if (d > 30 && d <= 45) return 'exp45';
+  if (d > 45 && d <= 90) return 'exp90';
+  return 'gt90';
+}
+
+function expBadge(opp) {
+  const d = getExpiryDays(opp.closeDate);
+  if (opp.status === 'inprog') return `<span class="exp-badge exp-inprog">Order in Progress</span>`;
+  if (d < 0) return `<span class="exp-badge exp-overdue">Expired ${Math.abs(d)}d ago</span>`;
+  if (d <= 30) return `<span class="exp-badge exp-critical">${d} days</span>`;
+  if (d <= 45) return `<span class="exp-badge exp-warning">${d} days</span>`;
+  if (d <= 90) return `<span class="exp-badge exp-normal">${d} days</span>`;
+  return `<span class="exp-badge exp-late">${d} days</span>`;
+}
+
+function renderOppList(filter) {
+  const tbody = document.getElementById('opp-list-body');
+  if (!tbody) return;
+  let opps = MOCK_OPPS;
+  if (filter && filter !== 'all') {
+    opps = MOCK_OPPS.filter(o => getExpBucket(o) === filter);
+  }
+  tbody.innerHTML = opps.map(o => `
+    <tr class="lv-row" onclick="openOpp('${o.id}')">
+      <td><a class="lv-opp-link">${o.name}</a></td>
+      <td>${o.account}</td>
+      <td><span class="stage-pill">${o.stage}</span></td>
+      <td>${o.owner}</td>
+      <td>${o.closeDate}</td>
+      <td>${expBadge(o)}</td>
+      <td>USD ${o.amount.toLocaleString()}</td>
+    </tr>
+  `).join('');
+}
+
+function filterOppList(filter, btn) {
+  document.querySelectorAll('.lv-filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderOppList(filter);
+}
+
+function openOpp(id) {
+  navigateTo('detail');
+}
+
+// ─── PAGE NAVIGATION ──────────────────────────────────────────────────────────
+let CURRENT_PAGE = 'list';
+
+function navigateTo(page) {
+  CURRENT_PAGE = page;
+  const listPage   = document.getElementById('list-page');
+  const detailPage = document.getElementById('record-page');
+  const qaDetail   = document.getElementById('qa-detail-mode');
+  const qaList     = document.getElementById('qa-list-mode');
+  const ctxChips   = document.querySelector('.ch-context');
+
+  const landingSub = document.querySelector('.landing-sub');
+  if (page === 'list') {
+    listPage.classList.add('active');
+    detailPage.classList.remove('active');
+    ctxChips.innerHTML = `
+      <div class="ch-chip">📊 <span>View:</span> Opportunities</div>
+      <div class="ch-chip">📋 <span>Total:</span> ${MOCK_OPPS.length} opps</div>
+      <div class="ch-chip">⚠️ <span>≤30d:</span> ${MOCK_OPPS.filter(o=>getExpBucket(o)==='exp30').length} expiring</div>
+    `;
+    qaDetail.style.display = 'none';
+    qaList.style.display   = '';
+    if (landingSub) landingSub.textContent = 'Select an expiry bucket to see matching opportunities, or open one from the list.';
+    resetChat();
+  } else {
+    listPage.classList.remove('active');
+    detailPage.classList.add('active');
+    ctxChips.innerHTML = `
+      <div class="ch-chip">📋 <span>Opp:</span> A-42765355</div>
+      <div class="ch-chip">🏢 <span>Acct:</span> STM Test US GF</div>
+      <div class="ch-chip">✅ <span>Stage:</span> Propose</div>
+    `;
+    qaDetail.style.display = '';
+    qaList.style.display   = 'none';
+    if (landingSub) landingSub.textContent = "I'm your Renewal Rep Assistant. Use the quick actions below to get started.";
+    resetChat();
+  }
+}
+window.navigateTo = navigateTo;
+window.openOpp    = openOpp;
+window.filterOppList = filterOppList;
+
+function toggleMoreExpiry() {
+  const panel = document.getElementById('more-expiry-panel');
+  const label = document.getElementById('more-expiry-label');
+  const open  = panel.classList.toggle('open');
+  label.textContent = open ? '− Less' : '+ More filters';
+}
+window.toggleMoreExpiry = toggleMoreExpiry;
+
+const DDA_REASONS = [
+  'Product Quality Issue','Fee Waiving','Competitive Reason','Customer Reference',
+  'Volume Discount','Accelerate Deal Close','Autodesk Error','ETR Exception',
+  'FY20Q3-3YDiscount','Sales-led Activities','ACS mid-term switch'
+];
+
+const DDA_REQUESTS = [
+  {
+    id:'DDA-0204', account:'STM Test US account GF', csn:'1004514012',
+    submittedBy:'Shubham', submittedDate:'2025-03-18',
+    discountPct:10, totalSRP:11275, totalNet:10147.50,
+    reason:'Accelerate Deal Close',
+    justification:'Customer Q1 budget closing. Offering 10% to accelerate close before March 31.',
+    status:'PENDING',
+    lineItems:[
+      { product:'AutoCAD Subscription', units:2, srp:4000, discountPct:10 },
+      { product:'Revit Add-on',         units:5, srp:5025, discountPct:10 },
+      { product:'Build500',             units:3, srp:2250, discountPct:10 }
+    ],
+    approvers:[
+      { name:'Priya Mehta',    role:'Deal Desk Manager', level:1, status:'APPROVED', date:'2025-03-18' },
+      { name:'Robert Chang',   role:'Sales Director',    level:2, status:'PENDING',  date:null },
+      { name:'Lisa Anderson',  role:'VP Sales',          level:3, status:'WAITING',  date:null }
+    ]
+  },
+  {
+    id:'DDA-0191', account:'TechCorp Inc', csn:'5103452987',
+    submittedBy:'Shubham', submittedDate:'2025-03-10',
+    discountPct:15, totalSRP:45000, totalNet:38250,
+    reason:'Competitive Reason',
+    justification:'Customer received competing offer from Bentley at 20% discount. Need to match to protect renewal.',
+    status:'APPROVED',
+    lineItems:[
+      { product:'AutoCAD Subscription', units:2, srp:4000,  discountPct:15 },
+      { product:'Revit Add-on',         units:5, srp:41000, discountPct:15 }
+    ],
+    approvers:[
+      { name:'Priya Mehta',   role:'Deal Desk Manager', level:1, status:'APPROVED', date:'2025-03-10' },
+      { name:'Robert Chang',  role:'Sales Director',    level:2, status:'APPROVED', date:'2025-03-11' },
+      { name:'Lisa Anderson', role:'VP Sales',          level:3, status:'APPROVED', date:'2025-03-12' }
+    ]
+  },
+  {
+    id:'DDA-0198', account:'BuildRight LLC', csn:'5108734521',
+    submittedBy:'Shubham', submittedDate:'2025-03-15',
+    discountPct:8, totalSRP:28500, totalNet:26220,
+    reason:'Volume Discount',
+    justification:'Customer expanding fleet from 20 to 50 seats. Volume pricing to incentivize growth.',
+    status:'REJECTED',
+    lineItems:[
+      { product:'AutoCAD LT', units:50, srp:28500, discountPct:8 }
+    ],
+    approvers:[
+      { name:'Priya Mehta',  role:'Deal Desk Manager', level:1, status:'APPROVED', date:'2025-03-15' },
+      { name:'Robert Chang', role:'Sales Director',    level:2, status:'REJECTED',  date:'2025-03-16',
+        comment:'Discount exceeds policy threshold for this product line. Resubmit with max 5%.' }
+    ]
+  }
+];
+
+const SWITCH_PRODUCTS = [
+  { id: 'sp-1', name: 'AutoCAD LT',             desc: 'Essential 2D drafting for individuals', price: 1200.00, icon: '📏' },
+  { id: 'sp-2', name: 'Architecture Collection', desc: 'Full AEC toolset for architectural design', price: 3500.00, icon: '🏛️' },
+  { id: 'sp-3', name: 'AEC Collection',          desc: 'Complete suite for infrastructure projects', price: 4200.00, icon: '🌉' }
+];
+
+// ─── STATE ────────────────────────────────────────────────────────────────────
+const STATE = {
+  flow: null, step: null,
+  selectedItem: null, pendingDate: null, pendingProduct: null,
+  cotermTarget: null, switchToItem: null, switchFromItems: [], switchType: null, switchTerm: null
+};
+
+const STEP_CONFIG = {
+  extend:            ['extend_pick_item', 'extend_pick_date', 'done'],
+  coterm:            ['coterm_pick_date', 'coterm_review', 'done'],
+  switch:            ['switch_hub'],
+  switch_1to1:       ['switch_from', 'switch_to', 'switch_review'],
+  switch_m1:         ['switch_from', 'switch_to', 'switch_review'],
+  switch_term:       ['switch_from', 'switch_term_select', 'switch_review'],
+  midterm:           ['midterm_pick_item', 'midterm_pick_date', 'midterm_pick_product'],
+  biz_eligibility:      ['biz_email_input', 'biz_result'],
+  coterm_eligibility:   ['coterm_elig_input', 'coterm_elig_result'],
+  renewal_intelligence: ['ri_hub', 'ri_results'],
+  dda:                  ['dda_hub'],
+  dda_request:          ['dda_discounts', 'dda_justify', 'dda_confirm'],
+  dda_status:           ['dda_status_list'],
+  account_summary:      ['acct_summary_result']
+};
+
+function resetState() {
+  STATE.flow = null; STATE.step = null;
+  STATE.selectedItem = null; STATE.pendingDate = null;
+  STATE.pendingProduct = null; STATE.cotermTarget = null;
+  STATE.switchToItem = null; STATE.switchFromItems = []; STATE.switchType = null; STATE.switchTerm = null;
+}
+
+// ─── DOM REFS ─────────────────────────────────────────────────────────────────
+const messagesEl   = document.getElementById('chat-messages');
+const promptsEl    = document.getElementById('suggested-prompts');
+const inputEl      = document.getElementById('chat-input');
+const stepEl       = document.getElementById('step-indicator');
+const chatPanelEl  = document.getElementById('chat-panel');
+const recordPageEl = document.getElementById('record-page');
+const fabEl        = document.getElementById('ask-assistant-fab');
+const landingEl    = document.getElementById('landing-screen');
+
+// ─── PANEL OPEN / CLOSE ───────────────────────────────────────────────────────
+function openAssistant() {
+  chatPanelEl.classList.add('open');
+  fabEl.classList.add('hidden');
+}
+
+function closeAssistant() {
+  chatPanelEl.classList.remove('open');
+  fabEl.classList.remove('hidden');
+}
+
+function showLanding() {
+  landingEl.classList.remove('hidden');
+  messagesEl.classList.add('hidden');
+}
+
+function showChat() {
+  landingEl.classList.add('hidden');
+  messagesEl.classList.remove('hidden');
+}
+
+// ─── UTILITIES ────────────────────────────────────────────────────────────────
+function fmt(n)    { return '$' + Number(n).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+function fmtUSD(n) { return 'USD ' + Number(n).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+function today()   { return new Date().toISOString().split('T')[0]; }
+function daysBetween(d1, d2) { return Math.round((new Date(d2) - new Date(d1)) / 86400000); }
+function prorateFraction(switchDate, endDate) {
+  return Math.max(0, Math.min(1, daysBetween(switchDate, endDate) / 365));
+}
+
+function setPromptsEnabled(on) {
+  promptsEl.style.display = on ? '' : 'none';
+  // also reset the more-actions panel when re-showing
+  if (on) {
+    const mp = document.getElementById('more-actions-panel');
+    const ml = document.getElementById('more-actions-label');
+    if (mp) mp.classList.remove('open');
+    if (ml) ml.textContent = '+ More actions';
+  }
+}
+
+function scroll() { messagesEl.scrollTop = messagesEl.scrollHeight; }
+
+function setStep(stepKey) {
+  if (!STATE.flow || !STEP_CONFIG[STATE.flow]) { stepEl.classList.remove('visible'); return; }
+  const steps = STEP_CONFIG[STATE.flow];
+  const idx = steps.indexOf(stepKey);
+  if (idx === -1) { stepEl.classList.remove('visible'); return; }
+  stepEl.classList.add('visible');
+  const total = steps.length;
+  ['sd1','sd2','sd3'].forEach((id, i) => {
+    const d = document.getElementById(id);
+    d.className = 'step-dot' + (i < idx ? ' done' : i === idx ? ' active' : '');
+    d.style.display = i < total ? 'block' : 'none';
+  });
+  document.getElementById('step-label').textContent = `Step ${idx + 1} of ${total}`;
+}
+
+// ─── MESSAGE RENDERERS ────────────────────────────────────────────────────────
+function addBot(html) {
+  const w = document.createElement('div');
+  w.className = 'msg msg-bot';
+  w.innerHTML = `<div class="bot-av">RA</div><div class="bubble">${html}</div>`;
+  messagesEl.appendChild(w); scroll();
+}
+function addUser(text) {
+  const w = document.createElement('div');
+  w.className = 'msg msg-user';
+  w.innerHTML = `<div class="bubble">${text}</div>`;
+  messagesEl.appendChild(w); scroll();
+}
+function addWidget(html) {
+  const w = document.createElement('div');
+  w.className = 'msg msg-widget';
+  w.innerHTML = `<div class="widget-inner">${html}</div>`;
+  messagesEl.appendChild(w); scroll(); return w;
+}
+
+let typingEl = null;
+function showTyping() {
+  typingEl = addWidget(`<div class="msg msg-bot"><div class="bot-av">RA</div><div class="bubble"><div class="typing-dots"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div></div>`);
+}
+function hideTyping() { if (typingEl) { typingEl.remove(); typingEl = null; } }
+function botAfterDelay(html, ms = 550) {
+  showTyping();
+  return new Promise(r => setTimeout(() => { hideTyping(); addBot(html); r(); }, ms));
+}
+function widgetAfterDelay(html, ms = 350) {
+  return new Promise(r => setTimeout(() => { addWidget(html); r(); }, ms));
+}
+
+// ─── WIDGET TEMPLATES ─────────────────────────────────────────────────────────
+function switchHubHTML() {
+  return `<div class="ri-hub">
+    <button class="ri-hub-btn" data-action="switch_type" data-type="1to1">
+      <div class="ri-hub-icon" style="background:linear-gradient(135deg,#dbeafe,#bfdbfe);">🔁</div>
+      <div class="ri-hub-body">
+        <div class="ri-hub-title">1:1 Switch</div>
+        <div class="ri-hub-desc">Replace one subscription with one new product</div>
+      </div>
+      <div style="color:var(--ai-text-w);font-size:16px;">›</div>
+    </button>
+    <button class="ri-hub-btn" data-action="switch_type" data-type="m1">
+      <div class="ri-hub-icon" style="background:linear-gradient(135deg,#ede9fe,#ddd6fe);">🔀</div>
+      <div class="ri-hub-body">
+        <div class="ri-hub-title">M:1 Switch</div>
+        <div class="ri-hub-desc">Consolidate multiple subscriptions into one new product</div>
+      </div>
+      <div style="color:var(--ai-text-w);font-size:16px;">›</div>
+    </button>
+    <button class="ri-hub-btn" data-action="switch_type" data-type="term">
+      <div class="ri-hub-icon" style="background:linear-gradient(135deg,#fef3c7,#fde68a);">📆</div>
+      <div class="ri-hub-body">
+        <div class="ri-hub-title">Switch Term</div>
+        <div class="ri-hub-desc">Change the subscription term length (1Y / 2Y / 3Y)</div>
+      </div>
+      <div style="color:var(--ai-text-w);font-size:16px;">›</div>
+    </button>
+  </div>`;
+}
+
+function switchFromPickerHTML(action, multi) {
+  if (multi) {
+    // multi-select (M:1)
+    const eligible = OPP.lineItems.filter(li => li.inRenewal);
+    return `<div class="multiselect-widget">
+      ${eligible.map(li => `
+        <div class="ms-item" data-action="toggle_from" data-id="${li.id}">
+          <div class="ms-checkbox"></div>
+          <div class="ms-body">
+            <div class="ms-name">${li.icon} ${li.product}</div>
+            <div class="ms-detail">${li.qty} qty &nbsp;·&nbsp; ends ${li.endDate}</div>
+          </div>
+          <div class="ms-price">${fmt(li.unitPrice)}/yr</div>
+        </div>`).join('')}
+      <div class="ms-footer">
+        <button class="abtn abtn-primary abtn-full" data-action="switch_from_done" id="ms-continue-btn" disabled>
+          Select subscriptions above
+        </button>
+      </div>
+    </div>`;
+  }
+  // single-select (1:1 or term)
+  return `<div class="picker-grid">` +
+    OPP.lineItems.filter(li => li.inRenewal).map(li => `
+      <button class="picker-card" data-action="${action}" data-id="${li.id}">
+        <div class="picker-card-icon">${li.icon}</div>
+        <div class="picker-card-body">
+          <div class="picker-card-name">${li.product}</div>
+          <div class="picker-card-detail">${li.qty} qty &nbsp;·&nbsp; ends ${li.endDate}</div>
+        </div>
+        <div class="picker-card-price">${fmt(li.unitPrice)}/yr</div>
+        <div class="picker-card-arrow">›</div>
+      </button>`).join('') +
+  `</div>`;
+}
+
+function switchToPickerHTML() {
+  const oppItems = OPP.newLineItems.map(li => `
+    <button class="picker-card" data-action="switch_to_select" data-id="${li.id}" data-source="opp">
+      <div class="picker-card-icon new-icon">${li.icon}</div>
+      <div class="picker-card-body">
+        <div class="picker-card-name">${li.product} <span class="new-badge">On Opp</span></div>
+        <div class="picker-card-detail">${li.qty} qty &nbsp;·&nbsp; ${fmt(li.unitPrice * li.qty)}/yr total</div>
+      </div>
+      <div class="picker-card-price">${fmt(li.unitPrice)}/yr</div>
+      <div class="picker-card-arrow">›</div>
+    </button>`).join('');
+
+  const catalogItems = SWITCH_PRODUCTS.map(p => `
+    <button class="picker-card" data-action="switch_to_select" data-id="${p.id}" data-source="catalog">
+      <div class="picker-card-icon">${p.icon}</div>
+      <div class="picker-card-body">
+        <div class="picker-card-name">${p.name}</div>
+        <div class="picker-card-detail">${p.desc}</div>
+      </div>
+      <div class="picker-card-price">${fmt(p.price)}/yr</div>
+      <div class="picker-card-arrow">›</div>
+    </button>`).join('');
+
+  const oppSection = oppItems ? `
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--ai-text-w);margin-bottom:6px;padding:0 2px;">Already on Opportunity</div>
+    <div class="picker-grid" style="margin-bottom:10px;">${oppItems}</div>` : '';
+
+  return oppSection +
+    `<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--ai-text-w);margin-bottom:6px;padding:0 2px;">Product Catalog</div>
+    <div class="picker-grid">${catalogItems}</div>`;
+}
+
+function termPickerHTML() {
+  const terms = [
+    { value:'1Y', label:'1 Year',  desc:'Standard annual subscription' },
+    { value:'2Y', label:'2 Years', desc:'2-year commitment, typically ~5% discount' },
+    { value:'3Y', label:'3 Years', desc:'3-year commitment, typically ~10% discount' }
+  ];
+  return `<div class="picker-grid">` +
+    terms.map(t => `
+      <button class="picker-card" data-action="switch_term_confirm" data-term="${t.value}">
+        <div class="picker-card-icon" style="background:linear-gradient(135deg,#fef3c7,#fde68a);">📆</div>
+        <div class="picker-card-body">
+          <div class="picker-card-name">${t.label}</div>
+          <div class="picker-card-detail">${t.desc}</div>
+        </div>
+        <div class="picker-card-arrow">›</div>
+      </button>`).join('') +
+  `</div>`;
+}
+
+function lineItemPickerHTML(action) {
+  return `<div class="picker-grid">` +
+    OPP.lineItems.map(li => `
+      <button class="picker-card" data-action="${action}" data-id="${li.id}">
+        <div class="picker-card-icon">${li.icon}</div>
+        <div class="picker-card-body">
+          <div class="picker-card-name">${li.product}</div>
+          <div class="picker-card-detail">${li.qty} qty &nbsp;·&nbsp; ends ${li.endDate}</div>
+        </div>
+        <div class="picker-card-price">${fmt(li.unitPrice)}/yr</div>
+        <div class="picker-card-arrow">›</div>
+      </button>`).join('') +
+  `</div>`;
+}
+
+function newLineItemPickerHTML() {
+  if (OPP.newLineItems.length === 0) {
+    return `<div style="padding:16px;text-align:center;color:var(--ai-text-m);font-size:12px;background:white;border:1px solid var(--ai-border);border-radius:var(--r);">
+      No new line items on this opportunity.<br>Add a line item first, then come back to switch.
+    </div>`;
+  }
+  return `<div class="picker-grid">` +
+    OPP.newLineItems.map(li => `
+      <button class="picker-card" data-action="switch_pick_new" data-id="${li.id}">
+        <div class="picker-card-icon new-icon">${li.icon}</div>
+        <div class="picker-card-body">
+          <div class="picker-card-name">${li.product} <span class="new-badge">New</span></div>
+          <div class="picker-card-detail">${li.qty} qty &nbsp;·&nbsp; ${fmt(li.unitPrice * li.qty)}/yr total</div>
+        </div>
+        <div class="picker-card-price">${fmt(li.unitPrice)}/yr</div>
+        <div class="picker-card-arrow">›</div>
+      </button>`).join('') +
+  `</div>`;
+}
+
+function dateWidgetHTML(action, minDate, maxDate, labelText) {
+  const max = maxDate ? `max="${maxDate}"` : '';
+  return `<div class="date-widget">
+    <label>${labelText || 'Select Date'}</label>
+    <input type="date" id="flow-date" min="${minDate}" ${max} />
+    <button class="abtn abtn-primary abtn-full" data-action="${action}">Confirm Date →</button>
+  </div>`;
+}
+
+function multiSelectFromHTML() {
+  const eligible = OPP.lineItems.filter(li => li.inRenewal);
+  return `<div class="multiselect-widget">
+    ${eligible.map(li => `
+      <div class="ms-item" data-action="toggle_from" data-id="${li.id}">
+        <div class="ms-checkbox"></div>
+        <div class="ms-body">
+          <div class="ms-name">${li.icon} ${li.product}</div>
+          <div class="ms-detail">${li.qty} qty &nbsp;·&nbsp; ends ${li.endDate}</div>
+        </div>
+        <div class="ms-price">${fmt(li.unitPrice)}/yr</div>
+      </div>`).join('')}
+    <div class="ms-footer">
+      <button class="abtn abtn-primary abtn-full" data-action="switch_from_confirm" id="ms-continue-btn" disabled>
+        Select subscriptions above
+      </button>
+    </div>
+  </div>`;
+}
+
+function switchReviewHTML(toItem, fromItems) {
+  const fromRows = fromItems.map(fi => `
+    <div class="review-row">
+      <div>
+        <div class="review-row-name">${fi.icon} ${fi.product}</div>
+        <div class="review-row-detail">${fi.qty} qty &nbsp;·&nbsp; ends ${fi.endDate}</div>
+      </div>
+      <div class="review-row-right">
+        <div class="review-row-price" style="color:var(--ai-text-m);">${fmt(fi.unitPrice)}/yr</div>
+      </div>
+    </div>`).join('');
+  return `<div class="review-card">
+    <div class="review-header">📋 &nbsp; Switch Summary — Please Review</div>
+    <div class="review-section">
+      <div class="review-section-label label-from">↑ Switching FROM <span style="font-weight:400;color:var(--ai-text-m);">(will be removed)</span></div>
+      ${fromRows}
+    </div>
+    <div class="review-section">
+      <div class="review-section-label label-to">↓ Switching TO <span style="font-weight:400;color:var(--ai-text-m);">(will become active)</span></div>
+      <div class="review-row">
+        <div>
+          <div class="review-row-name">${toItem.icon} ${toItem.product} <span class="new-badge">New</span></div>
+          <div class="review-row-detail">${toItem.qty} qty &nbsp;·&nbsp; end date inherited from source</div>
+        </div>
+        <div class="review-row-right">
+          <div class="review-row-price price-new">${fmt(toItem.unitPrice)}/yr</div>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function cotermOptionsHTML() {
+  const dates = [...new Set(OPP.lineItems.map(li => li.endDate))].sort();
+  const earliest = dates[0];
+  const latest = dates[dates.length - 1];
+  return `<div class="coterm-options">
+    <button class="coterm-opt" data-action="coterm_date" data-date="${earliest}">
+      <div class="coterm-opt-icon" style="background:#fef3c7;">⏫</div>
+      <div class="coterm-opt-body">
+        <div class="coterm-opt-title">Earliest end date</div>
+        <div class="coterm-opt-sub">${earliest} &nbsp;·&nbsp; co-term all to the soonest date</div>
+      </div>
+      <div style="color:var(--ai-text-w);">›</div>
+    </button>
+    <button class="coterm-opt" data-action="coterm_date" data-date="${latest}">
+      <div class="coterm-opt-icon" style="background:#d1fae5;">⏬</div>
+      <div class="coterm-opt-body">
+        <div class="coterm-opt-title">Latest end date</div>
+        <div class="coterm-opt-sub">${latest} &nbsp;·&nbsp; co-term all to the furthest date</div>
+      </div>
+      <div style="color:var(--ai-text-w);">›</div>
+    </button>
+    <button class="coterm-opt" data-action="coterm_custom">
+      <div class="coterm-opt-icon" style="background:#e0e7ff;">📅</div>
+      <div class="coterm-opt-body">
+        <div class="coterm-opt-title">Custom date</div>
+        <div class="coterm-opt-sub">Choose a specific target end date</div>
+      </div>
+      <div style="color:var(--ai-text-w);">›</div>
+    </button>
+  </div>`;
+}
+
+function compareTableHTML(rows) {
+  return `<div class="review-card">
+    <div class="review-header">📋 &nbsp; Changes Preview</div>
+    <div style="padding:8px 14px;">
+      <table class="compare-tbl">
+        <thead><tr><th>Field</th><th>Current</th><th>New Value</th></tr></thead>
+        <tbody>${rows.map(r => `<tr><td>${r[0]}</td><td class="old-v">${r[1]}</td><td class="new-v">✓ ${r[2]}</td></tr>`).join('')}</tbody>
+      </table>
+    </div>
+  </div>`;
+}
+
+function prorationHTML(item, newProduct, switchDate) {
+  const frac = prorateFraction(switchDate, item.endDate);
+  const credit = -(item.annualPrice * frac);
+  const charge = newProduct.price * frac;
+  const net = credit + charge;
+  return `<div class="proration-card">
+    <div class="pror-header">💰 Proration Breakdown</div>
+    <div class="pror-row"><span style="color:var(--ai-text-m);">Remaining period</span><span>${switchDate} → ${item.endDate} (${daysBetween(switchDate, item.endDate)} days)</span></div>
+    <div class="pror-row"><span>Credit — ${item.product}</span><span class="pror-credit">${fmt(credit)}</span></div>
+    <div class="pror-row"><span>New charge — ${newProduct.name}</span><span class="pror-charge">+${fmt(charge)}</span></div>
+    <div class="pror-row"><span>Net adjustment</span><span class="${net >= 0 ? 'pror-net-pos' : 'pror-net-neg'}">${net >= 0 ? '+' : ''}${fmt(net)}</span></div>
+  </div>`;
+}
+
+function productCardsHTML() {
+  return `<div class="picker-grid">` +
+    SWITCH_PRODUCTS.map(p => `
+      <button class="picker-card" data-action="select_product" data-id="${p.id}">
+        <div class="picker-card-icon">${p.icon}</div>
+        <div class="picker-card-body">
+          <div class="picker-card-name">${p.name}</div>
+          <div class="picker-card-detail">${p.desc}</div>
+        </div>
+        <div class="picker-card-price">${fmt(p.price)}/yr</div>
+        <div class="picker-card-arrow">›</div>
+      </button>`).join('') +
+  `</div>`;
+}
+
+function successHTML(title, items) {
+  return `<div class="success-card">
+    <div class="sc-head">
+      <div class="sc-icon">✓</div>
+      <div class="sc-title">${title}</div>
+    </div>
+    ${items.map(item => `<div class="sc-item"><span class="sc-bullet">✓</span><span>${item}</span></div>`).join('')}
+  </div>
+  <div class="action-row" style="margin-top:10px;">
+    <button class="abtn abtn-ghost abtn-sm" data-action="done">↺ Start another action</button>
+  </div>`;
+}
+
+// ─── ELIGIBILITY WIDGETS ──────────────────────────────────────────────────────
+function bizEligFormHTML() {
+  return `<div class="elig-form">
+    <div class="elig-form-header">🏢 Business Success Plan — Check Eligibility</div>
+    <div class="elig-form-body">
+      <div>
+        <div class="elig-label">Primary Admin Email(s)</div>
+        <textarea class="elig-textarea" id="biz-emails" placeholder="john@adsk.com, msmith@adsk.com"></textarea>
+        <div class="elig-hint">Enter up to 10 primary admin emails separated by commas.</div>
+      </div>
+      <button class="abtn abtn-primary abtn-full" data-action="biz_check">Check Business Plan Eligibility →</button>
+    </div>
+  </div>`;
+}
+
+function bizEligResultHTML(emails) {
+  const list = emails.split(',').map(e => e.trim()).filter(Boolean);
+  const rows = list.map((email, i) => {
+    const seats = [72, 58, 34][i % 3];
+    const eligible = seats >= 50;
+    const months = [14, 12, 8][i % 3];
+    const validSub = months >= 12;
+    const overall = eligible && validSub;
+    return `
+      <div class="elig-section-title">${email}</div>
+      <div class="elig-row">
+        <span class="elig-row-label">Single-user seats</span>
+        <span class="elig-row-val">${seats} seats &nbsp;<span class="elig-badge ${eligible ? 'elig-yes' : 'elig-no'}">${eligible ? '✓ ≥50' : '✗ <50'}</span></span>
+      </div>
+      <div class="elig-row">
+        <span class="elig-row-label">Subscription validity</span>
+        <span class="elig-row-val">${months} months &nbsp;<span class="elig-badge ${validSub ? 'elig-yes' : 'elig-no'}">${validSub ? '✓ ≥12 mo' : '✗ <12 mo'}</span></span>
+      </div>
+      <div class="elig-row">
+        <span class="elig-row-label">Overall eligibility</span>
+        <span class="elig-row-val"><span class="elig-badge ${overall ? 'elig-yes' : 'elig-no'}">${overall ? '✓ Eligible' : '✗ Not Eligible'}</span></span>
+      </div>`;
+  }).join('');
+  return `<div class="elig-result">
+    <div class="elig-result-header">📋 &nbsp; Eligibility Results</div>
+    ${rows}
+  </div>`;
+}
+
+function cotermEligFormHTML() {
+  return `<div class="elig-form">
+    <div class="elig-form-header">✅ Co-term Eligibility — Customer Info</div>
+    <div class="elig-form-body">
+      <div>
+        <div class="elig-label">Account CSN</div>
+        <div class="elig-inline-row">
+          <input type="text" class="elig-input" id="coterm-csn" placeholder="e.g. 5100123456" />
+          <label class="elig-check-row" style="white-space:nowrap;">
+            <input type="checkbox" id="coterm-hierarchy" /> Include Hierarchy
+          </label>
+        </div>
+      </div>
+      <div>
+        <div class="elig-label">Eligibility Options</div>
+        <div class="elig-checkboxes">
+          <label class="elig-check-row"><input type="checkbox" class="coterm-opt-check" value="extend_existing" /> Extend to align to an existing agreement end date</label>
+          <label class="elig-check-row"><input type="checkbox" class="coterm-opt-check" value="extend_new" /> Extend to align with a new purchase</label>
+          <label class="elig-check-row"><input type="checkbox" class="coterm-opt-check" value="merge" /> Merge</label>
+        </div>
+      </div>
+      <button class="abtn abtn-primary abtn-full" data-action="coterm_elig_check">Check Eligibility →</button>
+    </div>
+  </div>`;
+}
+
+function cotermEligResultHTML(csn, opts, hierarchy) {
+  const optLabels = { extend_existing: 'Extend to existing end date', extend_new: 'Extend with new purchase', merge: 'Merge contracts' };
+  const mockResults = {
+    extend_existing: { eligible: true,  note: 'Premium contract ending 2027-03-31 found. Alignment possible.' },
+    extend_new:      { eligible: true,  note: '3 active subscriptions qualify for extension with new purchase.' },
+    merge:           { eligible: false, note: 'Contracts span different admin accounts. Manual review required.' }
+  };
+  const rows = opts.map(opt => {
+    const r = mockResults[opt] || { eligible: false, note: 'No data available.' };
+    return `
+      <div class="elig-row">
+        <span class="elig-row-label">${optLabels[opt]}</span>
+        <span class="elig-row-val" style="text-align:right;">
+          <span class="elig-badge ${r.eligible ? 'elig-yes' : 'elig-no'}">${r.eligible ? '✓ Eligible' : '✗ Not Eligible'}</span>
+          <div style="font-size:11px;color:var(--ai-text-m);margin-top:3px;font-weight:400;">${r.note}</div>
+        </span>
+      </div>`;
+  }).join('');
+  return `<div class="elig-result">
+    <div class="elig-result-header">📋 &nbsp; Co-term Eligibility Results</div>
+    <div class="elig-row">
+      <span class="elig-row-label">Account CSN</span>
+      <span class="elig-row-val">${csn} &nbsp;<span class="elig-badge elig-info">${hierarchy ? '+ Hierarchy' : 'Direct only'}</span></span>
+    </div>
+    <div class="elig-row">
+      <span class="elig-row-label">Active subscriptions</span>
+      <span class="elig-row-val">5 subscriptions found</span>
+    </div>
+    ${rows}
+  </div>`;
+}
+
+// ─── DDA WIDGETS ──────────────────────────────────────────────────────────────
+function ddaHubHTML() {
+  const pending = DDA_REQUESTS.filter(d => d.status === 'PENDING').length;
+  return `<div class="ri-hub">
+    <button class="ri-hub-btn" data-action="dda_start_request">
+      <div class="ri-hub-icon" style="background:linear-gradient(135deg,#dcfce7,#bbf7d0);">💰</div>
+      <div class="ri-hub-body">
+        <div class="ri-hub-title">Raise DDA Request</div>
+        <div class="ri-hub-desc">Apply discounts to line items and submit for approval</div>
+      </div>
+      <div style="color:var(--ai-text-w);font-size:16px;">›</div>
+    </button>
+    <button class="ri-hub-btn" data-action="dda_check_status">
+      <div class="ri-hub-icon" style="background:linear-gradient(135deg,#dbeafe,#bfdbfe);">📊</div>
+      <div class="ri-hub-body">
+        <div class="ri-hub-title">Check DDA Status</div>
+        <div class="ri-hub-desc">View pending and approved discount requests</div>
+      </div>
+      <div class="ri-hub-count" style="color:var(--ai-blue);">${pending}</div>
+    </button>
+  </div>`;
+}
+function ddaDiscountFormHTML() {
+  const rows = OPP.lineItems.map(li => {
+    const srp = li.unitPrice * li.qty;
+    return `<div class="dda-item-row">
+      <div class="dda-item-info">
+        <span class="dda-item-name">${li.icon} ${li.product}</span>
+        <span class="dda-item-meta">${li.qty} units &nbsp;·&nbsp; SRP ${fmt(srp)}</span>
+      </div>
+      <div class="dda-item-controls">
+        <div class="dda-pct-wrap">
+          <input type="number" class="dda-pct-input" data-id="${li.id}" data-srp="${srp}"
+                 min="0" max="40" step="0.5" value="0"
+                 oninput="ddaUpdateRow(this)" placeholder="0" />
+          <span class="dda-pct-symbol">%</span>
+        </div>
+        <div class="dda-net-wrap">
+          <span class="dda-net-label">Net price</span>
+          <span class="dda-net-val" id="dda-net-${li.id}">${fmt(srp)}</span>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+  const totalSRP = OPP.lineItems.reduce((s,li) => s + li.unitPrice * li.qty, 0);
+  return `<div class="dda-form">
+    <div class="dda-form-header">💰 Step 1 of 3 — Apply Discount per Line Item</div>
+    <div class="dda-form-body">
+      ${rows}
+      <div class="dda-totals-row">
+        <span>Total SRP: ${fmt(totalSRP)}</span>
+        <span>Total Net: <strong id="dda-total-net">${fmt(totalSRP)}</strong></span>
+      </div>
+      <button class="abtn abtn-primary abtn-full" data-action="dda_to_justify">Review & Add Justification →</button>
+    </div>
+  </div>`;
+}
+
+function ddaUpdateRow(input) {
+  const pct = Math.min(40, Math.max(0, parseFloat(input.value) || 0));
+  const srp = parseFloat(input.dataset.srp);
+  const net = srp * (1 - pct / 100);
+  const netEl = document.getElementById('dda-net-' + input.dataset.id);
+  if (netEl) netEl.textContent = fmt(net);
+  let total = 0;
+  document.querySelectorAll('.dda-pct-input').forEach(inp => {
+    const p = Math.min(40, Math.max(0, parseFloat(inp.value) || 0));
+    total += parseFloat(inp.dataset.srp) * (1 - p / 100);
+  });
+  const totalEl = document.getElementById('dda-total-net');
+  if (totalEl) totalEl.textContent = fmt(total);
+}
+
+function ddaJustifyFormHTML(discounts) {
+  const totalSRP = OPP.lineItems.reduce((s,li) => s + li.unitPrice * li.qty, 0);
+  const rows = OPP.lineItems.map(li => {
+    const srp = li.unitPrice * li.qty;
+    const pct = discounts[li.id] || 0;
+    const net = srp * (1 - pct / 100);
+    return `<tr>
+      <td>${li.icon} ${li.product}</td>
+      <td class="col-discount">${pct > 0 ? pct + '%' : '—'}</td>
+      <td>${fmt(srp)}</td>
+      <td class="col-net">${fmt(net)}</td>
+    </tr>`;
+  }).join('');
+  const totalNet = OPP.lineItems.reduce((s,li) => {
+    const srp = li.unitPrice * li.qty;
+    return s + srp * (1 - (discounts[li.id] || 0) / 100);
+  }, 0);
+  const avgDisc = totalSRP > 0 ? (((totalSRP - totalNet) / totalSRP) * 100).toFixed(1) : 0;
+  const opts = DDA_REASONS.map(r => `<option value="${r}">${r}</option>`).join('');
+  return `<div class="dda-form">
+    <div class="dda-form-header">📋 Step 2 of 3 — Reason & Justification</div>
+    <div class="dda-form-body">
+      <table class="dda-review-tbl">
+        <thead><tr><th>Product</th><th>Disc %</th><th>SRP</th><th>Net Price</th></tr></thead>
+        <tbody>${rows}</tbody>
+        <tfoot><tr>
+          <td colspan="2">Avg discount: <span style="color:#ef4444;font-weight:800;">${avgDisc}%</span></td>
+          <td>${fmt(totalSRP)}</td>
+          <td class="col-net">${fmt(totalNet)}</td>
+        </tr></tfoot>
+      </table>
+      <div>
+        <div class="dda-field-label">Discount Reason</div>
+        <select class="dda-select" id="dda-reason-select">
+          <option value="">-- Select reason --</option>${opts}
+        </select>
+      </div>
+      <div>
+        <div class="dda-field-label">Justification</div>
+        <textarea class="dda-textarea" id="dda-justification-text"
+          placeholder="Explain the business reason for this discount request…"></textarea>
+      </div>
+      <button class="abtn abtn-primary abtn-full" data-action="dda_submit_request">Submit for Approval →</button>
+    </div>
+  </div>`;
+}
+
+function ddaApproverChainHTML(approvers) {
+  return `<div class="dda-form">
+    <div class="dda-form-header">🔄 Approval Chain</div>
+    <div class="approver-chain">
+      ${approvers.map(ap => {
+        const nodeClass = { APPROVED:'anode-approved', PENDING:'anode-pending', WAITING:'anode-waiting', REJECTED:'anode-rejected' }[ap.status];
+        const badgeClass = { APPROVED:'ab-approved', PENDING:'ab-pending', WAITING:'ab-waiting', REJECTED:'ab-rejected' }[ap.status];
+        const icon = { APPROVED:'✓', PENDING:'…', WAITING:'○', REJECTED:'✕' }[ap.status];
+        return `<div class="approver-step">
+          <div class="approver-node ${nodeClass}">${icon}</div>
+          <div class="approver-info">
+            <div class="approver-name">${ap.name}</div>
+            <div class="approver-role">Level ${ap.level} · ${ap.role}</div>
+            ${ap.date ? `<div class="approver-date">${ap.status === 'REJECTED' ? '✕ Rejected' : '✓ Approved'} on ${ap.date}</div>` : `<div class="approver-date" style="color:var(--ai-blue);">Awaiting review</div>`}
+            ${ap.comment ? `<div class="approver-comment">"${ap.comment}"</div>` : ''}
+          </div>
+          <span class="approver-badge ${badgeClass}">${ap.status}</span>
+        </div>`;
+      }).join('')}
+    </div>
+  </div>`;
+}
+
+function ddaStatusListHTML() {
+  return DDA_REQUESTS.map(dda => {
+    const pillClass = { PENDING:'pill-pending', APPROVED:'pill-approved', REJECTED:'pill-rejected' }[dda.status];
+    const cardClass = dda.status.toLowerCase();
+    const progress = dda.approvers.map((ap, i) => {
+      const cls = ap.status.toLowerCase();
+      const line = i < dda.approvers.length - 1 ? '<div class="dda-prog-line"></div>' : '';
+      return `<div class="dda-prog-dot ${cls}"></div>${line}`;
+    }).join('');
+    const approved = dda.approvers.filter(a => a.status === 'APPROVED').length;
+    return `<div class="dda-status-card dda-${cardClass}" data-action="dda_view_detail" data-id="${dda.id}">
+      <div class="dda-sc-top">
+        <div>
+          <div class="dda-sc-id">${dda.id}</div>
+          <div class="dda-sc-acct">${dda.account}</div>
+        </div>
+        <span class="dda-status-pill ${pillClass}">${dda.status}</span>
+      </div>
+      <div class="dda-sc-meta">
+        <span>💰 ${dda.discountPct}% discount</span>
+        <span>📅 ${dda.submittedDate}</span>
+        <span>✅ ${approved}/${dda.approvers.length} approved</span>
+      </div>
+      <div class="dda-sc-progress">
+        ${progress}
+        <span class="dda-prog-label">${dda.approvers.filter(a=>a.status==='APPROVED').length} of ${dda.approvers.length} approvers done</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ─── RENEWAL INTELLIGENCE WIDGETS ────────────────────────────────────────────
+function riHubHTML() {
+  const high   = RENEWAL_ACCOUNTS.filter(a => a.risk === 'HIGH').length;
+  const stalled = RENEWAL_ACCOUNTS.filter(a => a.stalled).length;
+  const soon   = RENEWAL_ACCOUNTS.filter(a => a.renewalDays <= 30).length;
+  return `<div class="ri-hub">
+    <button class="ri-hub-btn" data-action="ri_upcoming">
+      <div class="ri-hub-icon" style="background:linear-gradient(135deg,#dbeafe,#bfdbfe);">📅</div>
+      <div class="ri-hub-body">
+        <div class="ri-hub-title">Upcoming Renewals</div>
+        <div class="ri-hub-desc">Filter by 30 / 60 / 90 day window</div>
+      </div>
+      <div class="ri-hub-count" style="color:var(--ai-blue);">${RENEWAL_ACCOUNTS.length}</div>
+    </button>
+    <button class="ri-hub-btn" data-action="ri_atrisk">
+      <div class="ri-hub-icon" style="background:linear-gradient(135deg,#fee2e2,#fecaca);">🔴</div>
+      <div class="ri-hub-body">
+        <div class="ri-hub-title">At-Risk Accounts</div>
+        <div class="ri-hub-desc">Usage drop · Low engagement · No activity</div>
+      </div>
+      <div class="ri-hub-count" style="color:#ef4444;">${high}</div>
+    </button>
+    <button class="ri-hub-btn" data-action="ri_stalled">
+      <div class="ri-hub-icon" style="background:linear-gradient(135deg,#f3e8ff,#ede9fe);">⏸️</div>
+      <div class="ri-hub-body">
+        <div class="ri-hub-title">Stalled Opportunities</div>
+        <div class="ri-hub-desc">No activity in 14+ days · Needs outreach</div>
+      </div>
+      <div class="ri-hub-count" style="color:#7c3aed;">${stalled}</div>
+    </button>
+  </div>`;
+}
+
+function riFilterHTML() {
+  return `<div class="ri-filter-row">
+    <button class="ri-filter-btn" data-action="ri_filter" data-days="30">🔥 30 days</button>
+    <button class="ri-filter-btn" data-action="ri_filter" data-days="60">⏰ 60 days</button>
+    <button class="ri-filter-btn" data-action="ri_filter" data-days="90">📆 90 days</button>
+  </div>`;
+}
+
+function riSignalsHTML(acc) {
+  let html = '';
+  const urgency = acc.renewalDays <= 30 ? 'sig-renewal' : acc.renewalDays <= 60 ? 'sig-renewal' : 'sig-renewal';
+  html += `<span class="ri-signal sig-renewal">📅 Renewal in ${acc.renewalDays}d</span>`;
+  if (acc.activityDays === 0)      html += `<span class="ri-signal sig-activity">✅ Active today</span>`;
+  else if (acc.activityDays <= 7)  html += `<span class="ri-signal sig-activity">⏰ ${acc.activityDays}d no activity</span>`;
+  else                              html += `<span class="ri-signal sig-activity" style="background:#fee2e2;color:#b91c1c;">🚨 ${acc.activityDays}d no activity</span>`;
+  if (acc.usageChange < 0)         html += `<span class="ri-signal sig-usage-down">📉 Usage ${acc.usageChange}%</span>`;
+  else                              html += `<span class="ri-signal sig-usage-up">📈 Usage +${acc.usageChange}%</span>`;
+  if (acc.stalled)                  html += `<span class="ri-signal sig-stalled">⏸ Stalled</span>`;
+  return html;
+}
+
+function riCardHTML(acc) {
+  return `<div class="ri-card risk-${acc.risk}">
+    <div class="ri-card-top">
+      <div>
+        <div class="ri-card-name">${acc.name}</div>
+        <div class="ri-card-csn">CSN ${acc.csn} &nbsp;·&nbsp; ${acc.stage} &nbsp;·&nbsp; ${acc.contact}</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;">
+        <div class="ri-risk-badge risk-${acc.risk}">${acc.risk === 'HIGH' ? '🔴' : acc.risk === 'MEDIUM' ? '🟡' : '🟢'} ${acc.risk} RISK</div>
+        <div class="ri-card-amount">$${(acc.amount/1000).toFixed(0)}k</div>
+      </div>
+    </div>
+    <div class="ri-signals">${riSignalsHTML(acc)}</div>
+    <div class="ri-card-footer">
+      <div class="ri-products">📦 ${acc.products.join(', ')}</div>
+      <div class="ri-actions">
+        <button class="ri-action-btn">📧 Email</button>
+        <button class="ri-action-btn primary">📞 Call</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function riListHTML(accounts, emptyMsg) {
+  if (!accounts.length) return `<div class="ri-empty">✅ ${emptyMsg}</div>`;
+  const high   = accounts.filter(a => a.risk === 'HIGH').length;
+  const medium = accounts.filter(a => a.risk === 'MEDIUM').length;
+  const low    = accounts.filter(a => a.risk === 'LOW').length;
+  const total  = accounts.reduce((s,a) => s + a.amount, 0);
+  return `<div class="ri-summary-bar">
+      <div class="ri-summary-stat"><div class="ri-stat-val danger">${high}</div><div class="ri-stat-lbl">High Risk</div></div>
+      <div class="ri-summary-stat"><div class="ri-stat-val warn">${medium}</div><div class="ri-stat-lbl">Medium Risk</div></div>
+      <div class="ri-summary-stat"><div class="ri-stat-val good">${low}</div><div class="ri-stat-lbl">On Track</div></div>
+      <div class="ri-summary-stat"><div class="ri-stat-val" style="font-size:15px;">$${(total/1000).toFixed(0)}k</div><div class="ri-stat-lbl">Total ARR</div></div>
+    </div>
+    <div class="ri-list">${accounts.sort((a,b) => ['HIGH','MEDIUM','LOW'].indexOf(a.risk) - ['HIGH','MEDIUM','LOW'].indexOf(b.risk)).map(riCardHTML).join('')}</div>`;
+}
+
+// ─── UPDATE RECORD PAGE ───────────────────────────────────────────────────────
+function updateRecordPage() {
+  const rhMap = { 'li-1': ['rh-green','● Healthy'], 'li-2': ['rh-amber','⚠ At Risk'], 'li-3': ['rh-green','● Healthy'] };
+  const subMap = { 'li-1': 'SUB-001234', 'li-2': 'SUB-001235', 'li-3': 'SUB-001236' };
+  const tbody = document.getElementById('line-items-tbody');
+  tbody.innerHTML =
+    OPP.lineItems.map(li => {
+      const [rhCls, rhLbl] = rhMap[li.id] || ['rh-grey','— N/A'];
+      return `<tr>
+        <td class="product-name">${li.icon} ${li.product}</td>
+        <td><span class="rh-badge ${rhCls}">${rhLbl}</span></td>
+        <td><span class="type-badge type-existing">Renew</span></td>
+        <td>Subscription</td>
+        <td>1 Year</td>
+        <td class="col-num">${li.qty}</td>
+        <td class="sub-id">${subMap[li.id] || '—'}</td>
+        <td><span class="oli-badge oli-active">Active</span></td>
+        <td class="col-num">${fmt(li.unitPrice * li.qty)}</td>
+        <td class="additional-info">—</td>
+      </tr>`;
+    }).join('') +
+    OPP.newLineItems.map(li => `
+      <tr class="new-li-row">
+        <td class="product-name">${li.icon} ${li.product}</td>
+        <td><span class="rh-badge rh-grey">— N/A</span></td>
+        <td><span class="type-badge type-new">Switch To</span></td>
+        <td>Subscription</td>
+        <td>1 Year</td>
+        <td class="col-num">${li.qty}</td>
+        <td class="sub-id">—</td>
+        <td><span class="oli-badge oli-draft">Draft</span></td>
+        <td class="col-num">${fmt(li.unitPrice * li.qty)}</td>
+        <td class="additional-info">—</td>
+      </tr>`).join('');
+  const total = OPP.lineItems.reduce((s, li) => s + li.unitPrice * li.qty, 0);
+  document.getElementById('total-amount').textContent = fmtUSD(total);
+  document.getElementById('header-total').textContent = fmtUSD(total);
+  const gt = document.getElementById('general-total');
+  if (gt) gt.textContent = fmtUSD(total);
+  document.getElementById('li-count').textContent = `(${OPP.lineItems.length + OPP.newLineItems.length})`;
+}
+
+// ─── FLOW DISPATCHER ──────────────────────────────────────────────────────────
+async function dispatch(action, data) {
+  const li = id => OPP.lineItems.find(x => x.id === id);
+  const sp = id => SWITCH_PRODUCTS.find(x => x.id === id);
+
+  // ─ EXTEND RENEWAL ─────────────────────────────────────────
+  if (action === 'extend_pick_item') {
+    const item = li(data.id);
+    STATE.selectedItem = item;
+    STATE.step = 'extend_pick_date';
+    setStep('extend_pick_date');
+    addUser(item.product);
+    await botAfterDelay(`<b>${item.product}</b> currently ends on <b>${item.endDate}</b>.<br>What date would you like to extend it to?`);
+    await widgetAfterDelay(dateWidgetHTML('extend_confirm_date', today(), null, 'New Renewal End Date'));
+    return;
+  }
+
+  if (action === 'extend_confirm_date') {
+    const date = document.getElementById('flow-date')?.value;
+    if (!date) { addBot('Please select a date first.'); return; }
+    if (date <= STATE.selectedItem.endDate) {
+      addBot(`⚠️ That date is before or equal to the current end date (<b>${STATE.selectedItem.endDate}</b>). Please pick a later date.`);
+      return;
+    }
+    addUser(`New end date: ${date}`);
+    const oldDate = STATE.selectedItem.endDate;
+    STATE.selectedItem.endDate = date;
+    updateRecordPage();
+    setStep('done');
+    await botAfterDelay('Extension confirmed. Here\'s what was updated:');
+    await widgetAfterDelay(successHTML('Renewal Extended', [
+      `${STATE.selectedItem.product} — ${STATE.selectedItem.qty} qty`,
+      `End date: <b>${oldDate}</b> → <b>${date}</b>`,
+      `Opportunity record updated successfully`
+    ]));
+    resetState(); setPromptsEnabled(true); stepEl.classList.remove('visible');
+    return;
+  }
+
+  // ─ CO-TERM ────────────────────────────────────────────────
+  if (action === 'coterm_date') {
+    STATE.cotermTarget = data.date;
+    STATE.step = 'coterm_review';
+    setStep('coterm_review');
+    addUser(`Co-term to ${data.date}`);
+    const rows = OPP.lineItems.map(li => [`${li.product} end date`, li.endDate, data.date]);
+    await botAfterDelay('Here\'s a preview of all changes. Please review before confirming:');
+    await widgetAfterDelay(
+      compareTableHTML(rows) +
+      `<div class="action-row">
+        <button class="abtn abtn-primary" data-action="coterm_apply">✓ Apply Co-term</button>
+        <button class="abtn abtn-danger abtn-sm" data-action="coterm_cancel">Cancel</button>
+      </div>`
+    );
+    return;
+  }
+
+  if (action === 'coterm_custom') {
+    addUser('Custom date');
+    await botAfterDelay('Pick the target date to align all subscriptions to:');
+    await widgetAfterDelay(dateWidgetHTML('coterm_date_confirmed', today(), null, 'Co-term Target Date'));
+    return;
+  }
+
+  if (action === 'coterm_date_confirmed') {
+    const date = document.getElementById('flow-date')?.value;
+    if (!date) { addBot('Please select a date.'); return; }
+    await dispatch('coterm_date', { date });
+    return;
+  }
+
+  if (action === 'coterm_apply') {
+    const target = STATE.cotermTarget;
+    OPP.lineItems.forEach(li => li.endDate = target);
+    updateRecordPage();
+    setStep('done');
+    await botAfterDelay('Co-term applied. All subscriptions are now aligned.');
+    await widgetAfterDelay(successHTML('Co-term Applied', [
+      `All ${OPP.lineItems.length} subscriptions aligned to <b>${target}</b>`,
+      `End dates updated across all line items`,
+      `Opportunity record updated successfully`
+    ]));
+    resetState(); setPromptsEnabled(true); stepEl.classList.remove('visible');
+    return;
+  }
+
+  if (action === 'coterm_cancel') {
+    addUser('Cancel');
+    await botAfterDelay('No problem — no changes were made. What else can I help you with?');
+    resetState(); setPromptsEnabled(true); stepEl.classList.remove('visible');
+    return;
+  }
+
+  // ─ SWITCH ─────────────────────────────────────────────────
+  if (action === 'switch_type') {
+    const type = data.type;
+    STATE.switchType = type;
+    STATE.flow = 'switch_' + type;
+    const labels = { '1to1':'1:1 Switch', 'm1':'M:1 Switch', 'term':'Switch Term' };
+    addUser(labels[type]);
+    STATE.step = 'switch_from';
+    setStep('switch_from');
+    if (type === 'm1') {
+      await botAfterDelay(`<b>M:1 Switch</b> — select all subscriptions you want to <b>switch FROM</b>. They will be consolidated into one new product.`);
+      await widgetAfterDelay(switchFromPickerHTML('switch_from_single', true));
+    } else if (type === '1to1') {
+      await botAfterDelay(`<b>1:1 Switch</b> — which subscription would you like to <b>switch FROM</b>?`);
+      await widgetAfterDelay(switchFromPickerHTML('switch_from_single', false));
+    } else {
+      await botAfterDelay(`<b>Switch Term</b> — which subscription would you like to change the term for?`);
+      await widgetAfterDelay(switchFromPickerHTML('switch_from_single', false));
+    }
+    return;
+  }
+
+  if (action === 'switch_from_single') {
+    const item = OPP.lineItems.find(x => x.id === data.id);
+    STATE.switchFromItems = [item];
+    addUser(item.product);
+    if (STATE.switchType === 'term') {
+      STATE.step = 'switch_term_select';
+      setStep('switch_term_select');
+      await botAfterDelay(`<b>${item.product}</b> — currently on a <b>1 Year</b> term.<br>What term would you like to switch to?`);
+      await widgetAfterDelay(termPickerHTML());
+    } else {
+      STATE.step = 'switch_to';
+      setStep('switch_to');
+      await botAfterDelay(`Switching FROM <b>${item.icon} ${item.product}</b>.<br><br>Now choose the product to <b>switch TO</b>:`);
+      await widgetAfterDelay(switchToPickerHTML());
+    }
+    return;
+  }
+
+  if (action === 'switch_from_done') {
+    // M:1 multi-select confirm
+    const selectedIds = Array.from(messagesEl.querySelectorAll('.ms-item.selected')).map(b => b.dataset.id);
+    if (selectedIds.length === 0) { addBot('Please select at least one subscription.'); return; }
+    STATE.switchFromItems = selectedIds.map(id => OPP.lineItems.find(x => x.id === id));
+    const names = STATE.switchFromItems.map(x => x.product).join(', ');
+    addUser(`From: ${names}`);
+    STATE.step = 'switch_to';
+    setStep('switch_to');
+    await botAfterDelay(`Consolidating <b>${STATE.switchFromItems.length} subscription${STATE.switchFromItems.length > 1 ? 's' : ''}</b>.<br><br>Now choose the product to <b>switch TO</b>:`);
+    await widgetAfterDelay(switchToPickerHTML());
+    return;
+  }
+
+  if (action === 'switch_to_select') {
+    let toItem;
+    if (data.source === 'opp') {
+      toItem = OPP.newLineItems.find(x => x.id === data.id);
+    } else {
+      const p = SWITCH_PRODUCTS.find(x => x.id === data.id);
+      toItem = { id: p.id, product: p.name, qty: STATE.switchFromItems[0].qty, unitPrice: p.price, annualPrice: p.price, endDate: STATE.switchFromItems[0].endDate, icon: p.icon, fromCatalog: true };
+    }
+    STATE.switchToItem = toItem;
+    addUser(toItem.product);
+    STATE.step = 'switch_review';
+    setStep('switch_review');
+    await botAfterDelay('Review the switch details before confirming:');
+    await widgetAfterDelay(
+      switchReviewHTML(toItem, STATE.switchFromItems) +
+      `<div class="action-row" style="margin-top:10px;">
+        <button class="abtn abtn-primary" data-action="switch_apply">✓ Confirm Switch</button>
+        <button class="abtn abtn-danger abtn-sm" data-action="switch_cancel">Cancel</button>
+      </div>`
+    );
+    return;
+  }
+
+  if (action === 'switch_term_confirm') {
+    const term = data.term;
+    STATE.switchTerm = term;
+    const item = STATE.switchFromItems[0];
+    addUser(`Switch to ${term}`);
+    STATE.step = 'switch_review';
+    setStep('switch_review');
+    const termYears = { '1Y':1, '2Y':2, '3Y':3 };
+    const discount = termYears[term] > 1 ? (termYears[term] - 1) * 5 : 0;
+    const newPrice = item.unitPrice * item.qty * (1 - discount / 100);
+    await botAfterDelay('Review the term change before confirming:');
+    await widgetAfterDelay(
+      `<div class="review-card">
+        <div class="review-header">📋 &nbsp; Switch Term Summary</div>
+        <div class="review-section">
+          <div class="review-row"><div class="review-row-name">${item.icon} ${item.product}</div></div>
+          <div class="review-row"><span style="color:var(--ai-text-m);">Current term</span><span>1 Year</span></div>
+          <div class="review-row"><span style="color:var(--ai-text-m);">New term</span><span style="font-weight:700;color:var(--ai-blue);">${term === '1Y' ? '1 Year' : term === '2Y' ? '2 Years' : '3 Years'}</span></div>
+          ${discount > 0 ? `<div class="review-row"><span style="color:var(--ai-text-m);">Term discount</span><span style="color:var(--ai-green);font-weight:700;">−${discount}%</span></div>` : ''}
+          <div class="review-row"><span style="color:var(--ai-text-m);">New annual price</span><span style="font-weight:700;">${fmt(newPrice)}</span></div>
+        </div>
+      </div>
+      <div class="action-row" style="margin-top:10px;">
+        <button class="abtn abtn-primary" data-action="switch_term_apply">✓ Confirm Term Change</button>
+        <button class="abtn abtn-danger abtn-sm" data-action="switch_cancel">Cancel</button>
+      </div>`
+    );
+    return;
+  }
+
+  if (action === 'switch_term_apply') {
+    const item = STATE.switchFromItems[0];
+    const termYears = { '1Y':1, '2Y':2, '3Y':3 };
+    const discount = (termYears[STATE.switchTerm] - 1) * 5;
+    item.unitPrice = item.unitPrice * (1 - discount / 100);
+    item.annualPrice = item.unitPrice;
+    updateRecordPage();
+    await botAfterDelay('Term updated. The opportunity has been refreshed.');
+    await widgetAfterDelay(successHTML('Term Changed', [
+      `${item.product} — term set to <b>${STATE.switchTerm === '2Y' ? '2 Years' : STATE.switchTerm === '3Y' ? '3 Years' : '1 Year'}</b>`,
+      discount > 0 ? `Term discount applied: <b>−${discount}%</b>` : 'No discount for 1-year term',
+      `Opportunity record updated successfully`
+    ]));
+    resetState(); setPromptsEnabled(true); stepEl.classList.remove('visible');
+    return;
+  }
+
+  if (action === 'switch_apply') {
+    const toItem = STATE.switchToItem;
+    const fromItems = STATE.switchFromItems;
+    fromItems.forEach(fi => {
+      const idx = OPP.lineItems.findIndex(x => x.id === fi.id);
+      if (idx !== -1) OPP.lineItems.splice(idx, 1);
+    });
+    if (!toItem.fromCatalog) {
+      const newIdx = OPP.newLineItems.findIndex(x => x.id === toItem.id);
+      if (newIdx !== -1) OPP.newLineItems.splice(newIdx, 1);
+    }
+    toItem.endDate = fromItems[0].endDate;
+    toItem.inRenewal = false;
+    delete toItem.isNew; delete toItem.fromCatalog;
+    OPP.lineItems.push(toItem);
+    updateRecordPage();
+    const fromSummary = fromItems.map(fi => `${fi.product} (${fi.qty} qty)`).join(', ');
+    const total = OPP.lineItems.reduce((s, l) => s + l.unitPrice * l.qty, 0);
+    await botAfterDelay('Switch complete. The opportunity has been updated.');
+    await widgetAfterDelay(successHTML('Switch Applied', [
+      `Removed: <b>${fromSummary}</b>`,
+      `Added: <b>${toItem.product} (${toItem.qty} qty)</b>`,
+      `End date: <b>${toItem.endDate}</b>`,
+      `New Total Net Amount: <b>${fmtUSD(total)}</b>`
+    ]));
+    resetState(); setPromptsEnabled(true); stepEl.classList.remove('visible');
+    return;
+  }
+
+  if (action === 'switch_cancel') {
+    addUser('Cancel');
+    await botAfterDelay('Cancelled — no changes made. What else would you like to do?');
+    resetState(); setPromptsEnabled(true); stepEl.classList.remove('visible');
+    return;
+  }
+
+  // ─ MID-TERM SWITCH ────────────────────────────────────────
+  if (action === 'select_product') {
+    const prod = sp(data.id);
+    STATE.pendingProduct = prod;
+    addUser(prod.name);
+    await botAfterDelay('Here\'s the proration breakdown. Review before applying:');
+    await widgetAfterDelay(
+      prorationHTML(STATE.selectedItem, prod, STATE.pendingDate) +
+      `<div class="action-row" style="margin-top:10px;">
+        <button class="abtn abtn-primary" data-action="midterm_confirm">✓ Apply Mid-term Switch</button>
+        <button class="abtn abtn-danger abtn-sm" data-action="midterm_cancel">Cancel</button>
+      </div>`
+    );
+    return;
+  }
+
+  if (action === 'midterm_pick_item') {
+    const item = li(data.id);
+    STATE.selectedItem = item;
+    STATE.step = 'midterm_pick_date';
+    setStep('midterm_pick_date');
+    addUser(item.product);
+    await botAfterDelay(`<b>${item.product}</b> runs until <b>${item.endDate}</b>.<br>When should the switch take effect?`);
+    await widgetAfterDelay(dateWidgetHTML('midterm_pick_date_confirm', today(), item.endDate, 'Mid-term Switch Effective Date'));
+    return;
+  }
+
+  if (action === 'midterm_pick_date_confirm') {
+    const date = document.getElementById('flow-date')?.value;
+    if (!date) { addBot('Please select a date.'); return; }
+    STATE.pendingDate = date;
+    STATE.step = 'midterm_pick_product';
+    setStep('midterm_pick_product');
+    addUser(`Effective: ${date}`);
+    await botAfterDelay('Got it. Choose the replacement product:');
+    await widgetAfterDelay(productCardsHTML());
+    return;
+  }
+
+  if (action === 'midterm_confirm') {
+    const item = STATE.selectedItem;
+    const prod = STATE.pendingProduct;
+    const switchDate = STATE.pendingDate;
+    const frac = prorateFraction(switchDate, item.endDate);
+    const credit = -(item.annualPrice * frac);
+    const charge = prod.price * frac;
+    const net = credit + charge;
+    const oldName = item.product;
+    item.product = prod.name; item.unitPrice = prod.price; item.annualPrice = prod.price; item.icon = prod.icon;
+    updateRecordPage();
+    await botAfterDelay('Mid-term switch complete. Proration applied to the account.');
+    await widgetAfterDelay(successHTML('Mid-term Switch Applied', [
+      `${oldName} → <b>${prod.name}</b>`,
+      `Effective date: <b>${switchDate}</b>`,
+      `Credit applied: <b>${fmt(credit)}</b>`,
+      `New charge: <b>+${fmt(charge)}</b>`,
+      `Net adjustment: <b>${net >= 0 ? '+' : ''}${fmt(net)}</b>`
+    ]));
+    resetState(); setPromptsEnabled(true); stepEl.classList.remove('visible');
+    return;
+  }
+
+  if (action === 'midterm_cancel') {
+    addUser('Cancel');
+    await botAfterDelay('Cancelled — no changes made. What else can I help you with?');
+    resetState(); setPromptsEnabled(true); stepEl.classList.remove('visible');
+    return;
+  }
+
+  // ─ DDA HUB ────────────────────────────────────────────────
+  if (action === 'dda_start_request') {
+    addUser('Raise DDA Request');
+    STATE.flow = 'dda_request'; STATE.step = 'dda_discounts';
+    setPromptsEnabled(false); setStep('dda_discounts');
+    await botAfterDelay(
+      `Enter the discount % for each line item. Max <b>40%</b>. ` +
+      `Approvers are auto-assigned based on average discount level.`
+    );
+    await widgetAfterDelay(ddaDiscountFormHTML());
+    return;
+  }
+
+  if (action === 'dda_check_status') {
+    addUser('Check DDA Status');
+    STATE.flow = 'dda_status'; STATE.step = 'dda_status_list';
+    setPromptsEnabled(false); setStep('dda_status_list');
+    const pending = DDA_REQUESTS.filter(d => d.status === 'PENDING').length;
+    await botAfterDelay(
+      `You have <b>${pending} pending</b> DDA request${pending !== 1 ? 's' : ''}. Click any to see the full approver chain:`
+    );
+    await widgetAfterDelay(ddaStatusListHTML());
+    resetState(); setPromptsEnabled(true); stepEl.classList.remove('visible');
+    return;
+  }
+
+  // ─ DDA REQUEST ────────────────────────────────────────────
+  if (action === 'dda_to_justify') {
+    const discounts = {};
+    document.querySelectorAll('.dda-pct-input').forEach(inp => {
+      const pct = Math.min(40, Math.max(0, parseFloat(inp.value) || 0));
+      discounts[inp.dataset.id] = pct;
+    });
+    const hasAny = Object.values(discounts).some(v => v > 0);
+    if (!hasAny) { addBot('Please enter a discount % on at least one line item.'); return; }
+    STATE.pendingProduct = discounts; // reuse field to store discount map
+    setStep('dda_justify');
+    addUser('Discounts entered');
+    await botAfterDelay('Good. Now add your discount reason and justification for the approval chain:');
+    await widgetAfterDelay(ddaJustifyFormHTML(discounts));
+    return;
+  }
+
+  if (action === 'dda_submit_request') {
+    const reason = document.getElementById('dda-reason-select')?.value;
+    const justification = document.getElementById('dda-justification-text')?.value?.trim();
+    if (!reason) { addBot('Please select a Discount Reason before submitting.'); return; }
+    if (!justification) { addBot('Please add a justification before submitting.'); return; }
+    const discounts = STATE.pendingProduct || {};
+    const totalSRP = OPP.lineItems.reduce((s,li) => s + li.unitPrice * li.qty, 0);
+    const totalNet = OPP.lineItems.reduce((s,li) => {
+      return s + (li.unitPrice * li.qty) * (1 - (discounts[li.id] || 0) / 100);
+    }, 0);
+    const avgDisc = (((totalSRP - totalNet) / totalSRP) * 100).toFixed(1);
+    // Determine required approvers based on discount level
+    const approvers = avgDisc <= 5
+      ? [{ name:'Priya Mehta', role:'Deal Desk Manager', level:1, status:'PENDING', date:null }]
+      : avgDisc <= 15
+      ? [
+          { name:'Priya Mehta',   role:'Deal Desk Manager', level:1, status:'PENDING', date:null },
+          { name:'Robert Chang',  role:'Sales Director',    level:2, status:'WAITING', date:null }
+        ]
+      : [
+          { name:'Priya Mehta',   role:'Deal Desk Manager', level:1, status:'PENDING', date:null },
+          { name:'Robert Chang',  role:'Sales Director',    level:2, status:'WAITING', date:null },
+          { name:'Lisa Anderson', role:'VP Sales',          level:3, status:'WAITING', date:null }
+        ];
+    const ddaId = 'DDA-' + (Math.floor(Math.random() * 900) + 200);
+    addUser(`Reason: ${reason}`);
+    setStep('dda_confirm');
+    await botAfterDelay(
+      `✅ DDA request <b>${ddaId}</b> submitted successfully!<br><br>` +
+      `Avg discount: <b>${avgDisc}%</b> &nbsp;·&nbsp; Total Net: <b>${fmt(totalNet)}</b><br>` +
+      `Reason: <b>${reason}</b><br><br>` +
+      `Your request has been routed to <b>${approvers.length} approver${approvers.length > 1 ? 's' : ''}</b>:`
+    );
+    await widgetAfterDelay(
+      ddaApproverChainHTML(approvers) +
+      `<div class="dda-reason-box" style="margin-top:8px;">📝 <b>Justification:</b> ${justification}</div>` +
+      `<div class="action-row" style="margin-top:10px;">
+        <button class="abtn abtn-ghost abtn-sm" data-action="done">↺ Start another action</button>
+      </div>`
+    );
+    resetState(); setPromptsEnabled(true); stepEl.classList.remove('visible');
+    return;
+  }
+
+  // ─ DDA STATUS ─────────────────────────────────────────────
+  if (action === 'dda_view_detail') {
+    const dda = DDA_REQUESTS.find(d => d.id === data.id);
+    if (!dda) return;
+    addUser(`View ${dda.id}`);
+    const pill = { PENDING:'🕐 Pending', APPROVED:'✅ Approved', REJECTED:'❌ Rejected' }[dda.status];
+    await botAfterDelay(
+      `<b>${dda.id}</b> — ${dda.account}<br>` +
+      `${pill} &nbsp;·&nbsp; ${dda.discountPct}% discount &nbsp;·&nbsp; Submitted ${dda.submittedDate}<br>` +
+      `Reason: <b>${dda.reason}</b>`
+    );
+    await widgetAfterDelay(
+      ddaApproverChainHTML(dda.approvers) +
+      `<div class="dda-reason-box" style="margin-top:8px;">📝 <b>Justification:</b> ${dda.justification}</div>` +
+      `<div class="action-row" style="margin-top:10px;">
+        <button class="abtn abtn-ghost abtn-sm" data-action="done">↺ Start another action</button>
+      </div>`
+    );
+    resetState(); setPromptsEnabled(true); stepEl.classList.remove('visible');
+    return;
+  }
+
+  // ─ RENEWAL INTELLIGENCE ───────────────────────────────────
+  if (action === 'ri_upcoming') {
+    addUser('Upcoming Renewals');
+    setPromptsEnabled(false); setStep('ri_results');
+    await botAfterDelay('Select a time window to see upcoming renewals:');
+    await widgetAfterDelay(riFilterHTML());
+    return;
+  }
+
+  if (action === 'ri_filter') {
+    const days = parseInt(data.days);
+    const filtered = RENEWAL_ACCOUNTS.filter(a => a.renewalDays <= days);
+    addUser(`Renewals in next ${days} days`);
+    await botAfterDelay(
+      `Found <b>${filtered.length} account${filtered.length !== 1 ? 's' : ''}</b> renewing in the next <b>${days} days</b>. ` +
+      `Sorted by risk priority:`
+    );
+    await widgetAfterDelay(
+      riListHTML(filtered, `No renewals due within ${days} days.`) +
+      `<div class="action-row" style="margin-top:10px;">
+        <button class="abtn abtn-ghost abtn-sm" data-action="ri_back">← Back to Intelligence Hub</button>
+      </div>`
+    );
+    return;
+  }
+
+  if (action === 'ri_atrisk') {
+    addUser('At-Risk Accounts');
+    setPromptsEnabled(false); setStep('ri_results');
+    const filtered = RENEWAL_ACCOUNTS.filter(a => a.risk === 'HIGH' || a.risk === 'MEDIUM');
+    await botAfterDelay(
+      `Found <b>${filtered.length} at-risk account${filtered.length !== 1 ? 's' : ''}</b> across your portfolio. ` +
+      `High risk accounts need immediate attention:`
+    );
+    await widgetAfterDelay(
+      riListHTML(filtered, 'No at-risk accounts — great work! 🎉') +
+      `<div class="action-row" style="margin-top:10px;">
+        <button class="abtn abtn-ghost abtn-sm" data-action="ri_back">← Back to Intelligence Hub</button>
+      </div>`
+    );
+    return;
+  }
+
+  if (action === 'ri_stalled') {
+    addUser('Stalled Opportunities');
+    setPromptsEnabled(false); setStep('ri_results');
+    const filtered = RENEWAL_ACCOUNTS.filter(a => a.stalled);
+    await botAfterDelay(
+      `Found <b>${filtered.length} stalled opportunit${filtered.length !== 1 ? 'ies' : 'y'}</b> with no recent activity. ` +
+      `These accounts need re-engagement:`
+    );
+    await widgetAfterDelay(
+      riListHTML(filtered, 'No stalled opportunities — pipeline is healthy! 🎉') +
+      `<div class="action-row" style="margin-top:10px;">
+        <button class="abtn abtn-ghost abtn-sm" data-action="ri_back">← Back to Intelligence Hub</button>
+      </div>`
+    );
+    return;
+  }
+
+  if (action === 'ri_back') {
+    addUser('Back to Intelligence Hub');
+    STATE.step = 'ri_hub';
+    setStep('ri_hub');
+    await botAfterDelay('What else would you like to explore?');
+    await widgetAfterDelay(riHubHTML());
+    return;
+  }
+
+  // ─ BUSINESS PLAN ELIGIBILITY ──────────────────────────────
+  if (action === 'biz_check') {
+    const emails = document.getElementById('biz-emails')?.value.trim();
+    if (!emails) { addBot('Please enter at least one primary admin email address.'); return; }
+    addUser(`Check eligibility for: ${emails}`);
+    setStep('biz_result');
+    await botAfterDelay('Checking Business Plan eligibility for the admin account(s)…');
+    await widgetAfterDelay(
+      bizEligResultHTML(emails) +
+      `<div class="action-row" style="margin-top:10px;">
+        <button class="abtn abtn-ghost abtn-sm" data-action="done">↺ Start another action</button>
+      </div>`
+    );
+    resetState(); setPromptsEnabled(true); stepEl.classList.remove('visible');
+    return;
+  }
+
+  // ─ CO-TERM ELIGIBILITY ────────────────────────────────────
+  if (action === 'coterm_elig_check') {
+    const csn = document.getElementById('coterm-csn')?.value.trim();
+    if (!csn) { addBot('Please enter an Account CSN to continue.'); return; }
+    const hierarchy = document.getElementById('coterm-hierarchy')?.checked;
+    const opts = Array.from(document.querySelectorAll('.coterm-opt-check:checked')).map(c => c.value);
+    if (opts.length === 0) { addBot('Please select at least one eligibility option to check.'); return; }
+    addUser(`CSN: ${csn} · Checking: ${opts.join(', ')}`);
+    setStep('coterm_elig_result');
+    await botAfterDelay('Retrieving co-term eligibility based on current policy…');
+    await widgetAfterDelay(
+      cotermEligResultHTML(csn, opts, hierarchy) +
+      `<div class="action-row" style="margin-top:10px;">
+        <button class="abtn abtn-ghost abtn-sm" data-action="done">↺ Start another action</button>
+      </div>`
+    );
+    resetState(); setPromptsEnabled(true); stepEl.classList.remove('visible');
+    return;
+  }
+
+  // ─ ACCOUNT EXPLORER TAB ───────────────────────────────────
+  if (action === 'acct_explorer_tab') {
+    const tab = AE_DATA[data.tab];
+    if (!tab) return;
+    addUser(`View ${tab.title}`);
+    await botAfterDelay(`Here are the <b>${tab.title}</b> records for <b>${OPP.account}</b>:`);
+    await widgetAfterDelay(accountExplorerTabHTML(data.tab));
+    return;
+  }
+
+  if (action === 'done') { resetChat(); return; }
+}
+
+// ─── ACCOUNT EXPLORER MOCK DATA ───────────────────────────────────────────────
+const AE_DATA = {
+  licenses: {
+    title: 'Licenses', icon: '📄',
+    cols: ['Product', 'Qty', 'Status', 'End Date', 'Subscription ID'],
+    rows: [
+      ['AutoCAD Subscription', '2', 'Active', '2026-12-31', 'SUB-001234'],
+      ['Revit Add-on', '5', 'Active', '2026-12-31', 'SUB-001235'],
+      ['Build500', '3', 'Active', '2026-12-31', 'SUB-001236'],
+      ['AutoCAD LT', '2', 'Active', '2026-06-30', 'SUB-001201'],
+      ['Maya', '10', 'Draft', '—', '—'],
+      ['3ds Max', '8', 'Draft', '—', '—'],
+      ['Architecture Collection', '2', 'Expired', '2025-12-31', 'SUB-000987'],
+      ['BIM 360', '1', 'Active', '2026-09-15', 'SUB-001190'],
+    ]
+  },
+  cases: {
+    title: 'Cases', icon: '📋',
+    cols: ['Case #', 'Subject', 'Status', 'Priority', 'Created'],
+    rows: [
+      ['00123456', 'Login issue on admin portal', 'Open', 'High', '2026-03-01'],
+      ['00123457', 'Licensing error on desktop app', 'In Progress', 'Medium', '2026-03-10'],
+      ['00123458', 'Feature request — bulk user export', 'New', 'Low', '2026-03-20'],
+    ]
+  },
+  contacts: {
+    title: 'Contacts', icon: '👥',
+    cols: ['Name', 'Role', 'Email', 'Account'],
+    rows: [
+      ['Stgorderone Contact', 'Primary Admin', 'admin@stmtest.com', 'STM Test US GF'],
+      ['James Carter', 'IT Manager', 'j.carter@stmtest.com', 'STM Test US GF'],
+      ['Maria Santos', 'Procurement', 'm.santos@stmtest.com', 'STM Test US GF'],
+      ['David Park', 'Finance Director', 'd.park@stmtest.com', 'STM Test US GF (L3)'],
+      ['Alice Brown', 'CAD Manager', 'a.brown@stmtest.com', 'STM Test US GF (L3)'],
+    ]
+  },
+  opportunities: {
+    title: 'Opportunities', icon: '💼',
+    cols: ['Name', 'Stage', 'Type', 'Amount', 'Close Date'],
+    rows: [
+      ['GF-1004514012 E-Store New Order', 'Propose', 'New/Expand', 'USD 11,275', '2025-09-23'],
+      ['STM Test US GF — AutoCAD Renewal FY26', 'Qualify', 'Renewal', 'USD 8,000', '2026-06-30'],
+      ['STM Test US GF — BIM 360 Upsell', 'Develop', 'Upsell', 'USD 4,200', '2026-08-15'],
+      ['STM Test US GF (L3) — AutoCAD LT Renewal', 'Negotiate', 'Renewal', 'USD 3,600', '2026-06-30'],
+    ]
+  },
+  subscriptions: {
+    title: 'Subscription Agreements', icon: '📑',
+    cols: ['Agreement #', 'Product Line', 'Status', 'Seats', 'End Date'],
+    rows: [
+      ['SA-20241001-001', 'Design & Manufacturing', 'Active', '15', '2026-12-31'],
+      ['SA-20240601-007', 'AEC Collection', 'Active', '7', '2026-09-15'],
+    ]
+  },
+  orders: {
+    title: 'Orders', icon: '🛒',
+    cols: ['Order #', 'Date', 'Status', 'Amount', 'Source'],
+    rows: [
+      ['ORD-2025-0042', '2025-09-23', 'Completed', 'USD 11,275', 'E-Store'],
+      ['ORD-2025-0031', '2025-06-15', 'Completed', 'USD 8,000', 'E-Store'],
+      ['ORD-2024-0198', '2024-12-01', 'Completed', 'USD 4,200', 'Direct'],
+      ['ORD-2024-0155', '2024-09-10', 'Completed', 'USD 3,600', 'Reseller'],
+      ['ORD-2024-0099', '2024-06-01', 'Completed', 'USD 2,250', 'Direct'],
+      ['ORD-2024-0012', '2024-01-15', 'Cancelled', 'USD 1,800', 'E-Store'],
+    ]
+  },
+  leads: {
+    title: 'Leads', icon: '🎯',
+    cols: ['Name', 'Status', 'Source', 'Product Interest', 'Created'],
+    rows: [
+      ['Tech Subsidiary Inc', 'Assigned', 'Web Form', 'AutoCAD Subscription', '2026-03-15'],
+    ]
+  },
+  team: {
+    title: 'Account Team', icon: '🤝',
+    cols: ['Name', 'Role', 'Access', 'Since'],
+    rows: [
+      ['Shubham Manhar', 'Account Owner', 'Full', '2024-01-01'],
+      ['Priya Mehta', 'Deal Desk Manager', 'Edit', '2024-03-15'],
+      ['James Wilson', 'Customer Success', 'Read', '2024-06-01'],
+    ]
+  },
+  ecas: {
+    title: 'ECAs', icon: '📃',
+    cols: ['ECA #', 'Account', 'Status', 'Start Date', 'End Date'],
+    rows: [
+      ['ECA-2025-001', 'STM Test US GF', 'Active', '2025-01-01', '2026-12-31'],
+      ['ECA-2024-003', 'STM Test US GF (L3)', 'Expired', '2024-01-01', '2024-12-31'],
+    ]
+  },
+  quotes: {
+    title: 'Quotes', icon: '💬',
+    cols: ['Quote #', 'Opportunity', 'Status', 'Amount', 'Created'],
+    rows: [
+      ['Q-2025-0088', 'E-Store New Order', 'Presented', 'USD 11,275', '2025-09-01'],
+      ['Q-2025-0072', 'AutoCAD Renewal FY26', 'Draft', 'USD 8,000', '2025-08-15'],
+      ['Q-2025-0065', 'BIM 360 Upsell', 'Accepted', 'USD 4,200', '2025-07-20'],
+    ]
+  },
+  tasks: {
+    title: 'Tasks', icon: '✅',
+    cols: ['Subject', 'Type', 'Due Date', 'Status', 'Owner'],
+    rows: [
+      ['Follow up on renewal proposal', 'Call', '2026-04-05', 'Not Started', 'Shubham Manhar'],
+      ['Send co-term options email', 'Email', '2026-03-31', 'Completed', 'Shubham Manhar'],
+      ['Schedule executive review', 'Meeting', '2026-04-15', 'In Progress', 'James Wilson'],
+      ['Review usage report with customer', 'Call', '2026-04-10', 'Not Started', 'James Wilson'],
+    ]
+  },
+  actions: {
+    title: 'Actions', icon: '⚡',
+    cols: ['Initiative', 'Category', 'Status', 'Due Date', 'Owner'],
+    rows: [
+      ['Renewal Risk Mitigation', 'Retention', 'In Progress', '2026-03-31', 'Shubham Manhar'],
+      ['Upsell to AEC Collection', 'Growth', 'Planned', '2026-06-30', 'James Wilson'],
+      ['Business Review Meeting', 'Engagement', 'Completed', '2026-02-28', 'Priya Mehta'],
+    ]
+  }
+};
+
+// ─── ACCOUNT SUMMARY WIDGET ───────────────────────────────────────────────────
+function accountSummaryHTML() {
+  const stats = [
+    { icon: '📄', label: 'Licenses',       count: 8,  bg: '#dbeafe', tab: 'licenses'      },
+    { icon: '📋', label: 'Cases',          count: 3,  bg: '#fee2e2', tab: 'cases'         },
+    { icon: '👥', label: 'Contacts',       count: 12, bg: '#d1fae5', tab: 'contacts'      },
+    { icon: '💼', label: 'Opportunities',  count: 4,  bg: '#ede9fe', tab: 'opportunities' },
+    { icon: '📑', label: 'Subscriptions',  count: 2,  bg: '#fef9c3', tab: 'subscriptions' },
+    { icon: '🛒', label: 'Orders',         count: 6,  bg: '#e0f2fe', tab: 'orders'        },
+    { icon: '🎯', label: 'Leads',          count: 1,  bg: '#fce7f3', tab: 'leads'         },
+    { icon: '🤝', label: 'Account Team',   count: 3,  bg: '#f3f4f6', tab: 'team'          },
+    { icon: '📃', label: 'ECAs',           count: 2,  bg: '#fef3c7', tab: 'ecas'          },
+    { icon: '💬', label: 'Quotes',         count: 3,  bg: '#e0e7ff', tab: 'quotes'        },
+    { icon: '✅', label: 'Tasks',           count: 4,  bg: '#f0fdf4', tab: 'tasks'         },
+    { icon: '⚡', label: 'Actions',         count: 3,  bg: '#fff7ed', tab: 'actions'       },
+  ];
+  const tiles = stats.map(s => `
+    <button class="ae-tile" style="background:${s.bg};" data-action="acct_explorer_tab" data-tab="${s.tab}">
+      <span class="ae-tile-icon">${s.icon}</span>
+      <div>
+        <div class="ae-tile-label">${s.label}</div>
+        <div class="ae-tile-count">${s.count}</div>
+      </div>
+    </button>`).join('');
+  return `<div class="review-card">
+    <div class="review-header">🏢 &nbsp; Account Explorer Summary — ${OPP.account}</div>
+    <div style="padding:8px 14px 4px;">
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px;">
+        <span class="elig-badge elig-info">L2 Account</span>
+        <span style="font-size:11px;color:var(--ai-text-m);">Parent: Autodesk Global Holdings (L1)</span>
+      </div>
+      <div style="font-size:10px;color:var(--ai-text-w);margin-bottom:6px;">Click any tile to view records ↓</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:8px;">${tiles}</div>
+    </div>
+    <div style="padding:6px 14px 10px;border-top:1px solid var(--ai-border);display:flex;gap:6px;flex-wrap:wrap;">
+      <span class="elig-badge elig-info">Related Tab: L2 + L3 data</span>
+      <span class="elig-badge elig-warn">Parent Tab: L1 access required</span>
+    </div>
+  </div>
+  <div class="action-row" style="margin-top:8px;">
+    <button class="abtn abtn-ghost abtn-sm" data-action="done">↺ Start another action</button>
+  </div>`;
+}
+
+function accountExplorerTabHTML(tabKey) {
+  const tab = AE_DATA[tabKey];
+  if (!tab) return '';
+  const headerRow = tab.cols.map(c => `<th>${c}</th>`).join('');
+  const dataRows  = tab.rows.map(row => `<tr>${row.map(cell => `<td>${cell}</td>`).join('')}</tr>`).join('');
+  return `<div class="review-card">
+    <div class="review-header">${tab.icon} &nbsp; ${tab.title} — ${OPP.account}</div>
+    <div style="overflow-x:auto;">
+      <table class="li-table" style="min-width:100%;">
+        <thead><tr>${headerRow}</tr></thead>
+        <tbody>${dataRows}</tbody>
+      </table>
+    </div>
+    <div style="padding:6px 14px 8px;font-size:11px;color:var(--ai-text-m);">${tab.rows.length} record${tab.rows.length !== 1 ? 's' : ''} · L2 + L3 consolidated view</div>
+  </div>`;
+}
+
+// ─── FLOW STARTERS ────────────────────────────────────────────────────────────
+async function startFlow(flow) {
+  showChat();
+  resetState(); STATE.flow = flow; setPromptsEnabled(false);
+
+  if (flow === 'extend') {
+    addUser('Extend Renewal');
+    STATE.step = 'extend_pick_item';
+    setStep('extend_pick_item');
+    await botAfterDelay(`You have <b>${OPP.lineItems.length} active subscriptions</b> in this opportunity.<br>Which one would you like to extend?`);
+    await widgetAfterDelay(lineItemPickerHTML('extend_pick_item'));
+  }
+  else if (flow === 'coterm') {
+    addUser('Co-term');
+    STATE.step = 'coterm_pick_date';
+    setStep('coterm_pick_date');
+    await botAfterDelay(`Co-terming aligns all subscription end dates to a single target date.<br><br>Which date should all <b>${OPP.lineItems.length} subscriptions</b> be co-termed to?`);
+    await widgetAfterDelay(cotermOptionsHTML());
+  }
+  else if (flow === 'switch') {
+    addUser('Switch');
+    STATE.step = 'switch_hub';
+    setStep('switch_hub');
+    await botAfterDelay(`Which type of switch would you like to perform?`);
+    await widgetAfterDelay(switchHubHTML());
+  }
+  else if (flow === 'midterm') {
+    addUser('Mid-term Switch');
+    STATE.step = 'midterm_pick_item';
+    setStep('midterm_pick_item');
+    await botAfterDelay(`A mid-term switch replaces a product mid-contract with prorated credits and charges.<br><br>Which subscription are you switching?`);
+    await widgetAfterDelay(lineItemPickerHTML('midterm_pick_item'));
+  }
+  else if (flow === 'dda') {
+    addUser('DDA');
+    STATE.step = 'dda_hub';
+    setStep('dda_hub');
+    const pending = DDA_REQUESTS.filter(d => d.status === 'PENDING').length;
+    await botAfterDelay(
+      `<b>Deal Discount Approval (DDA)</b> — what would you like to do?<br><br>` +
+      `You have <b>${pending} pending</b> request${pending !== 1 ? 's' : ''} awaiting approval.`
+    );
+    await widgetAfterDelay(ddaHubHTML());
+  }
+  else if (flow === 'dda_request') {
+    addUser('Raise DDA Request');
+    STATE.step = 'dda_discounts';
+    setStep('dda_discounts');
+    await botAfterDelay(
+      `I'll help you raise a <b>Deal Discount Approval (DDA)</b> request for this opportunity.<br><br>` +
+      `Enter the discount % for each line item below. Max allowed discount is <b>40%</b>. ` +
+      `Required approvers are determined automatically based on the average discount level.`
+    );
+    await widgetAfterDelay(ddaDiscountFormHTML());
+  }
+  else if (flow === 'dda_status') {
+    addUser('DDA Status');
+    STATE.step = 'dda_status_list';
+    setStep('dda_status_list');
+    const pending = DDA_REQUESTS.filter(d => d.status === 'PENDING').length;
+    await botAfterDelay(
+      `Here are your recent <b>Deal Discount Approval</b> requests.<br>` +
+      `You have <b>${pending} pending</b> approval${pending !== 1 ? 's' : ''}. Click any request to see the full approval chain:`
+    );
+    await widgetAfterDelay(ddaStatusListHTML());
+    resetState(); setPromptsEnabled(true); stepEl.classList.remove('visible');
+  }
+  else if (flow === 'renewal_intelligence') {
+    addUser('Renewal Intelligence');
+    STATE.step = 'ri_hub';
+    setStep('ri_hub');
+    const high = RENEWAL_ACCOUNTS.filter(a => a.risk === 'HIGH').length;
+    const soon = RENEWAL_ACCOUNTS.filter(a => a.renewalDays <= 30).length;
+    await botAfterDelay(
+      `🧠 <b>Renewal Intelligence</b> — portfolio overview across all accounts.<br><br>` +
+      `You have <b>${soon} renewal${soon !== 1 ? 's' : ''}</b> due in the next 30 days and ` +
+      `<b>${high} high-risk account${high !== 1 ? 's' : ''}</b> that need immediate attention.<br><br>` +
+      `What would you like to look at?`
+    );
+    await widgetAfterDelay(riHubHTML());
+  }
+  else if (flow === 'biz_eligibility') {
+    addUser('Business Plan Eligibility');
+    STATE.step = 'biz_email_input';
+    setStep('biz_email_input');
+    await botAfterDelay(
+      `I can check if your customer qualifies for a <b>Business Success Plan</b>.<br><br>` +
+      `Requirements: <b>50+ single-user seats</b> for eligible products, with at least one subscription valid for <b>12+ months</b>.<br><br>` +
+      `Enter the primary admin email(s) below:`
+    );
+    await widgetAfterDelay(bizEligFormHTML());
+  }
+  else if (flow === 'coterm_eligibility') {
+    addUser('Co-term Eligibility');
+    STATE.step = 'coterm_elig_input';
+    setStep('coterm_elig_input');
+    await botAfterDelay(
+      `I'll check co-term eligibility for your customer based on current policy.<br><br>` +
+      `Enter the <b>Account CSN</b> and select which co-term options you'd like to evaluate:`
+    );
+    await widgetAfterDelay(cotermEligFormHTML());
+  }
+  else if (flow === 'account_summary') {
+    addUser('Account Summary');
+    STATE.step = 'acct_summary_result';
+    setStep('acct_summary_result');
+    await botAfterDelay(
+      `Here's a consolidated <b>Account Explorer summary</b> for <b>${OPP.account}</b>.<br><br>` +
+      `This is an <b>L2 account</b> in the hierarchy. Counts below reflect all accessible records across the account hierarchy. ` +
+      `Use the <b>Parent tab</b> in Account Explorer to see L1 roll-up data (requires L1 access), or the <b>Related tab</b> for L2+L3 data.`
+    );
+    await widgetAfterDelay(accountSummaryHTML());
+    resetState(); setPromptsEnabled(true); stepEl.classList.remove('visible');
+  }
+  // ── List-view expiry bucket flows ────────────────────────────────────────
+  else if (flow.startsWith('list_')) {
+    const bucketMap = {
+      list_exp30:  { label: '≤ 30 Days',          filter: 'exp30',  desc: 'expiring within 30 days', icon: '🔴' },
+      list_exp45:  { label: '≤ 45 Days',          filter: 'exp45',  desc: 'expiring in 31–45 days',  icon: '🟠' },
+      list_exp90:  { label: '≤ 90 Days',          filter: 'exp90',  desc: 'expiring in 46–90 days',  icon: '🟡' },
+      list_gt90:   { label: '> 90 Days',          filter: 'gt90',   desc: 'expiring in 90+ days',    icon: '🟢' },
+      list_inprog: { label: 'Order in Progress',  filter: 'inprog', desc: 'currently in progress',   icon: '📦' },
+      list_pexp30: { label: 'Post Expiry ≤ 30',   filter: 'pexp30', desc: 'expired within last 30 days', icon: '⚠️' },
+      list_pexp45: { label: 'Post Expiry ≤ 45',   filter: 'pexp45', desc: 'expired in last 31–45 days',  icon: '⚠️' },
+    };
+    const b = bucketMap[flow];
+    addUser(b.label);
+    const matches = MOCK_OPPS.filter(o => getExpBucket(o) === b.filter);
+    await botAfterDelay(
+      `${b.icon} Showing <b>${matches.length} opportunit${matches.length !== 1 ? 'ies' : 'y'}</b> ${b.desc}:`
+    );
+    if (matches.length === 0) {
+      await botAfterDelay(`No opportunities found in this bucket right now.`);
+    } else {
+      const rows = matches.map(o => {
+        const d = getExpiryDays(o.closeDate);
+        const dLabel = o.status === 'inprog' ? 'In Progress' : (d < 0 ? `Expired ${Math.abs(d)}d ago` : `${d} days`);
+        return `<div style="display:flex;align-items:center;justify-content:space-between;padding:7px 10px;border-radius:6px;background:#f8f9fb;border:1px solid var(--ai-border);margin-bottom:5px;cursor:pointer;" onclick="openOpp('${o.id}')">
+          <div>
+            <div style="font-weight:600;font-size:12px;color:var(--ai-blue);">${o.name}</div>
+            <div style="font-size:11px;color:var(--ai-text-m);margin-top:2px;">${o.account} · ${o.stage} · ${o.owner}</div>
+          </div>
+          <div style="text-align:right;flex-shrink:0;margin-left:8px;">
+            <div style="font-size:11px;font-weight:700;color:${d <= 30 && d >= 0 ? '#dc2626' : d < 0 ? '#dc2626' : '#374151'};">${dLabel}</div>
+            <div style="font-size:11px;color:var(--ai-text-m);">USD ${o.amount.toLocaleString()}</div>
+          </div>
+        </div>`;
+      }).join('');
+      const html = `<div style="padding:4px 0;">${rows}
+        <div style="font-size:11px;color:var(--ai-text-m);margin-top:6px;text-align:center;">Click any opportunity to open it</div>
+      </div>`;
+      await widgetAfterDelay(html);
+    }
+    // Also filter the list view table
+    filterOppList(b.filter, document.querySelector(`.lv-filter-btn[onclick*="${b.filter}"]`) || document.querySelector('.lv-filter-btn'));
+    resetState(); setPromptsEnabled(true); stepEl.classList.remove('visible');
+  }
+}
+
+// ─── FREE TEXT HANDLER ────────────────────────────────────────────────────────
+async function handleFreeText(text) {
+  const t = text.toLowerCase().trim(); if (!t) return;
+  showChat();
+  addUser(text);
+  if (t.includes('mid') && t.includes('switch')) return startFlow('midterm');
+  if (t.includes('switch')) return startFlow('switch');
+  if (t.includes('co-term') || t.includes('coterm') || t.includes('co term')) return startFlow('coterm');
+  if (t.includes('extend') || t.includes('renew')) return startFlow('extend');
+  if (t.includes('account summary') || t.includes('account explorer')) return startFlow('account_summary');
+  await botAfterDelay(`I can help you with these renewal actions on this opportunity:<br><br>
+    🔗 <b>Co-term</b> — align all end dates to one target date<br>
+    🔄 <b>Switch</b> — replace products using new line items<br>
+    ⚡ <b>Mid-term Switch</b> — switch mid-contract with proration<br>
+    📅 <b>Extend Renewal</b> — push out a subscription end date<br><br>
+    Use the quick action buttons below or tell me what you need.`);
+}
+
+// ─── RESET ────────────────────────────────────────────────────────────────────
+function resetChat() {
+  messagesEl.innerHTML = '';
+  resetState(); setPromptsEnabled(true); stepEl.classList.remove('visible');
+  showLanding();
+}
+
+// expose for inline oninput handlers
+window.ddaUpdateRow = ddaUpdateRow;
+
+function toggleMoreActions() {
+  const panel = document.getElementById('more-actions-panel');
+  const label = document.getElementById('more-actions-label');
+  const open = panel.classList.toggle('open');
+  label.textContent = open ? '− Less' : '+ More actions';
+}
+window.toggleMoreActions = toggleMoreActions;
+
+// ─── EVENT WIRING ─────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  // Quick action chips
+  document.querySelectorAll('.prompt-chip').forEach(btn =>
+    btn.addEventListener('click', () => { openAssistant(); startFlow(btn.dataset.flow); })
+  );
+
+  document.getElementById('new-convo-btn').addEventListener('click', resetChat);
+  document.getElementById('send-btn').addEventListener('click', () => {
+    const v = inputEl.value.trim(); if (!v) return;
+    inputEl.value = ''; handleFreeText(v);
+  });
+  inputEl.addEventListener('keypress', e => { if (e.key === 'Enter') document.getElementById('send-btn').click(); });
+
+  messagesEl.addEventListener('click', e => {
+    // Multi-select toggle
+    const msItem = e.target.closest('.ms-item[data-action="toggle_from"]');
+    if (msItem && !msItem.disabled) {
+      msItem.classList.toggle('selected');
+      const cb = msItem.querySelector('.ms-checkbox');
+      if (cb) cb.textContent = msItem.classList.contains('selected') ? '✓' : '';
+      const widget = msItem.closest('.multiselect-widget');
+      const count = widget.querySelectorAll('.ms-item.selected').length;
+      const cont = widget.querySelector('#ms-continue-btn');
+      if (cont) {
+        cont.disabled = count === 0;
+        cont.textContent = count > 0 ? `Continue with ${count} selected →` : 'Select subscriptions above';
+      }
+      return;
+    }
+
+    const btn = e.target.closest('[data-action]');
+    if (!btn || btn.disabled) return;
+
+    // Lock widget after action
+    const wi = btn.closest('.widget-inner');
+    if (wi) {
+      wi.querySelectorAll('.picker-card, .coterm-opt, .abtn, .ms-item').forEach(b => {
+        b.disabled = true; b.style.opacity = '0.45'; b.style.cursor = 'default'; b.style.pointerEvents = 'none';
+      });
+    }
+    dispatch(btn.dataset.action, btn.dataset);
+  });
+
+  // ── Size presets ───────────────────────────────────────────
+  const SIZES = { small: [320, 480], medium: [420, 620], large: [600, 820] };
+  function applySize(name) {
+    const [w, h] = SIZES[name];
+    chatPanelEl.style.width  = w + 'px';
+    chatPanelEl.style.height = h + 'px';
+    document.querySelectorAll('.size-btn').forEach(b => b.classList.toggle('active', b.dataset.size === name));
+  }
+  document.querySelectorAll('.size-btn').forEach(btn =>
+    btn.addEventListener('click', () => applySize(btn.dataset.size))
+  );
+
+  // ── Drag-to-resize ─────────────────────────────────────────
+  const handle = document.getElementById('resize-handle');
+  let resizing = false, rx0, ry0, rw0, rh0;
+
+  handle.addEventListener('mousedown', e => {
+    resizing = true;
+    rx0 = e.clientX; ry0 = e.clientY;
+    rw0 = chatPanelEl.offsetWidth;
+    rh0 = chatPanelEl.offsetHeight;
+    chatPanelEl.style.transition = 'none'; // disable spring during drag
+    document.body.classList.add('resizing');
+    e.preventDefault();
+  });
+
+  document.addEventListener('mousemove', e => {
+    if (!resizing) return;
+    const newW = Math.min(Math.max(300, rw0 + (rx0 - e.clientX)), Math.min(900, window.innerWidth * 0.85));
+    const newH = Math.min(Math.max(380, rh0 + (ry0 - e.clientY)), window.innerHeight * 0.92);
+    chatPanelEl.style.width  = newW + 'px';
+    chatPanelEl.style.height = newH + 'px';
+    // Clear active size preset since it's now custom
+    document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+  });
+
+  document.addEventListener('mouseup', () => {
+    if (!resizing) return;
+    resizing = false;
+    document.body.classList.remove('resizing');
+    chatPanelEl.style.transition = ''; // restore transition
+  });
+
+  // Initialize list page table and set starting page context
+  renderOppList('all');
+  navigateTo('list');
+
+  // Start collapsed — show FAB, hide panel
+  // (panel opens when user clicks "Ask Assistant")
+});
+</script>
+</body>
+</html>
