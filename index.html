@@ -1150,16 +1150,16 @@
     <span class="sf-app">Sales Unified</span>
     <div class="sf-tabs">
       <div class="sf-tab">Home</div>
-      <div class="sf-tab active">STM Test US acco… ✕</div>
+      <div class="sf-tab active">Primetals Machine… ✕</div>
     </div>
   </div>
 
   <div class="opp-header">
-    <div class="breadcrumb">Opportunities / STM Test US account GF-1004514012-E-Store New Order</div>
+    <div class="breadcrumb">Opportunities / Primetals Machine Usage EBA 2023</div>
     <div class="opp-title-row">
       <div class="opp-title-left">
         <div class="opp-icon">⬡</div>
-        <div class="opp-name">STM Test US account GF‑1004514012‑ E‑Store New Order</div>
+        <div class="opp-name">Primetals Machine Usage EBA 2023</div>
       </div>
       <div class="opp-actions">
         <button class="btn">+ Follow</button>
@@ -1171,22 +1171,22 @@
       </div>
     </div>
     <div class="opp-fields">
-      <div class="opp-field"><div class="opp-field-l">Account Name</div><div class="opp-field-v link">STM Test US account GF</div></div>
-      <div class="opp-field"><div class="opp-field-l">Total Net Amount</div><div class="opp-field-v" id="header-total">USD 11,275.00</div></div>
-      <div class="opp-field"><div class="opp-field-l">Primary Contact</div><div class="opp-field-v link">Stgorderone contact</div></div>
-      <div class="opp-field"><div class="opp-field-l">Estimated Units</div><div class="opp-field-v">20.00</div></div>
-      <div class="opp-field"><div class="opp-field-l">Opportunity Owner</div><div class="opp-field-v link">AMER_USER</div></div>
+      <div class="opp-field"><div class="opp-field-l">Account Name</div><div class="opp-field-v link">Primetals Technologies Ltd</div></div>
+      <div class="opp-field"><div class="opp-field-l">Total Net Amount</div><div class="opp-field-v" id="header-total">USD 1,908,921,400.00</div></div>
+      <div class="opp-field"><div class="opp-field-l">Close Date</div><div class="opp-field-v">2023-09-29</div></div>
+      <div class="opp-field"><div class="opp-field-l">Forecast Category</div><div class="opp-field-v">Pipeline</div></div>
+      <div class="opp-field"><div class="opp-field-l">Opportunity Owner</div><div class="opp-field-v link">Human Yarahmadi</div></div>
     </div>
   </div>
 
   <div class="stage-bar">
     <div style="display:flex;align-items:center;gap:8px;">
       <div class="stage-steps" style="flex:1;">
-        <div class="stage-step">✓ Prospect</div>
-        <div class="stage-step">✓ Qualify</div>
-        <div class="stage-step">✓ Develop</div>
-        <div class="stage-step current">Propose</div>
-        <div class="stage-step inactive">Negotiate</div>
+        <div class="stage-step">✓ Stage 1</div>
+        <div class="stage-step">✓ Stage 2</div>
+        <div class="stage-step">✓ Stage 3</div>
+        <div class="stage-step current">Stage 4</div>
+        <div class="stage-step inactive">Stage 5</div>
         <div class="stage-step inactive">Won</div>
       </div>
       <button class="btn btn-primary">Move to Next Stage</button>
@@ -1502,18 +1502,20 @@
 <script>
 // ─── MOCK DATA ────────────────────────────────────────────────────────────────
 const OPP = {
-  name: 'STM Test US account GF-1004514012-E-Store New Order',
-  account: 'STM Test US account GF',
-  stage: 'Propose',
+  id: '0063g00000Gl2bwAAB',
+  name: 'Primetals Machine Usage EBA 2023',
+  account: 'Primetals Technologies Ltd',
+  stage: 'Stage 4',
+  closeDate: '2023-09-29',
+  amount: 1908921400,
+  owner: 'Human Yarahmadi',
+  forecastCategory: 'Pipeline',
   lineItems: [
-    { id: 'li-1', product: 'AutoCAD Subscription', qty: 2,  unitPrice: 2000.00, annualPrice: 2000.00, endDate: '2026-12-31', inRenewal: true, icon: '📐' },
-    { id: 'li-2', product: 'Revit Add-on',          qty: 5,  unitPrice: 1005.00, annualPrice: 1005.00, endDate: '2026-12-31', inRenewal: true, icon: '🏗️' },
-    { id: 'li-3', product: 'Build500',              qty: 3,  unitPrice:  750.00, annualPrice:  750.00, endDate: '2026-12-31', inRenewal: true, icon: '🔧' }
+    { id: 'li-1', product: 'AutoCAD - including specialized toolsets', qty: 184000, unitPrice: 4725.00, annualPrice: 4725.00, endDate: '2026-12-31', inRenewal: true, icon: '📐' },
+    { id: 'li-2', product: 'Vault PLM - Professional',                 qty: 107000, unitPrice: 1760.20, annualPrice: 1760.20, endDate: '2026-12-31', inRenewal: true, icon: '🏗️' },
+    { id: 'li-3', product: 'Inventor Professional',                    qty: 146000, unitPrice: 5830.00, annualPrice: 5830.00, endDate: '2026-12-31', inRenewal: true, icon: '🔧' }
   ],
-  newLineItems: [
-    { id: 'nl-1', product: 'Maya',    qty: 10, unitPrice: 1800.00, annualPrice: 1800.00, isNew: true, icon: '🎨' },
-    { id: 'nl-2', product: '3ds Max', qty: 8,  unitPrice: 1600.00, annualPrice: 1600.00, isNew: true, icon: '🖥️' }
-  ]
+  newLineItems: []
 };
 
 const RENEWAL_ACCOUNTS = [
