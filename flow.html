@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Business Plan Seller Experience – Process Flow</title>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f4f6f9; color: #1a1a2e; }
+
+  header {
+    background: #1a1a2e;
+    color: white;
+    padding: 20px 32px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  }
+  header .logo { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
+  header .subtitle { font-size: 13px; color: #8899aa; margin-top: 2px; }
+  header .badge {
+    margin-left: auto;
+    background: #e67e22;
+    color: white;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 12px;
+    letter-spacing: 0.5px;
+  }
+
+  .tabs {
+    display: flex;
+    gap: 4px;
+    padding: 16px 32px 0;
+    border-bottom: 2px solid #dde3ed;
+    background: white;
+    overflow-x: auto;
+  }
+  .tab {
+    padding: 10px 18px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #667;
+    border: none;
+    background: none;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+    white-space: nowrap;
+    transition: all 0.15s;
+  }
+  .tab:hover { color: #1a1a2e; }
+  .tab.active { color: #1a73e8; border-bottom-color: #1a73e8; font-weight: 600; }
+
+  .phase-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px; height: 20px;
+    background: #1a73e8;
+    color: white;
+    border-radius: 50%;
+    font-size: 11px;
+    font-weight: 700;
+    margin-right: 6px;
+  }
+  .tab.active .phase-num { background: #1a73e8; }
+  .tab:not(.active) .phase-num { background: #aab; }
+
+  .content { padding: 24px 32px; }
+
+  .phase-header {
+    margin-bottom: 20px;
+  }
+  .phase-header h2 { font-size: 18px; font-weight: 700; color: #1a1a2e; }
+  .phase-header p { font-size: 13px; color: #667; margin-top: 4px; }
+
+  .diagram-wrap {
+    background: white;
+    border-radius: 12px;
+    border: 1px solid #dde3ed;
+    padding: 32px;
+    overflow-x: auto;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+  .diagram-wrap .mermaid { min-width: 600px; }
+
+  .legend {
+    display: flex;
+    gap: 20px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: #667;
+  }
+  .legend-box {
+    width: 14px; height: 14px;
+    border-radius: 3px;
+  }
+
+  .note-card {
+    background: #fffbea;
+    border: 1px solid #f0d060;
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: #7a6000;
+    margin-top: 16px;
+    line-height: 1.5;
+  }
+  .note-card strong { font-weight: 600; }
+
+  .panel { display: none; }
+  .panel.active { display: block; }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <div class="logo">Business Plan Seller Experience</div>
+    <div class="subtitle">Customer Success Offerings – Value-Based Pricing · Process Flow</div>
+  </div>
+  <div class="badge">DRAFT · Mar 2026</div>
+</header>
+
+<div class="tabs">
+  <button class="tab active" onclick="show(0)"><span class="phase-num">1</span>Opportunity Mgmt</button>
+  <button class="tab" onclick="show(1)"><span class="phase-num">2</span>CSN Selection</button>
+  <button class="tab" onclick="show(2)"><span class="phase-num">3</span>AOV &amp; Pricing</button>
+  <button class="tab" onclick="show(3)"><span class="phase-num">4</span>Pricing Approval</button>
+  <button class="tab" onclick="show(4)"><span class="phase-num">5</span>Quote &amp; Order</button>
+  <button class="tab" onclick="show(5)"><span class="phase-num">6</span>Renewal</button>
+  <button class="tab" onclick="show(6)"><span class="phase-num">7</span>Amendments</button>
+  <button class="tab" onclick="show(7)"><span class="phase-num">⚡</span>Auto-Coverage</button>
+  <button class="tab" onclick="show(8)"><span class="phase-num">⚠</span>New CSN Policy</button>
+</div>
+
+<div class="content">
+
+  <!-- PHASE 1 -->
+  <div class="panel active" id="p0">
+    <div class="phase-header">
+      <h2>Phase 1 — Opportunity Management</h2>
+      <p>Seller creates an opportunity and selects the Business Plan product before touching CSNs.</p>
+    </div>
+    <div class="diagram-wrap">
+      <div class="mermaid">
+flowchart LR
+  A([Start]) --> B[Create Sales\nOpportunity in SFDC]
+  B --> C[Manage Products\n— Add Product]
+  C --> D[Search Business Plan\noffering via O2P]
+  D --> E[Select VBP offering\n— drawer opens]
+  E --> F([→ Go to Phase 2:\nCSN Selection])
+
+  style A fill:#1a73e8,color:#fff,stroke:none
+  style F fill:#34a853,color:#fff,stroke:none
+  style B fill:#e8f0fe,stroke:#1a73e8
+  style C fill:#e8f0fe,stroke:#1a73e8
+  style D fill:#e8f0fe,stroke:#1a73e8
+  style E fill:#e8f0fe,stroke:#1a73e8
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 2 -->
+  <div class="panel" id="p1">
+    <div class="phase-header">
+      <h2>Phase 2 — CSN Selection &amp; Coverage</h2>
+      <p>Triggered after product selected. Seller searches and selects which CSNs to cover. Hierarchy rules apply.</p>
+    </div>
+    <div class="diagram-wrap">
+      <div class="mermaid">
+flowchart LR
+  A([← From Phase 1]) --> B[Search CSNs by\nemail, name, location]
+  B --> C{Eligible CSNs\nfound?}
+  C -- Yes --> D["Select CSNs for coverage\n━━━━━━━━━━━━━━━━\nL1 → all L2+L3 auto-selected\nL2 → all L3 auto-selected\nOnly L3 allows deselect"]
+  C -- No --> X([Customer not eligible\n— EXIT])
+  D --> E{CSNs in same\nhierarchy?}
+  E -- Yes --> F[Validate eligible\nsubscriptions]
+  E -- No --> Y([Reject — cross-hierarchy\nnot allowed])
+  F --> G([→ Go to Phase 3:\nAOV & Pricing])
+
+  style A fill:#1a73e8,color:#fff,stroke:none
+  style G fill:#34a853,color:#fff,stroke:none
+  style X fill:#ea4335,color:#fff,stroke:none
+  style Y fill:#ea4335,color:#fff,stroke:none
+  style C fill:#fff3cd,stroke:#e6a817
+  style E fill:#fff3cd,stroke:#e6a817
+  style D fill:#e6f4ea,stroke:#34a853
+      </div>
+    </div>
+    <div class="note-card">
+      <strong>Hierarchy rule:</strong> If an L2 or L1 has already purchased a Business Plan and a user tries to add an L3-level CSN, the system throws an error. At L3 level, if BP is already purchased, those CSNs are excluded from L1/L2 purchase flows.
+    </div>
+  </div>
+
+  <!-- PHASE 3 -->
+  <div class="panel" id="p2">
+    <div class="phase-header">
+      <h2>Phase 3 — AOV &amp; Pricing on Opportunity</h2>
+      <p>System auto-calculates AOV from Finmart/EDH. ADV is system-populated and non-editable. Seller enters scope fields.</p>
+    </div>
+    <div class="diagram-wrap">
+      <div class="mermaid">
+flowchart LR
+  A([← From Phase 2]) --> B["AOV auto-calculated\n(Finmart/EDH trailing 12mo)\n→ ADV system-populated\n⚠ Non-editable"]
+  NF["New customer fallback:\nNo trailing 12mo spend?\n→ Use current deal value\nas AOV input"] -.->|fallback| B
+  B --> C[Enter Scope of Use\n& Scope Details\nADV locked]
+  C --> D{Validation\npasses?}
+  D -- Yes --> E[O2P returns Extended Price\nValue Tier · Value Factor]
+  D -- "No — ADV=0 or\nfields missing" --> F[Fix validation errors]
+  F --> B
+  E --> G[Save OLI to Opportunity]
+  G --> H([→ Go to Phase 4:\nPricing Approval])
+
+  style A fill:#1a73e8,color:#fff,stroke:none
+  style H fill:#34a853,color:#fff,stroke:none
+  style D fill:#fff3cd,stroke:#e6a817
+  style B fill:#e8f0fe,stroke:#1a73e8,font-weight:bold
+  style NF fill:#fffbea,stroke:#f0c040
+  style F fill:#fce8e6,stroke:#ea4335
+      </div>
+    </div>
+    <div class="note-card">
+      <strong>Key rule:</strong> ADV is system-controlled and non-editable once calculated. OLI Qty = 1, locked. Price lock prevents manual modification after AOV is set. AOV recalculates whenever CSN selection changes.
+    </div>
+  </div>
+
+  <!-- PHASE 4 -->
+  <div class="panel" id="p3">
+    <div class="phase-header">
+      <h2>Phase 4 — Pricing &amp; Approval</h2>
+      <p>System checks if price meets $35k AOV floor. DDA required if below threshold.</p>
+    </div>
+    <div class="diagram-wrap">
+      <div class="mermaid">
+flowchart LR
+  A([← From Phase 3]) --> B{Price below\n$35k AOV minimum\nthreshold?}
+  B -- No --> C([Price accepted\n→ Go to Phase 5])
+  B -- "Yes — exception needed" --> D[Submit DDA\ndiscount request]
+  D --> E{DDA\napproved?}
+  E -- Yes --> C
+  E -- No --> F[Revise ADV or coverage]
+  F --> A2([← Back to Phase 3\nAOV recalculation])
+
+  style A fill:#1a73e8,color:#fff,stroke:none
+  style C fill:#34a853,color:#fff,stroke:none
+  style A2 fill:#1a73e8,color:#fff,stroke:none
+  style B fill:#fff3cd,stroke:#e6a817
+  style E fill:#fff3cd,stroke:#e6a817
+  style F fill:#fce8e6,stroke:#ea4335
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 5 -->
+  <div class="panel" id="p4">
+    <div class="phase-header">
+      <h2>Phase 5 — Quote &amp; Order</h2>
+      <p>Create quote, validate line items, submit order via CPQ, Pelican confirms and entitlements are granted.</p>
+    </div>
+    <div class="diagram-wrap">
+      <div class="mermaid">
+flowchart LR
+  A([← From Phase 4]) --> B[Create Quote\nfrom Opportunity]
+  B --> C[CPQ populates VBP\nattrs as read-only]
+  C --> D{VBP line item\nparity valid?}
+  D -- No --> E[Fix line item mismatch]
+  E --> B
+  D -- Yes --> F[Finalize and send Quote]
+  F --> G{Customer\naccepts quote?}
+  G -- No --> H[Revise or\nabandon opportunity]
+  G -- Yes --> I[Submit Order\nvia CPQ]
+  I --> J[Order confirmed\nby Pelican]
+  J --> K[Closed-loop:\nOLI = Completed\nSub ID populated]
+  K --> L[CSN coverage associations\ncreated — Pelican]
+  L --> M[Entitlement platform\ngrants BP-level benefits\nto covered CSNs]
+  M --> N([→ Go to Phase 6:\nRenewal])
+
+  style A fill:#1a73e8,color:#fff,stroke:none
+  style N fill:#34a853,color:#fff,stroke:none
+  style H fill:#ea4335,color:#fff,stroke:none
+  style D fill:#fff3cd,stroke:#e6a817
+  style G fill:#fff3cd,stroke:#e6a817
+  style L fill:#e6f4ea,stroke:#34a853
+  style M fill:#e6f4ea,stroke:#34a853
+      </div>
+    </div>
+    <div class="note-card">
+      <strong>Closed-loop:</strong> After Pelican confirms, CSN coverage associations are created and the entitlement platform reads those associations to grant BP-level benefits — subscriptions are NOT mutated. Service Plan Code remains Standard.
+    </div>
+  </div>
+
+  <!-- PHASE 6 -->
+  <div class="panel" id="p5">
+    <div class="phase-header">
+      <h2>Phase 6 — Renewal Workflow</h2>
+      <p>System generates renewal opportunity. AOV recalculates from current spend. Seller can add/remove CSNs before submitting.</p>
+    </div>
+    <div class="diagram-wrap">
+      <div class="mermaid">
+flowchart LR
+  A([← From Phase 5]) --> B[System generates Sub Oppty\nwith renewal line items]
+  B --> C[Renewal Rep opens\nreconfigure screen]
+  C --> D[ADV defaults\nfrom prior term]
+  D --> E[System recalculates AOV\nfor covered CSNs\nFinmart/EDH trailing 12mo]
+  E --> F[Renewal Rep updates\nADV if needed]
+  F --> G[Enter Scope fields\nnull on renewal]
+  G --> H{Modify CSN\ncoverage?}
+  H -- Yes --> I[Add or remove CSNs\nAOV recalculated]
+  I --> J[Save and Create Quote]
+  H -- No --> J
+  J --> K[Submit Renewal Order]
+  K --> L["Closed-loop: OLI = Renewed\nCSN coverage associations updated\nEntitlements refreshed"]
+
+  style A fill:#1a73e8,color:#fff,stroke:none
+  style L fill:#34a853,color:#fff,stroke:none
+  style H fill:#fff3cd,stroke:#e6a817
+  style L fill:#e6f4ea,stroke:#34a853
+      </div>
+    </div>
+    <div class="note-card">
+      <strong>Renewal rules:</strong> A new L3 CSN created under a covered L2 during the prior term is NOT automatically added at renewal — seller must manually add it via Manage Covered CSNs. Tier may increase or decrease based on new AOV.
+    </div>
+  </div>
+
+  <!-- PHASE 7 -->
+  <div class="panel" id="p6">
+    <div class="phase-header">
+      <h2>Phase 7 — Amendments (Mid-Term CSN Additions)</h2>
+      <p>Seller can add CSNs to an active Business Plan during the term. No extra charge now — uplift applies at renewal.</p>
+    </div>
+    <div class="diagram-wrap">
+      <div class="mermaid">
+flowchart LR
+  A([AE opens active\nBusiness Plan]) --> B[Search & select\nadditional CSNs to add]
+  B --> C{Same account\nhierarchy?}
+  C -- No --> X([Error: cross-hierarchy\nnot allowed — blocked])
+  C -- Yes --> D[AOV recalculated\nwith added CSNs]
+  D --> E[OLI updated\nNo extra charge now\nUplift at renewal]
+  E --> F([Amendment saved\nCoverage list updated])
+
+  style A fill:#1a73e8,color:#fff,stroke:none
+  style F fill:#34a853,color:#fff,stroke:none
+  style X fill:#ea4335,color:#fff,stroke:none
+  style C fill:#fff3cd,stroke:#e6a817
+  style E fill:#e6f4ea,stroke:#34a853
+      </div>
+    </div>
+    <div class="note-card">
+      <strong>Mid-term amendment rules:</strong> Hierarchy validation is mandatory. No additional charge during active term — added CSNs are captured in spend at renewal. Eliminates the legacy true-up model.
+    </div>
+  </div>
+
+  <!-- AUTO-COVERAGE -->
+  <div class="panel" id="p7">
+    <div class="phase-header">
+      <h2>System: Auto-Coverage for New Subscriptions</h2>
+      <p>Fully automated — no seller action required when a new subscription is purchased under an already-covered CSN.</p>
+    </div>
+    <div class="diagram-wrap">
+      <div class="mermaid">
+flowchart LR
+  A([New sub purchased\nunder covered CSN]) --> B[System detects CSN\nin coverage association list]
+  B --> C[Entitlement platform\nauto-grants BP-level benefits]
+  C --> D["No seller action\nNo price change\nNo sub mutation\nService Plan Code = Standard"]
+  D --> E[Renewal forecast updated\nwith new sub spend]
+
+  style A fill:#1a73e8,color:#fff,stroke:none
+  style E fill:#34a853,color:#fff,stroke:none
+  style C fill:#e6f4ea,stroke:#34a853
+  style D fill:#e6f4ea,stroke:#34a853
+      </div>
+    </div>
+    <div class="note-card">
+      <strong>Auto-coverage rules:</strong> Only works for CSNs already in the coverage list. No AOV recalculation or renewal trigger at point of auto-coverage. New subscription spend is captured at next renewal.
+    </div>
+  </div>
+
+  <!-- NEW CSN POLICY -->
+  <div class="panel" id="p8">
+    <div class="phase-header">
+      <h2>New CSN During Term — No Auto-Expansion</h2>
+      <p>A new L3 CSN created under a covered L2 during the term does NOT automatically get BP coverage.</p>
+    </div>
+    <div class="diagram-wrap">
+      <div class="mermaid">
+flowchart LR
+  A([New L3 CSN created\nunder covered L2]) --> B[NOT auto-added\nto BP coverage list]
+  B --> C[New subs get\nStandard support only\nNo BP benefits]
+  C --> D{Needs immediate\ncoverage?}
+  D -- Yes --> E[Manual support request\nor buy under\nalready-covered CSN]
+  D -- "No — wait for renewal" --> F[Add CSN at renewal\nvia Manage Covered CSNs]
+
+  style A fill:#e67e22,color:#fff,stroke:none
+  style B fill:#fce8e6,stroke:#ea4335
+  style C fill:#fce8e6,stroke:#ea4335
+  style D fill:#fff3cd,stroke:#e6a817
+  style E fill:#e8f0fe,stroke:#1a73e8
+  style F fill:#e6f4ea,stroke:#34a853
+      </div>
+    </div>
+    <div class="note-card">
+      <strong>Key policy:</strong> Auto-coverage is per the CSN list at purchase time — NOT per the hierarchy. A new L3 under a covered L2 is not automatically covered. The only path to immediate coverage is a manual support request. Standard addition path is at renewal.
+    </div>
+  </div>
+
+</div>
+
+<script>
+  mermaid.initialize({ startOnLoad: true, theme: 'base', themeVariables: {
+    primaryColor: '#e8f0fe',
+    primaryTextColor: '#1a1a2e',
+    primaryBorderColor: '#1a73e8',
+    lineColor: '#667788',
+    secondaryColor: '#fff3cd',
+    tertiaryColor: '#e6f4ea',
+    fontSize: '13px'
+  }, flowchart: { curve: 'basis', padding: 20 } });
+
+  function show(i) {
+    document.querySelectorAll('.panel').forEach((p, idx) => p.classList.toggle('active', idx === i));
+    document.querySelectorAll('.tab').forEach((t, idx) => t.classList.toggle('active', idx === i));
+  }
+</script>
+
+</body>
+</html>
