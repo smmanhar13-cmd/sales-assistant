@@ -502,6 +502,40 @@
   .ms-detail { font-size: 11px; color: var(--ai-text-m); margin-top: 1px; }
   .ms-price { font-size: 12px; font-weight: 600; color: var(--ai-text-2); flex-shrink: 0; }
   .ms-footer { padding: 10px 14px; border-top: 1px solid var(--ai-border); background: #fafbfc; }
+  .sw-tabs { display: flex; gap: 6px; margin-bottom: 10px; }
+  .sw-tab { flex: 1; padding: 7px 10px; font-size: 12px; font-weight: 600; border: 1px solid var(--ai-border); background: white; color: var(--ai-text-2); border-radius: 8px; cursor: pointer; transition: all 0.12s; }
+  .sw-tab:hover { background: #f9fafb; }
+  .sw-tab.active { background: var(--ai-blue); border-color: var(--ai-blue); color: white; }
+  .sw-search-bar { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; background: #f4f6f8; padding: 8px; border-radius: 8px; }
+  .sw-search-lbl { font-size: 12px; color: var(--ai-text-m); flex-shrink: 0; }
+  .sw-search-input { flex: 1; min-width: 0; box-sizing: border-box; padding: 8px 10px; font-size: 13px; border: 1px solid var(--ai-border); border-radius: 7px; outline: none; }
+  .sw-search-input:focus { border-color: var(--ai-blue); }
+  .sw-search-btn { white-space: nowrap; padding: 8px 12px; font-size: 12px; font-weight: 600; border: none; background: var(--ai-blue); color: white; border-radius: 7px; cursor: pointer; }
+  .sw-search-btn:hover { filter: brightness(0.95); }
+  .sw-hint { padding: 14px; text-align: center; color: var(--ai-text-m); font-size: 12px; line-height: 1.5; }
+  .sw-offering { border: 1px solid var(--ai-border); border-radius: 10px; overflow: hidden; margin-bottom: 8px; }
+  .sw-offering-head { padding: 9px 12px; font-weight: 700; font-size: 13px; background: #f7f9fb; border-bottom: 1px solid var(--ai-border); }
+  .sw-term-row { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-bottom: 1px solid #f0f2f4; cursor: pointer; }
+  .sw-term-row:last-child { border-bottom: none; }
+  .sw-term-row:hover { background: #f9fafb; }
+  .sw-term-check { width: 16px; height: 16px; flex-shrink: 0; accent-color: var(--ai-blue); }
+  .sw-term-body { flex: 1; min-width: 0; }
+  .sw-term-name { font-size: 12.5px; font-weight: 600; }
+  .sw-term-meta { font-size: 10.5px; color: var(--ai-text-m); margin-top: 1px; }
+  .sw-term-qty { width: 48px; flex-shrink: 0; padding: 5px 6px; font-size: 12px; border: 1px solid var(--ai-border); border-radius: 6px; text-align: center; }
+  .ct-label { font-size: 11px; font-weight: 700; color: var(--ai-text-2); margin-bottom: 6px; }
+  .ct-offer { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border: 1px solid var(--ai-border); border-radius: 10px; background: #fafbfc; }
+  .ct-offer-body { flex: 1; min-width: 0; }
+  .ct-offer-name { font-size: 13px; font-weight: 700; }
+  .ct-offer-meta { font-size: 11px; color: var(--ai-text-m); margin-top: 2px; }
+  .ct-result { font-size: 12px; padding: 9px 12px; border: 1px solid var(--ai-border); border-radius: 8px; background: white; margin-bottom: 10px; }
+  .ct-dates { display: flex; gap: 10px; }
+  .ct-date { flex: 1; min-width: 0; }
+  .ct-date-lbl { font-size: 11px; font-weight: 600; color: var(--ai-text-2); margin-bottom: 4px; }
+  .ct-dates input { width: 100%; box-sizing: border-box; padding: 7px 9px; font-size: 12px; border: 1px solid var(--ai-border); border-radius: 7px; }
+  .ct-dates input[readonly] { background: #f4f6f8; color: var(--ai-text-2); }
+  .ct-block { margin-top: 8px; padding: 10px 12px; font-size: 12px; line-height: 1.45; background: #fdecea; border: 1px solid #f5c6c0; color: #b3261e; border-radius: 8px; }
+  .ct-note { margin: 8px 0; padding: 9px 12px; font-size: 11.5px; line-height: 1.45; background: #fff8e6; border: 1px solid #f3e1b0; color: #8a6500; border-radius: 8px; }
 
   /* Coterm options */
   .coterm-options { display: flex; flex-direction: column; gap: 7px; }
@@ -1458,7 +1492,7 @@
         <div class="qa-grid">
           <button class="prompt-chip" data-flow="coterm"><span class="chip-icon">🔗</span>Co-term</button>
           <button class="prompt-chip" data-flow="switch"><span class="chip-icon">🔄</span>Switch</button>
-          <button class="prompt-chip" data-flow="midterm"><span class="chip-icon">⚡</span>Mid-term Switch</button>
+          <button class="prompt-chip" data-flow="account_summary"><span class="chip-icon">🏢</span>Account Summary</button>
           <button class="prompt-chip" data-flow="extend"><span class="chip-icon">📅</span>Extend Renewal</button>
         </div>
         <button id="more-actions-btn" onclick="toggleMoreActions()">
@@ -1480,9 +1514,9 @@
             </div>
           </div>
           <div class="qa-group">
-            <div class="qa-group-label">Account Insights</div>
+            <div class="qa-group-label">Renewal Actions</div>
             <div class="qa-grid">
-              <button class="prompt-chip" data-flow="account_summary"><span class="chip-icon">🏢</span>Account Summary</button>
+              <button class="prompt-chip" data-flow="midterm"><span class="chip-icon">⚡</span>Mid-term Switch</button>
             </div>
           </div>
         </div>
@@ -1511,11 +1545,16 @@ const OPP = {
   owner: 'Human Yarahmadi',
   forecastCategory: 'Pipeline',
   lineItems: [
-    { id: 'li-1', product: 'AutoCAD - including specialized toolsets', qty: 184000, unitPrice: 4725.00, annualPrice: 4725.00, endDate: '2026-12-31', inRenewal: true, icon: '📐' },
-    { id: 'li-2', product: 'Vault PLM - Professional',                 qty: 107000, unitPrice: 1760.20, annualPrice: 1760.20, endDate: '2026-12-31', inRenewal: true, icon: '🏗️' },
-    { id: 'li-3', product: 'Inventor Professional',                    qty: 146000, unitPrice: 5830.00, annualPrice: 5830.00, endDate: '2026-12-31', inRenewal: true, icon: '🔧' }
+    { id: 'li-1', product: 'AutoCAD - including specialized toolsets', qty: 184000, unitPrice: 4725.00, annualPrice: 4725.00, endDate: '2026-12-31', inRenewal: true, icon: '📐',
+      status: 'Active', userType: 'Single-User', billingBehavior: 'Renewable', contractStatus: 'Active', contractTerm: '1 Year', offering: 'Standard', market: 'COM', inRenewalWindow: true },
+    { id: 'li-2', product: 'Vault PLM - Professional',                 qty: 107000, unitPrice: 1760.20, annualPrice: 1760.20, endDate: '2026-12-31', inRenewal: true, icon: '🏗️',
+      status: 'Active', userType: 'Multi-User', billingBehavior: 'Renewable', contractStatus: 'Active', contractTerm: '1 Year', offering: 'Standard', market: 'COM', inRenewalWindow: true },
+    { id: 'li-3', product: 'Inventor Professional',                    qty: 146000, unitPrice: 5830.00, annualPrice: 5830.00, endDate: '2026-12-31', inRenewal: true, icon: '🔧',
+      status: 'Active', userType: 'Single-User', billingBehavior: 'Renewable', contractStatus: 'Active', contractTerm: '1 Year', offering: 'Premium', market: 'COM', inRenewalWindow: true }
   ],
-  newLineItems: []
+  newLineItems: [
+    { id: 'nli-1', product: 'AutoCAD LT', qty: 184000, unitPrice: 1200.00, annualPrice: 1200.00, endDate: '2026-12-31', icon: '📏', isNew: true, offering: 'Standard', market: 'COM' }
+  ]
 };
 
 const RENEWAL_ACCOUNTS = [
@@ -1590,9 +1629,24 @@ const DDA_REQUESTS = [
 ];
 
 const SWITCH_PRODUCTS = [
-  { id: 'sp-1', name: 'AutoCAD LT',             desc: 'Essential 2D drafting for individuals', price: 1200.00, icon: '📏' },
-  { id: 'sp-2', name: 'Architecture Collection', desc: 'Full AEC toolset for architectural design', price: 3500.00, icon: '🏛️' },
-  { id: 'sp-3', name: 'AEC Collection',          desc: 'Complete suite for infrastructure projects', price: 4200.00, icon: '🌉' }
+  { id: 'sp-1', name: 'AutoCAD LT',              desc: 'Essential 2D drafting for individuals',        price: 1200.00, icon: '📏', market: 'COM' },
+  { id: 'sp-2', name: 'Architecture Collection', desc: 'Full AEC toolset for architectural design',     price: 3500.00, icon: '🏛️', market: 'COM' },
+  { id: 'sp-3', name: 'AEC Collection',          desc: 'Complete suite for infrastructure projects',    price: 4200.00, icon: '🌉', market: 'COM' },
+  { id: 'sp-4', name: 'Product Design & Mfg Collection', desc: 'Inventor, AutoCAD & advanced mfg tools', price: 4600.00, icon: '⚙️', market: 'COM' },
+  { id: 'sp-5', name: 'Civil 3D',                desc: 'Civil infrastructure design & documentation',   price: 2900.00, icon: '🛣️', market: 'COM' },
+  { id: 'sp-6', name: 'Revit',                   desc: 'BIM for architecture, MEP & structure',          price: 3100.00, icon: '🏢', market: 'COM' },
+  { id: 'sp-7', name: 'Fusion 360',              desc: 'Integrated CAD/CAM/CAE for product design',      price: 1700.00, icon: '🔩', market: 'COM' },
+  { id: 'sp-8', name: 'Maya',                    desc: '3D animation, modeling & rendering',             price: 1875.00, icon: '🎬', market: 'COM' },
+  { id: 'sp-9', name: '3ds Max',                 desc: '3D modeling & rendering for design viz',         price: 1875.00, icon: '🎨', market: 'COM' },
+  { id: 'sp-10', name: 'Navisworks Manage',      desc: 'Project review & clash detection',               price: 2400.00, icon: '🔍', market: 'COM' }
+];
+
+// Existing subscriptions a co-term can align to, looked up by reference subscription ID.
+const REFERENCE_SUBS = [
+  { id: '75116651198620', product: 'Architecture Engineering & Construction Collection', term: 'Annual', pricing: 'Quantity Based', qty: 1, endDate: '2026-06-28', userType: 'Single-User', planType: 'Subscription',     preNBEOnline: false },
+  { id: '75116651200145', product: 'AutoCAD LT',            term: 'Annual', pricing: 'Quantity Based', qty: 5, endDate: '2027-03-31', userType: 'Multi-User',  planType: 'Subscription',     preNBEOnline: false },
+  { id: '75116651207788', product: 'Civil 3D',              term: '3 Year', pricing: 'Quantity Based', qty: 2, endDate: '2028-09-15', userType: 'Single-User', planType: 'Subscription',     preNBEOnline: true  },
+  { id: '75116651209900', product: 'Inventor Professional', term: 'Annual', pricing: 'Quantity Based', qty: 3, endDate: '2028-03-31', userType: 'Single-User', planType: 'Subscription',     preNBEOnline: false }
 ];
 
 // ─── STATE ────────────────────────────────────────────────────────────────────
@@ -1604,7 +1658,7 @@ const STATE = {
 
 const STEP_CONFIG = {
   extend:            ['extend_pick_item', 'extend_pick_date', 'done'],
-  coterm:            ['coterm_pick_date', 'coterm_review', 'done'],
+  coterm:            ['coterm_pick_offer', 'coterm_reference', 'done'],
   switch:            ['switch_hub'],
   switch_1to1:       ['switch_from', 'switch_to', 'switch_review'],
   switch_m1:         ['switch_from', 'switch_to', 'switch_review'],
@@ -1624,6 +1678,7 @@ function resetState() {
   STATE.selectedItem = null; STATE.pendingDate = null;
   STATE.pendingProduct = null; STATE.cotermTarget = null;
   STATE.switchToItem = null; STATE.switchFromItems = []; STATE.switchType = null; STATE.switchTerm = null;
+  STATE.extendMax = null;
 }
 
 // ─── DOM REFS ─────────────────────────────────────────────────────────────────
@@ -1661,6 +1716,117 @@ function showChat() {
 function fmt(n)    { return '$' + Number(n).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
 function fmtUSD(n) { return 'USD ' + Number(n).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
 function today()   { return new Date().toISOString().split('T')[0]; }
+function fmtDate(iso) { if (!iso) return ''; const [y, m, d] = iso.split('-'); return `${m}/${d}/${y}`; }
+
+// ─── EXTENSION POLICY ─────────────────────────────────────────────────────────
+function addMonthsISO(iso, months) {
+  const [y, m, d] = iso.split('-').map(Number);
+  const base = new Date(Date.UTC(y, m - 1, d));
+  base.setUTCMonth(base.getUTCMonth() + months);
+  return base.toISOString().split('T')[0];
+}
+function addDaysISO(iso, days) {
+  const [y, m, d] = iso.split('-').map(Number);
+  const base = new Date(Date.UTC(y, m - 1, d));
+  base.setUTCDate(base.getUTCDate() + days);
+  return base.toISOString().split('T')[0];
+}
+// Inclusive day span between two ISO dates (counts both start and end date).
+function daysInclusive(a, b) {
+  const da = new Date(a + 'T00:00:00Z'), db = new Date(b + 'T00:00:00Z');
+  return Math.round((db - da) / 86400000) + 1;
+}
+function monthsApprox(a, b) { return (daysInclusive(a, b) - 1) / 30.4375; }
+
+// Whether a subscription is eligible to be extended. Returns {ok, reason}.
+function extendEligibility(item) {
+  const type = (item.productType || item.product || '').toLowerCase();
+  if ((item.status || '').toLowerCase() === 'cancelled')
+    return { ok: false, reason: 'Subscription status is <b>Cancelled</b> — extensions are not permitted on cancelled subscriptions.' };
+  if (item.inRenewal === false)
+    return { ok: false, reason: 'This product is in an <b>end-of-renewal</b> status and is not eligible for renewal or extension.' };
+  if (type.includes('business plan'))
+    return { ok: false, reason: 'Extending a <b>Business Plan</b> is not permitted.' };
+  if (type.includes('flex'))
+    return { ok: false, reason: 'Extending <b>Flex</b> is not permitted.' };
+  if (type.includes('pay as you go') || type.includes('pay-as-you-go') || type.includes('payg'))
+    return { ok: false, reason: 'Extending <b>Pay-as-You-Go</b> offerings is not permitted.' };
+  return { ok: true, reason: '' };
+}
+
+// Latest permitted extension end date = lesser of
+//   • 36 months from the subscription end date, and
+//   • 39 months from the transaction date (date the quote is created).
+// (e.g. end date 2025-12-07 → 36 months → up until 2028-12-06, inclusive.)
+function extendMaxDate(item, transactionDate) {
+  const capEnd = addDaysISO(addMonthsISO(item.endDate, 36), -1);
+  const capTxn = addDaysISO(addMonthsISO(transactionDate, 39), -1);
+  const maxDate = capEnd < capTxn ? capEnd : capTxn;
+  return {
+    maxDate, capEnd, capTxn,
+    binding: capEnd < capTxn ? 'subscription end date (36 months)' : 'transaction date (39 months)'
+  };
+}
+
+// ─── CO-TERM POLICY ───────────────────────────────────────────────────────────
+// The subscription being co-termed (configured offer). Co-term is a new purchase;
+// Pay-as-You-Go offerings are not permitted.
+function cotermOfferEligibility(item) {
+  const b = (item.billingBehavior || '').toLowerCase();
+  const o = (item.offering || '').toLowerCase();
+  if (b.includes('pay as you go') || b.includes('payg') || o.includes('pay as you go') || o.includes('payg'))
+    return { ok: false, reason: 'Co-term is not permitted with Pay-as-You-Go offerings.' };
+  return { ok: true, reason: '' };
+}
+// A subscription is valid as a co-term REFERENCE only if it is named-user (single-user),
+// not a Maintenance Plan, and not a pre-new-buying-experience online recurring sub.
+function cotermRefEligibility(ref) {
+  if (ref.planType === 'Maintenance Plan')
+    return { ok: false, reason: 'Maintenance Plans cannot be used as a co-term reference.' };
+  if (ref.userType === 'Multi-User')
+    return { ok: false, reason: 'Multi-user subscriptions cannot be used as a co-term reference — only named-user (single-user) subscriptions are allowed.' };
+  if (ref.preNBEOnline)
+    return { ok: false, reason: 'Recurring subscriptions purchased from the Autodesk online store before the new buying experience cannot be used as a co-term reference.' };
+  return { ok: true, reason: '' };
+}
+
+// ─── SWITCH-AT-RENEWAL POLICY ─────────────────────────────────────────────────
+function dayDiff(fromISO, toISO) {
+  const a = new Date(fromISO + 'T00:00:00Z'), b = new Date(toISO + 'T00:00:00Z');
+  return Math.round((b - a) / 86400000);
+}
+// In renewal window = within 90 days before expiration, or within the 30-day grace after.
+function isInRenewalWindow(item) {
+  if (typeof item.inRenewalWindow === 'boolean') return item.inRenewalWindow;
+  const d = dayDiff(today(), item.endDate);          // >0 before expiry, <0 after
+  return (d >= 0 && d <= 90) || (d < 0 && d >= -30);
+}
+// Switch-at-renewal eligibility for a single subscription. Returns {ok, reasons[], notes[]}.
+function switchEligibility(item, opts) {
+  const atRenewal = !opts || opts.atRenewal !== false;
+  const reasons = [], notes = [];
+  const offering = (item.offering || '').toLowerCase();
+  // Excluded offerings
+  if (offering.includes('flex'))    reasons.push('Flex offerings are excluded from switch at renewal.');
+  if (offering.includes('eba'))     reasons.push('EBA (Enterprise Business Agreement) is excluded from switch at renewal.');
+  if (offering.includes('premium') || offering.includes('success'))
+    reasons.push('Success/Premium offerings are excluded from switch at renewal.');
+  // 1. Renewal window
+  if (!isInRenewalWindow(item)) reasons.push('Not in the renewal window (within 90 days before expiration or the 30-day grace period after).');
+  // 2. Subscription status Active
+  if ((item.status || '').toLowerCase() !== 'active') reasons.push('Subscription status must be Active — canceled subscriptions cannot be switched.');
+  // 3. Contract Active + non-null term
+  if ((item.contractStatus || '').toLowerCase() !== 'active' || !item.contractTerm)
+    reasons.push('Contract/Agreement must be Active with a non-null contract term.');
+  // 4. Billing behavior Renewable
+  if ((item.billingBehavior || '').toLowerCase() !== 'renewable') reasons.push('Billing behavior must be Renewable.');
+  // 5. User type — Multi→Single allowed only at renewal
+  if (item.userType === 'Multi-User') {
+    if (atRenewal) notes.push('Multi-User → Single-User switch is permitted only at renewal (not mid-term).');
+    else reasons.push('Switching from Multi-User to Single-User is permitted only at renewal, not mid-term.');
+  }
+  return { ok: reasons.length === 0, reasons, notes };
+}
 function daysBetween(d1, d2) { return Math.round((new Date(d2) - new Date(d1)) / 86400000); }
 function prorateFraction(switchDate, endDate) {
   return Math.max(0, Math.min(1, daysBetween(switchDate, endDate) / 365));
@@ -1758,9 +1924,9 @@ function switchHubHTML() {
 }
 
 function switchFromPickerHTML(action, multi) {
+  // Backend eligibility decides what's switchable — only eligible subscriptions are shown.
+  const eligible = OPP.lineItems.filter(li => switchEligibility(li).ok);
   if (multi) {
-    // multi-select (M:1)
-    const eligible = OPP.lineItems.filter(li => li.inRenewal);
     return `<div class="multiselect-widget">
       ${eligible.map(li => `
         <div class="ms-item" data-action="toggle_from" data-id="${li.id}">
@@ -1778,9 +1944,8 @@ function switchFromPickerHTML(action, multi) {
       </div>
     </div>`;
   }
-  // single-select (1:1 or term)
   return `<div class="picker-grid">` +
-    OPP.lineItems.filter(li => li.inRenewal).map(li => `
+    eligible.map(li => `
       <button class="picker-card" data-action="${action}" data-id="${li.id}">
         <div class="picker-card-icon">${li.icon}</div>
         <div class="picker-card-body">
@@ -1793,36 +1958,67 @@ function switchFromPickerHTML(action, multi) {
   `</div>`;
 }
 
+// Offering search result — each offering expands into Monthly / Annual / 3 Year term rows
+// (mirrors the Salesforce "Add Product" screen). Selecting + Add Products adds them to the opp.
+function switchOfferingRowsHTML(p) {
+  const terms = [
+    { key: '3Y', label: '3 Year',  price: p.price },
+    { key: 'AN', label: 'Annual',  price: p.price },
+    { key: 'MO', label: 'Monthly', price: +(p.price / 12).toFixed(2) }
+  ];
+  return `<div class="sw-offering">
+    <div class="sw-offering-head">${p.icon} ${p.name} <span class="new-badge" style="background:#eef1f5;color:#5a6b7b;">Growth</span></div>
+    ${terms.map(t => `
+      <label class="sw-term-row">
+        <input type="checkbox" class="sw-term-check" data-pid="${p.id}" data-term="${t.key}" data-label="${t.label}" data-price="${t.price}" />
+        <div class="sw-term-body">
+          <div class="sw-term-name">${t.label} <span style="color:var(--ai-text-m);font-weight:500;">· ${fmt(t.price)}/yr</span></div>
+          <div class="sw-term-meta">New · Commercial · Online · Recurring · Single User · Standard</div>
+        </div>
+        <input type="number" class="sw-term-qty" min="1" value="1" />
+      </label>`).join('')}
+  </div>`;
+}
+
 function switchToPickerHTML() {
-  const oppItems = OPP.newLineItems.map(li => `
+  // Option 1 — products already added to the opportunity (line item action = New Product).
+  const oppCards = OPP.newLineItems.map(li => `
     <button class="picker-card" data-action="switch_to_select" data-id="${li.id}" data-source="opp">
       <div class="picker-card-icon new-icon">${li.icon}</div>
       <div class="picker-card-body">
-        <div class="picker-card-name">${li.product} <span class="new-badge">On Opp</span></div>
+        <div class="picker-card-name">${li.product} <span class="new-badge">New Product</span></div>
         <div class="picker-card-detail">${li.qty} qty &nbsp;·&nbsp; ${fmt(li.unitPrice * li.qty)}/yr total</div>
       </div>
       <div class="picker-card-price">${fmt(li.unitPrice)}/yr</div>
       <div class="picker-card-arrow">›</div>
     </button>`).join('');
 
-  const catalogItems = SWITCH_PRODUCTS.map(p => `
-    <button class="picker-card" data-action="switch_to_select" data-id="${p.id}" data-source="catalog">
-      <div class="picker-card-icon">${p.icon}</div>
-      <div class="picker-card-body">
-        <div class="picker-card-name">${p.name}</div>
-        <div class="picker-card-detail">${p.desc}</div>
+  const oppPanel = OPP.newLineItems.length
+    ? `<div class="picker-grid">${oppCards}</div>`
+    : `<div style="padding:16px;text-align:center;color:var(--ai-text-m);font-size:12px;background:white;border:1px solid var(--ai-border);border-radius:var(--r);">
+         <b>No new product on the opportunity yet.</b><br><br>
+         Add a product to the opportunity as a <b>New Product</b> line item, or use <b>Search another</b> to find and add one to switch to.
+       </div>`;
+
+  // Option 2 — search for a product to add to the opportunity (no pre-suggested list).
+  return `<div class="switch-to-widget">
+    <div class="sw-tabs">
+      <button class="sw-tab active" onclick="switchToTab(this,'opp')">Switch to</button>
+      <button class="sw-tab" onclick="switchToTab(this,'search')">Add products</button>
+    </div>
+    <div class="switch-to-opp">
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--ai-text-w);margin:0 2px 6px;">New Products on Opportunity</div>
+      ${oppPanel}
+    </div>
+    <div class="switch-to-search" style="display:none;">
+      <div class="sw-search-bar">
+        <span class="sw-search-lbl">Offering</span>
+        <input type="text" class="sw-search-input" placeholder="e.g. autocad" onkeydown="if(event.key==='Enter'){event.preventDefault();switchToSearchOffering(this);}" />
+        <button class="sw-search-btn" onclick="switchToSearchOffering(this)">Search Offering</button>
       </div>
-      <div class="picker-card-price">${fmt(p.price)}/yr</div>
-      <div class="picker-card-arrow">›</div>
-    </button>`).join('');
-
-  const oppSection = oppItems ? `
-    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--ai-text-w);margin-bottom:6px;padding:0 2px;">Already on Opportunity</div>
-    <div class="picker-grid" style="margin-bottom:10px;">${oppItems}</div>` : '';
-
-  return oppSection +
-    `<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--ai-text-w);margin-bottom:6px;padding:0 2px;">Product Catalog</div>
-    <div class="picker-grid">${catalogItems}</div>`;
+      <div class="sw-search-results"><div class="sw-hint">Enter an offering name and click <b>Search Offering</b>. Select Monthly, Annual, or 3 Year, set quantity, then <b>Add Products</b>.</div></div>
+    </div>
+  </div>`;
 }
 
 function termPickerHTML() {
@@ -1940,35 +2136,30 @@ function switchReviewHTML(toItem, fromItems) {
   </div>`;
 }
 
-function cotermOptionsHTML() {
-  const dates = [...new Set(OPP.lineItems.map(li => li.endDate))].sort();
-  const earliest = dates[0];
-  const latest = dates[dates.length - 1];
-  return `<div class="coterm-options">
-    <button class="coterm-opt" data-action="coterm_date" data-date="${earliest}">
-      <div class="coterm-opt-icon" style="background:#fef3c7;">⏫</div>
-      <div class="coterm-opt-body">
-        <div class="coterm-opt-title">Earliest end date</div>
-        <div class="coterm-opt-sub">${earliest} &nbsp;·&nbsp; co-term all to the soonest date</div>
+// Co-term: configured offer summary line (mirrors the Salesforce cart row).
+function cotermConfiguredOfferHTML(item) {
+  const access = item.userType === 'Multi-User' ? 'MU' : 'SU';
+  const market = item.market === 'GOV' ? 'Government' : 'Commercial';
+  return `<div class="ct-label">Configured offer</div>
+    <div class="ct-offer">
+      <div class="picker-card-icon">${item.icon}</div>
+      <div class="ct-offer-body">
+        <div class="ct-offer-name">${item.product}</div>
+        <div class="ct-offer-meta">${item.contractTerm || 'Annual'}, ${market}, ${access}, Standard, Quantity based, Qty: ${item.qty} (${fmt(item.unitPrice * item.qty)})</div>
       </div>
-      <div style="color:var(--ai-text-w);">›</div>
-    </button>
-    <button class="coterm-opt" data-action="coterm_date" data-date="${latest}">
-      <div class="coterm-opt-icon" style="background:#d1fae5;">⏬</div>
-      <div class="coterm-opt-body">
-        <div class="coterm-opt-title">Latest end date</div>
-        <div class="coterm-opt-sub">${latest} &nbsp;·&nbsp; co-term all to the furthest date</div>
-      </div>
-      <div style="color:var(--ai-text-w);">›</div>
-    </button>
-    <button class="coterm-opt" data-action="coterm_custom">
-      <div class="coterm-opt-icon" style="background:#e0e7ff;">📅</div>
-      <div class="coterm-opt-body">
-        <div class="coterm-opt-title">Custom date</div>
-        <div class="coterm-opt-sub">Choose a specific target end date</div>
-      </div>
-      <div style="color:var(--ai-text-w);">›</div>
-    </button>
+    </div>`;
+}
+
+// Co-term: configured offer + reference-subscription search.
+function cotermReferenceHTML(item) {
+  return `<div class="coterm-widget">
+    ${cotermConfiguredOfferHTML(item)}
+    <div class="ct-label" style="margin-top:12px;">Search for Reference subscription ID</div>
+    <div class="sw-search-bar">
+      <input type="text" class="ct-ref-input" placeholder="e.g. 75116651198620" onkeydown="if(event.key==='Enter'){event.preventDefault();cotermSearchRef(this);}" />
+      <button class="sw-search-btn" onclick="cotermSearchRef(this)">Search</button>
+    </div>
+    <div class="ct-ref-results"><div class="sw-hint">Enter a reference subscription ID and click Search. Its end date becomes the co-term alignment date.</div></div>
   </div>`;
 }
 
@@ -2445,11 +2636,31 @@ async function dispatch(action, data) {
   if (action === 'extend_pick_item') {
     const item = li(data.id);
     STATE.selectedItem = item;
+    addUser(item.product);
+
+    // Eligibility gate: cancelled / end-of-renewal / Business Plan / Flex / PAYG.
+    const elig = extendEligibility(item);
+    if (!elig.ok) {
+      await botAfterDelay(`⚠️ <b>${item.product}</b> cannot be extended.<br><br>${elig.reason}`);
+      resetState(); setPromptsEnabled(true); stepEl.classList.remove('visible');
+      return;
+    }
+
+    const txnDate = today();
+    const cap = extendMaxDate(item, txnDate);
+    STATE.extendMax = cap.maxDate;
     STATE.step = 'extend_pick_date';
     setStep('extend_pick_date');
-    addUser(item.product);
-    await botAfterDelay(`<b>${item.product}</b> currently ends on <b>${item.endDate}</b>.<br>What date would you like to extend it to?`);
-    await widgetAfterDelay(dateWidgetHTML('extend_confirm_date', today(), null, 'New Renewal End Date'));
+    await botAfterDelay(
+      `<b>${item.product}</b> currently ends on <b>${item.endDate}</b>.<br><br>` +
+      `Extensions align to a <b>future</b> end date — backdating isn't permitted and no refunds are given. ` +
+      `The latest date you can extend to is <b>${cap.maxDate}</b>, capped by the <b>${cap.binding}</b>:` +
+      `<div style="font-size:11px;color:var(--ai-text-m);margin-top:4px;">` +
+      `• 36 months from subscription end date → ${cap.capEnd}<br>` +
+      `• 39 months from transaction date (${txnDate}) → ${cap.capTxn}</div><br>` +
+      `Pick the new end date — ideally aligning to an existing subscription's end date.`
+    );
+    await widgetAfterDelay(dateWidgetHTML('extend_confirm_date', addDaysISO(item.endDate, 1), cap.maxDate, 'New Renewal End Date'));
     return;
   }
 
@@ -2457,67 +2668,74 @@ async function dispatch(action, data) {
     const date = document.getElementById('flow-date')?.value;
     if (!date) { addBot('Please select a date first.'); return; }
     if (date <= STATE.selectedItem.endDate) {
-      addBot(`⚠️ That date is before or equal to the current end date (<b>${STATE.selectedItem.endDate}</b>). Please pick a later date.`);
+      addBot(`⚠️ Backdating is not permitted. Pick a date after the current end date (<b>${STATE.selectedItem.endDate}</b>).`);
+      return;
+    }
+    if (STATE.extendMax && date > STATE.extendMax) {
+      addBot(`⚠️ That date exceeds the maximum allowed extension date (<b>${STATE.extendMax}</b>). Extensions are limited to 36 months from the subscription end date or 39 months from the transaction date — whichever is less.`);
       return;
     }
     addUser(`New end date: ${date}`);
     const oldDate = STATE.selectedItem.endDate;
+    const overTwelve = monthsApprox(oldDate, date) > 12;
     STATE.selectedItem.endDate = date;
     updateRecordPage();
     setStep('done');
     await botAfterDelay('Extension confirmed. Here\'s what was updated:');
-    await widgetAfterDelay(successHTML('Renewal Extended', [
+    const summary = [
       `${STATE.selectedItem.product} — ${STATE.selectedItem.qty} qty`,
       `End date: <b>${oldDate}</b> → <b>${date}</b>`,
       `Opportunity record updated successfully`
-    ]));
+    ];
+    if (overTwelve) summary.push('Extension exceeds 12 months — this will result in multiple (annual) billings.');
+    await widgetAfterDelay(successHTML('Renewal Extended', summary));
+    await botAfterDelay('<span style="font-size:11px;color:var(--ai-text-m);">Note: a switch term and an extension cannot be transacted at the same time.</span>');
     resetState(); setPromptsEnabled(true); stepEl.classList.remove('visible');
     return;
   }
 
   // ─ CO-TERM ────────────────────────────────────────────────
-  if (action === 'coterm_date') {
-    STATE.cotermTarget = data.date;
-    STATE.step = 'coterm_review';
-    setStep('coterm_review');
-    addUser(`Co-term to ${data.date}`);
-    const rows = OPP.lineItems.map(li => [`${li.product} end date`, li.endDate, data.date]);
-    await botAfterDelay('Here\'s a preview of all changes. Please review before confirming:');
-    await widgetAfterDelay(
-      compareTableHTML(rows) +
-      `<div class="action-row">
-        <button class="abtn abtn-primary" data-action="coterm_apply">✓ Apply Co-term</button>
-        <button class="abtn abtn-danger abtn-sm" data-action="coterm_cancel">Cancel</button>
-      </div>`
-    );
+  if (action === 'coterm_pick_offer') {
+    const item = OPP.lineItems.find(x => x.id === data.id);
+    STATE.selectedItem = item;
+    addUser(item.product);
+    const elig = cotermOfferEligibility(item);
+    if (!elig.ok) {
+      await botAfterDelay(`⚠️ <b>${item.product}</b> cannot be co-termed.<br><br>${elig.reason}`);
+      resetState(); setPromptsEnabled(true); stepEl.classList.remove('visible');
+      return;
+    }
+    STATE.step = 'coterm_reference';
+    setStep('coterm_reference');
+    await botAfterDelay('Configured offer set. Search for the reference subscription to align its end date to. Co-term must align to an <b>existing subscription end date</b> — not a random date.');
+    await widgetAfterDelay(cotermReferenceHTML(item));
     return;
   }
 
-  if (action === 'coterm_custom') {
-    addUser('Custom date');
-    await botAfterDelay('Pick the target date to align all subscriptions to:');
-    await widgetAfterDelay(dateWidgetHTML('coterm_date_confirmed', today(), null, 'Co-term Target Date'));
-    return;
-  }
-
-  if (action === 'coterm_date_confirmed') {
-    const date = document.getElementById('flow-date')?.value;
-    if (!date) { addBot('Please select a date.'); return; }
-    await dispatch('coterm_date', { date });
-    return;
-  }
-
-  if (action === 'coterm_apply') {
-    const target = STATE.cotermTarget;
-    OPP.lineItems.forEach(li => li.endDate = target);
+  if (action === 'coterm_apply_ref') {
+    const ref = REFERENCE_SUBS.find(r => r.id === data.refid);
+    const item = STATE.selectedItem;
+    const oldDate = item.endDate;
+    const widgets = messagesEl.querySelectorAll('.coterm-widget');
+    const widget = widgets[widgets.length - 1];
+    const endInput = widget && widget.querySelector('.ct-end');
+    const startInput = widget && widget.querySelector('.ct-start');
+    const target = (endInput && endInput.value) || data.end;
+    const start = (startInput && startInput.value) || today();
+    item.endDate = target;
+    if (startInput && startInput.value) item.startDate = startInput.value;
     updateRecordPage();
     setStep('done');
-    await botAfterDelay('Co-term applied. All subscriptions are now aligned.');
-    await widgetAfterDelay(successHTML('Co-term Applied', [
-      `All ${OPP.lineItems.length} subscriptions aligned to <b>${target}</b>`,
-      `End dates updated across all line items`,
+    addUser(`Reference subscription: ${data.refid}`);
+    await botAfterDelay('Co-term applied. The configured offer is aligned to the reference subscription.');
+    const summary = [
+      `${item.product} aligned to reference subscription <b>${data.refid}</b>${ref ? ` (${ref.product})` : ''}`,
+      `End date: <b>${oldDate}</b> → <b>${target}</b>`,
       `Opportunity record updated successfully`
-    ]));
+    ];
+    if (monthsApprox(start, target) > 12)
+      summary.push('Term exceeds 12 months — billed annually (first partial period, then the 12-month annual payment); may shift ACV across quarters/FY.');
+    await widgetAfterDelay(successHTML('Co-term Applied', summary));
     resetState(); setPromptsEnabled(true); stepEl.classList.remove('visible');
     return;
   }
@@ -2536,6 +2754,23 @@ async function dispatch(action, data) {
     STATE.flow = 'switch_' + type;
     const labels = { '1to1':'1:1 Switch', 'm1':'M:1 Switch', 'term':'Switch Term' };
     addUser(labels[type]);
+
+    // Switch-at-renewal eligibility gate (1:1 and M:1). If nothing qualifies, switch is not enabled.
+    if (type === '1to1' || type === 'm1') {
+      const eligibleItems = OPP.lineItems.filter(it => switchEligibility(it).ok);
+      if (eligibleItems.length === 0) {
+        const why = OPP.lineItems.map(it => `<li>${it.product}: ${switchEligibility(it).reasons[0]}</li>`).join('');
+        await botAfterDelay(`⚠️ Switch is not enabled — no subscriptions on this opportunity meet the switch-at-renewal criteria.<ul style="margin:6px 0 0 16px;padding:0;font-size:11px;">${why}</ul>`);
+        resetState(); setPromptsEnabled(true); stepEl.classList.remove('visible');
+        return;
+      }
+      if (type === 'm1' && eligibleItems.length < 2) {
+        await botAfterDelay(`⚠️ An M:1 switch needs at least two eligible subscriptions to consolidate — only <b>${eligibleItems.length}</b> qualifies here. Try a 1:1 switch instead.`);
+        resetState(); setPromptsEnabled(true); stepEl.classList.remove('visible');
+        return;
+      }
+    }
+
     STATE.step = 'switch_from';
     setStep('switch_from');
     if (type === 'm1') {
@@ -2583,13 +2818,50 @@ async function dispatch(action, data) {
     return;
   }
 
+  if (action === 'switch_offering_add') {
+    const widgets = messagesEl.querySelectorAll('.switch-to-widget');
+    const widget = widgets[widgets.length - 1];
+    const checks = widget ? Array.from(widget.querySelectorAll('.sw-term-check:checked')) : [];
+    if (!checks.length) { addBot('Select at least one offering term (Monthly, Annual, or 3 Year) to add.'); return; }
+    const fromItem = STATE.switchFromItems[0];
+    const added = [];
+    checks.forEach(chk => {
+      const p = SWITCH_PRODUCTS.find(x => x.id === chk.dataset.pid);
+      if (!p) return;
+      const label = chk.dataset.label;
+      const price = parseFloat(chk.dataset.price);
+      const qtyInput = chk.closest('.sw-term-row').querySelector('.sw-term-qty');
+      const qty = Math.max(1, parseInt(qtyInput && qtyInput.value, 10) || 1);
+      const newId = `nli-${p.id}-${chk.dataset.term}`;
+      if (!OPP.newLineItems.some(x => x.id === newId)) {
+        OPP.newLineItems.push({
+          id: newId, product: `${p.name} (${label})`, qty, unitPrice: price, annualPrice: price,
+          endDate: (fromItem && fromItem.endDate) || OPP.lineItems[0].endDate,
+          icon: p.icon, isNew: true, offering: 'Standard', market: p.market, term: label
+        });
+      }
+      added.push(`${p.name} (${label}) ×${qty}`);
+    });
+    updateRecordPage();
+    addUser(`Add to opportunity: ${added.join(', ')}`);
+    await botAfterDelay(`Added <b>${added.length}</b> product${added.length > 1 ? 's' : ''} to the opportunity. Select the one to switch to:`);
+    await widgetAfterDelay(switchToPickerHTML());
+    return;
+  }
+
   if (action === 'switch_to_select') {
     let toItem;
     if (data.source === 'opp') {
       toItem = OPP.newLineItems.find(x => x.id === data.id);
     } else {
       const p = SWITCH_PRODUCTS.find(x => x.id === data.id);
-      toItem = { id: p.id, product: p.name, qty: STATE.switchFromItems[0].qty, unitPrice: p.price, annualPrice: p.price, endDate: STATE.switchFromItems[0].endDate, icon: p.icon, fromCatalog: true };
+      toItem = { id: p.id, product: p.name, qty: STATE.switchFromItems[0].qty, unitPrice: p.price, annualPrice: p.price, endDate: STATE.switchFromItems[0].endDate, icon: p.icon, market: STATE.switchFromItems[0].market, fromCatalog: true };
+    }
+    // GOV ↔ COM switches are not supported.
+    const fromMarket = STATE.switchFromItems[0] && STATE.switchFromItems[0].market;
+    if (fromMarket && toItem.market && fromMarket !== toItem.market) {
+      addBot(`⚠️ Switching between Government (GOV) and Commercial (COM) is not supported (${fromMarket} → ${toItem.market}). Please choose a matching product.`);
+      return;
     }
     STATE.switchToItem = toItem;
     addUser(toItem.product);
@@ -3181,10 +3453,10 @@ async function startFlow(flow) {
   }
   else if (flow === 'coterm') {
     addUser('Co-term');
-    STATE.step = 'coterm_pick_date';
-    setStep('coterm_pick_date');
-    await botAfterDelay(`Co-terming aligns all subscription end dates to a single target date.<br><br>Which date should all <b>${OPP.lineItems.length} subscriptions</b> be co-termed to?`);
-    await widgetAfterDelay(cotermOptionsHTML());
+    STATE.step = 'coterm_pick_offer';
+    setStep('coterm_pick_offer');
+    await botAfterDelay(`<b>Co-term</b> — align the end date with an existing subscription.<br><br>Which subscription would you like to co-term?`);
+    await widgetAfterDelay(lineItemPickerHTML('coterm_pick_offer'));
   }
   else if (flow === 'switch') {
     addUser('Switch');
@@ -3310,6 +3582,71 @@ function resetChat() {
 
 // expose for inline oninput handlers
 window.ddaUpdateRow = ddaUpdateRow;
+
+// Switch TO — tab between "New Product" (on opp) and "Search another" (catalog search).
+function switchToTab(btn, tab) {
+  const widget = btn.closest('.switch-to-widget');
+  if (!widget) return;
+  widget.querySelectorAll('.sw-tab').forEach(t => t.classList.toggle('active', t === btn));
+  widget.querySelector('.switch-to-opp').style.display    = tab === 'opp' ? '' : 'none';
+  widget.querySelector('.switch-to-search').style.display = tab === 'search' ? '' : 'none';
+}
+window.switchToTab = switchToTab;
+
+function switchToSearchOffering(el) {
+  const widget = el.closest('.switch-to-widget');
+  if (!widget) return;
+  const input = widget.querySelector('.sw-search-input');
+  const q = input.value.trim().toLowerCase();
+  const box = widget.querySelector('.sw-search-results');
+  if (!q) { box.innerHTML = `<div class="sw-hint">Enter an offering name, then click Search Offering.</div>`; return; }
+  const matches = SWITCH_PRODUCTS.filter(p => p.name.toLowerCase().includes(q) || (p.desc || '').toLowerCase().includes(q));
+  if (!matches.length) { box.innerHTML = `<div class="sw-hint">No offering matches "${input.value.trim()}".</div>`; return; }
+  box.innerHTML = matches.map(switchOfferingRowsHTML).join('') +
+    `<button class="abtn abtn-primary abtn-full" data-action="switch_offering_add" style="margin-top:10px;">Add Products</button>`;
+}
+window.switchToSearchOffering = switchToSearchOffering;
+
+function cotermSearchRef(el) {
+  const widget = el.closest('.coterm-widget');
+  if (!widget) return;
+  const q = widget.querySelector('.ct-ref-input').value.trim();
+  const box = widget.querySelector('.ct-ref-results');
+  if (!q) { box.innerHTML = `<div class="sw-hint">Enter a reference subscription ID, then click Search.</div>`; return; }
+  const ref = REFERENCE_SUBS.find(r => r.id.includes(q));
+  if (!ref) { box.innerHTML = `<div class="sw-hint">No subscription found for "${q}".</div>`; return; }
+
+  const resultLine = `<div class="ct-label">Results</div>
+    <div class="ct-result">${ref.product} | ${ref.term}, ${ref.pricing}, ${ref.userType}, Qty: ${ref.qty} &nbsp;·&nbsp; <b>End Date: ${fmtDate(ref.endDate)}</b></div>`;
+
+  // Reference eligibility + date-policy checks. Block (no Apply) if any fail.
+  const item = STATE.selectedItem;
+  const cap = extendMaxDate(item, today());   // min(end+36mo, txn+39mo)
+  const refElig = cotermRefEligibility(ref);
+  let block = '';
+  if (!refElig.ok) block = refElig.reason;
+  else if (ref.endDate <= today()) block = 'The reference end date is not in the future — backdating is not permitted.';
+  else if (ref.endDate > cap.maxDate) block = `That end date (${fmtDate(ref.endDate)}) exceeds the maximum co-term date of <b>${fmtDate(cap.maxDate)}</b> — up to 36 months from the subscription end date or 39 months from the transaction date.`;
+
+  if (block) {
+    box.innerHTML = resultLine + `<div class="ct-block">⚠️ ${block}</div>`;
+    return;
+  }
+
+  const longTerm = monthsApprox(today(), ref.endDate) > 12;
+  const billingNote = longTerm
+    ? `<div class="ct-note">ℹ️ This co-term term exceeds 12 months — it is billed annually (a first partial-period billing, then the 12-month annual payment) and may shift ACV across quarters/FY.</div>`
+    : '';
+
+  box.innerHTML = resultLine + billingNote + `
+    <div class="ct-dates">
+      <div class="ct-date"><div class="ct-date-lbl">Subscription Start Date</div><input type="date" class="ct-start" min="${today()}" /></div>
+      <div class="ct-date"><div class="ct-date-lbl">Subscription End Date</div><input type="date" class="ct-end" value="${ref.endDate}" readonly title="Must match the reference subscription's end date" /></div>
+    </div>
+    <div class="ct-date-lbl" style="font-weight:500;color:var(--ai-text-m);margin:-2px 0 0;">End date is fixed to the reference subscription (cannot be a random date).</div>
+    <button class="abtn abtn-primary abtn-full" data-action="coterm_apply_ref" data-refid="${ref.id}" data-end="${ref.endDate}" style="margin-top:10px;">Apply Co-term →</button>`;
+}
+window.cotermSearchRef = cotermSearchRef;
 
 function toggleMoreActions() {
   const panel = document.getElementById('more-actions-panel');
