@@ -519,6 +519,7 @@
   .sw-term-row:last-child { border-bottom: none; }
   .sw-term-row:hover { background: #f9fafb; }
   .sw-term-check { width: 16px; height: 16px; flex-shrink: 0; accent-color: var(--ai-blue); }
+  .sw-term-radio { width: 16px; height: 16px; flex-shrink: 0; accent-color: var(--ai-blue); }
   .sw-term-body { flex: 1; min-width: 0; }
   .sw-term-name { font-size: 12.5px; font-weight: 600; }
   .sw-term-meta { font-size: 10.5px; color: var(--ai-text-m); margin-top: 1px; }
@@ -1678,6 +1679,7 @@ function resetState() {
   STATE.selectedItem = null; STATE.pendingDate = null;
   STATE.pendingProduct = null; STATE.cotermTarget = null;
   STATE.switchToItem = null; STATE.switchFromItems = []; STATE.switchType = null; STATE.switchTerm = null;
+  STATE.switchTermLabel = null; STATE.switchTermPrice = null; STATE.switchTermQty = null;
   STATE.extendMax = null;
 }
 
@@ -2021,23 +2023,29 @@ function switchToPickerHTML() {
   </div>`;
 }
 
-function termPickerHTML() {
+function termPickerHTML(item) {
+  const access = item && item.userType === 'Multi-User' ? 'Multi User' : 'Single User';
+  const annual = item ? item.unitPrice : 0;
+  const qty = item ? item.qty : 1;
   const terms = [
-    { value:'1Y', label:'1 Year',  desc:'Standard annual subscription' },
-    { value:'2Y', label:'2 Years', desc:'2-year commitment, typically ~5% discount' },
-    { value:'3Y', label:'3 Years', desc:'3-year commitment, typically ~10% discount' }
+    { key: '3Y', label: '3 Year',  price: annual },
+    { key: 'AN', label: 'Annual',  price: annual },
+    { key: 'MO', label: 'Monthly', price: +(annual / 12).toFixed(2) }
   ];
-  return `<div class="picker-grid">` +
-    terms.map(t => `
-      <button class="picker-card" data-action="switch_term_confirm" data-term="${t.value}">
-        <div class="picker-card-icon" style="background:linear-gradient(135deg,#fef3c7,#fde68a);">📆</div>
-        <div class="picker-card-body">
-          <div class="picker-card-name">${t.label}</div>
-          <div class="picker-card-detail">${t.desc}</div>
-        </div>
-        <div class="picker-card-arrow">›</div>
-      </button>`).join('') +
-  `</div>`;
+  return `<div class="switch-term-widget">
+    <div class="sw-offering">
+      ${terms.map((t, i) => `
+        <label class="sw-term-row">
+          <input type="radio" name="switch-term" class="sw-term-radio" data-term="${t.key}" data-label="${t.label}" data-price="${t.price}" ${i === 0 ? 'checked' : ''} />
+          <div class="sw-term-body">
+            <div class="sw-term-name">${t.label} <span style="color:var(--ai-text-m);font-weight:500;">· ${fmt(t.price)}/yr</span></div>
+            <div class="sw-term-meta">New · Commercial · Online · Recurring · ${access} · Standard</div>
+          </div>
+          <input type="number" class="sw-term-qty" min="1" value="${qty}" />
+        </label>`).join('')}
+    </div>
+    <button class="abtn abtn-primary abtn-full" data-action="switch_term_confirm" style="margin-top:10px;">Confirm Term →</button>
+  </div>`;
 }
 
 function lineItemPickerHTML(action) {
@@ -2793,8 +2801,8 @@ async function dispatch(action, data) {
     if (STATE.switchType === 'term') {
       STATE.step = 'switch_term_select';
       setStep('switch_term_select');
-      await botAfterDelay(`<b>${item.product}</b> — currently on a <b>1 Year</b> term.<br>What term would you like to switch to?`);
-      await widgetAfterDelay(termPickerHTML());
+      await botAfterDelay(`<b>${item.product}</b> — currently on a <b>${item.contractTerm || 'Annual'}</b> term.<br>Select the term to switch to:`);
+      await widgetAfterDelay(termPickerHTML(item));
     } else {
       STATE.step = 'switch_to';
       setStep('switch_to');
@@ -2879,25 +2887,33 @@ async function dispatch(action, data) {
   }
 
   if (action === 'switch_term_confirm') {
-    const term = data.term;
-    STATE.switchTerm = term;
+    const widgets = messagesEl.querySelectorAll('.switch-term-widget');
+    const widget = widgets[widgets.length - 1];
+    const radio = widget && widget.querySelector('.sw-term-radio:checked');
+    if (!radio) { addBot('Select a term (3 Year, Annual, or Monthly).'); return; }
+    const termLabel = radio.dataset.label;
+    const price = parseFloat(radio.dataset.price);
+    const qtyInput = radio.closest('.sw-term-row').querySelector('.sw-term-qty');
+    const qty = Math.max(1, parseInt(qtyInput && qtyInput.value, 10) || 1);
+    STATE.switchTerm = radio.dataset.term;
+    STATE.switchTermLabel = termLabel;
+    STATE.switchTermPrice = price;
+    STATE.switchTermQty = qty;
     const item = STATE.switchFromItems[0];
-    addUser(`Switch to ${term}`);
+    addUser(`Switch term to ${termLabel}`);
     STATE.step = 'switch_review';
     setStep('switch_review');
-    const termYears = { '1Y':1, '2Y':2, '3Y':3 };
-    const discount = termYears[term] > 1 ? (termYears[term] - 1) * 5 : 0;
-    const newPrice = item.unitPrice * item.qty * (1 - discount / 100);
     await botAfterDelay('Review the term change before confirming:');
     await widgetAfterDelay(
       `<div class="review-card">
         <div class="review-header">📋 &nbsp; Switch Term Summary</div>
         <div class="review-section">
           <div class="review-row"><div class="review-row-name">${item.icon} ${item.product}</div></div>
-          <div class="review-row"><span style="color:var(--ai-text-m);">Current term</span><span>1 Year</span></div>
-          <div class="review-row"><span style="color:var(--ai-text-m);">New term</span><span style="font-weight:700;color:var(--ai-blue);">${term === '1Y' ? '1 Year' : term === '2Y' ? '2 Years' : '3 Years'}</span></div>
-          ${discount > 0 ? `<div class="review-row"><span style="color:var(--ai-text-m);">Term discount</span><span style="color:var(--ai-green);font-weight:700;">−${discount}%</span></div>` : ''}
-          <div class="review-row"><span style="color:var(--ai-text-m);">New annual price</span><span style="font-weight:700;">${fmt(newPrice)}</span></div>
+          <div class="review-row"><span style="color:var(--ai-text-m);">Current term</span><span>${item.contractTerm || 'Annual'}</span></div>
+          <div class="review-row"><span style="color:var(--ai-text-m);">New term</span><span style="font-weight:700;color:var(--ai-blue);">${termLabel}</span></div>
+          <div class="review-row"><span style="color:var(--ai-text-m);">Quantity</span><span>${qty}</span></div>
+          <div class="review-row"><span style="color:var(--ai-text-m);">Price</span><span style="font-weight:700;">${fmt(price)}/yr</span></div>
+          <div class="review-row"><span style="color:var(--ai-text-m);">Total</span><span style="font-weight:700;">${fmt(price * qty)}</span></div>
         </div>
       </div>
       <div class="action-row" style="margin-top:10px;">
@@ -2910,15 +2926,16 @@ async function dispatch(action, data) {
 
   if (action === 'switch_term_apply') {
     const item = STATE.switchFromItems[0];
-    const termYears = { '1Y':1, '2Y':2, '3Y':3 };
-    const discount = (termYears[STATE.switchTerm] - 1) * 5;
-    item.unitPrice = item.unitPrice * (1 - discount / 100);
-    item.annualPrice = item.unitPrice;
+    item.unitPrice = STATE.switchTermPrice;
+    item.annualPrice = STATE.switchTermPrice;
+    item.qty = STATE.switchTermQty;
+    item.contractTerm = STATE.switchTermLabel;
+    item.term = STATE.switchTermLabel;
     updateRecordPage();
     await botAfterDelay('Term updated. The opportunity has been refreshed.');
     await widgetAfterDelay(successHTML('Term Changed', [
-      `${item.product} — term set to <b>${STATE.switchTerm === '2Y' ? '2 Years' : STATE.switchTerm === '3Y' ? '3 Years' : '1 Year'}</b>`,
-      discount > 0 ? `Term discount applied: <b>−${discount}%</b>` : 'No discount for 1-year term',
+      `${item.product} — term set to <b>${STATE.switchTermLabel}</b>`,
+      `Quantity: <b>${STATE.switchTermQty}</b> &nbsp;·&nbsp; Price: <b>${fmt(STATE.switchTermPrice)}/yr</b>`,
       `Opportunity record updated successfully`
     ]));
     resetState(); setPromptsEnabled(true); stepEl.classList.remove('visible');
