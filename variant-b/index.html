@@ -2807,10 +2807,10 @@ async function dispatch(action, data) {
       await botAfterDelay(`<b>${item.product}</b> ends on <b>${item.endDate}</b>. Backdating isn't permitted; the latest date is <b>${cap.maxDate}</b> (capped by ${cap.binding}). Pick the new end date:`);
       await widgetAfterDelay(dateWidgetHTML('extend_confirm_date', addDaysISO(item.endDate, 1), cap.maxDate, 'New Renewal End Date'));
     } else if (data.act === 'switch') {
-      STATE.flow = 'switch_1to1'; STATE.switchType = '1to1'; STATE.switchFromItems = [item];
-      STATE.step = 'switch_to'; setStep('switch_to');
-      await botAfterDelay(`Switching FROM <b>${item.icon} ${item.product}</b>.<br><br>Choose the product to <b>switch TO</b>:`);
-      await widgetAfterDelay(switchToPickerHTML());
+      STATE.flow = 'switch'; STATE.switchFromItems = [item];
+      STATE.step = 'switch_hub'; setStep('switch_hub');
+      await botAfterDelay(`Switching <b>${item.icon} ${item.product}</b>. Which kind of switch?`);
+      await widgetAfterDelay(switchHubHTML());
     } else if (data.act === 'renewal') {
       STATE.flow = 'switch_term'; STATE.switchType = 'term'; STATE.switchFromItems = [item];
       STATE.step = 'switch_term_select'; setStep('switch_term_select');
@@ -2968,6 +2968,24 @@ async function dispatch(action, data) {
         return;
       }
     }
+
+    // Kebab entry pre-selected a subscription — for 1:1 and Term we can skip the "switch_from" picker.
+    // M:1 needs ≥2 picks, so drop the pre-selection and let the user pick from scratch.
+    const preselected = STATE.switchFromItems && STATE.switchFromItems.length === 1 ? STATE.switchFromItems[0] : null;
+    if (preselected && type === '1to1') {
+      STATE.step = 'switch_to'; setStep('switch_to');
+      await botAfterDelay(`<b>1:1 Switch</b> — switching FROM <b>${preselected.icon} ${preselected.product}</b>.<br><br>Choose the product to <b>switch TO</b>:`);
+      await widgetAfterDelay(switchToPickerHTML());
+      return;
+    }
+    if (preselected && type === 'term') {
+      STATE.switchFromItems = [preselected];
+      STATE.step = 'switch_term_select'; setStep('switch_term_select');
+      await botAfterDelay(`<b>Switch Term</b> — <b>${preselected.product}</b> is currently <b>${preselected.contractTerm || 'Annual'}</b>. Select the new term:`);
+      await widgetAfterDelay(termPickerHTML(preselected));
+      return;
+    }
+    if (type === 'm1') STATE.switchFromItems = [];
 
     STATE.step = 'switch_from';
     setStep('switch_from');
